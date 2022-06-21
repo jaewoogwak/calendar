@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import styled from "styled-components";
+import "./App.css";
+import Box from "./components/Box";
+
+const Wrapper = styled.div`
+  background-color: beige;
+  width: 60vw;
+  height: 100vh;
+  margin: 0 auto;
+`;
 
 function App() {
+  const [today, setToday] = useState();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <Box></Box>
+    </Wrapper>
   );
 }
 
