@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   border: 0.5px solid black;
-  width: 140px;
+  width: 125px;
   height: 100px;
 `;
 const Date = styled.div`
@@ -11,6 +11,8 @@ const Date = styled.div`
   padding-top: 5px;
   padding-right: 10px;
   height: 20px;
+  background-color: ${(props) => (props.isToday ? "red" : "")};
+  color: ${(props) => (props.isToday ? "white" : "")};
 `;
 const Todos = styled.div`
   font-size: 12px;
@@ -30,10 +32,13 @@ const Time = styled.div`
   font-size: 10px;
   align-self: center;
 `;
-const Box = ({ date }) => {
+const Box = ({ today, year, month, date, day }) => {
   return (
     <Wrapper>
-      <Date>23일</Date>
+      <Date isToday={today === `${year}${month}${date}` ? true : false}>
+        {console.log(today === `${year}${month}${date}`)}
+        {date}일
+      </Date>
       <Todos>
         <Todo>
           <Text>할 일 1</Text>
