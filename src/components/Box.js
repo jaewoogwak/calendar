@@ -5,8 +5,9 @@ const Wrapper = styled.div`
   border: 0.5px solid black;
   width: 125px;
   height: 100px;
+  opacity: ${(props) => (props.isThisMonth ? "1" : "0.2")};
 `;
-const Date = styled.div`
+const DateView = styled.div`
   text-align: right;
   padding-top: 5px;
   padding-right: 10px;
@@ -32,12 +33,13 @@ const Time = styled.div`
   font-size: 10px;
   align-self: center;
 `;
-const Box = ({ today, year, month, date, day }) => {
+
+const Box = ({ today, year, thisMonth, month, date, day }) => {
   return (
-    <Wrapper>
-      <Date isToday={today === `${year}${month}${date}` ? true : false}>
-        {date}일
-      </Date>
+    <Wrapper isThisMonth={thisMonth === month}>
+      <DateView isToday={today === `${year}${month}${date}` ? true : false}>
+        {month}월{date}일
+      </DateView>
       <Todos>
         <Todo>
           <Text>할 일 1</Text>

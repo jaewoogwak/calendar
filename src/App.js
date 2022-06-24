@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import Box from "./components/Box";
@@ -44,51 +44,67 @@ const PrevBtn = styled.button``;
 const NextBtn = styled.button``;
 
 function App() {
-  const [thisYear, setThisYear] = useState(2022);
-  const [thisMonth, setThisMonth] = useState(new Date().getMonth());
-  const [thisDate, setThisDate] = useState(0);
-  const [thisDay, setThisDay] = useState("");
+  const initDate = new Date();
+
   const [bucket, setBucket] = useState([]);
+  const [pageYear, setPageYear] = useState(initDate.getFullYear());
+  const [pageMonth, setPageMonth] = useState(initDate.getMonth() + 1);
+  const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
+
+  console.log(bucket);
 
   const setToday = () => {
     const time = new Date();
+    setPageYear(time.getFullYear());
+    setPageMonth(time.getMonth() + 1);
+  };
+  console.log("pageMonth", pageMonth);
 
-    setThisYear(time.getFullYear());
-    setThisMonth(time.getMonth() + 1);
-    setThisDate(time.getDate());
-    setThisDay(time.getDay());
-  };
-  const Paint = () => {
+  const nextPage = () => {
     let arr = [];
-    console.log(thisYear, thisMonth - 1, 29);
-    let time = new Date(thisYear, thisMonth - 1, 28).getTime();
-    for (let i = 0; i < 42; i++) {
-      time = time + 60 * 60 * 24 * 1000;
-      let date = new Date(time);
-      const dateItem = {
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        date: date.getDate(),
-        day: date.getDay(),
-      };
-      console.log("dateItem", dateItem);
-      arr = arr.concat([dateItem]);
-    }
-    setBucket(arr);
-  };
-  const initView = () => {
-    let arr = [];
-    console.log(thisYear, thisMonth);
-    let time = new Date(thisYear, thisMonth, 1).getTime();
+    let time = new Date(pageYear, pageMonth, 1).getTime();
     const first = new Date(time);
-
-    const firstItem = {
+    const firstDay = {
       year: first.getFullYear(),
       month: first.getMonth() + 1,
       date: first.getDate(),
       day: first.getDay(),
     };
-    time = time - 60 * 60 * 24 * firstItem.day * 1000;
+
+    time = time - 60 * 60 * 24 * firstDay.day * 1000;
+    for (let i = 0; i < 42; i++) {
+      const date = new Date(time);
+      const dateItem = {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        date: date.getDate(),
+        day: date.getDay(),
+      };
+      arr = arr.concat([dateItem]);
+      time = time + 60 * 60 * 24 * 1000;
+    }
+    setBucket(arr);
+    if (pageMonth + 1 > 12) {
+      setPageMonth(1);
+      setPageYear((prev) => prev + 1);
+    } else {
+      setPageMonth((prev) => prev + 1);
+    }
+  };
+
+  const prevPage = () => {
+    let arr = [];
+    console.log(pageYear, pageMonth - 1);
+    let time = new Date(pageYear, pageMonth - 2, 1).getTime();
+    const first = new Date(time);
+
+    const firstDay = {
+      year: first.getFullYear(),
+      month: first.getMonth() + 1,
+      date: first.getDate(),
+      day: first.getDay(),
+    };
+    time = time - 60 * 60 * 24 * firstDay.day * 1000;
     for (let i = 0; i < 42; i++) {
       let date = new Date(time);
       const dateItem = {
@@ -97,27 +113,64 @@ function App() {
         date: date.getDate(),
         day: date.getDay(),
       };
-      //console.log("dateItem", dateItem);
       arr = arr.concat([dateItem]);
       time = time + 60 * 60 * 24 * 1000;
     }
     setBucket(arr);
+    if (pageMonth - 1 < 1) {
+      setPageMonth(12);
+      setPageYear((prev) => prev - 1);
+    } else {
+      setPageMonth((prev) => prev - 1);
+    }
+  };
+
+  const initView = () => {
+    let arr = [];
+    let time = new Date(pageYear, pageMonth - 1, 1).getTime();
+    const first = new Date(time);
+
+    const firstDay = {
+      year: first.getFullYear(),
+      month: first.getMonth() + 1,
+      date: first.getDate(),
+      day: first.getDay(),
+    };
+    console.log(firstDay);
+    time = time - 60 * 60 * 24 * firstDay.day * 1000;
+    for (let i = 0; i < 42; i++) {
+      let date = new Date(time);
+      const dateItem = {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        date: date.getDate(),
+        day: date.getDay(),
+      };
+      arr = arr.concat([dateItem]);
+      time = time + 60 * 60 * 24 * 1000;
+    }
+    setBucket(arr);
+    setIsClickTodayBtn(true);
+  };
+
+  const onClickTodayBtn = () => {
+    setIsClickTodayBtn((prev) => !prev);
   };
 
   useEffect(() => {
     initView();
     setToday();
-  }, []);
+  }, [isClickTodayBtn]);
   return (
     <Wrapper>
       <NavBar>
         <YearAndMonth>
-          {thisYear}년 {thisMonth}월
+          {pageYear}년 {pageMonth}월
         </YearAndMonth>
         <ButtonsWrapper>
-          <PrevBtn>{"<"}</PrevBtn>
-          <TodayBtn>오늘</TodayBtn>
-          <NextBtn>{">"}</NextBtn>
+          <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
+          <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
+          <NextBtn onClick={nextPage}>{">"}</NextBtn>
         </ButtonsWrapper>
       </NavBar>
       <Days>
@@ -133,8 +186,11 @@ function App() {
         {bucket.map((item) => (
           <Box
             key={`${item.year}${item.month}${item.date}${item.day}`}
-            today={`${thisYear}${thisMonth}${thisDate}`}
+            today={`${initDate.getFullYear()}${
+              initDate.getMonth() + 1
+            }${initDate.getDate()}`}
             year={item.year}
+            thisMonth={pageMonth}
             month={item.month}
             date={item.date}
             day={item.day}
