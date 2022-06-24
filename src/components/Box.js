@@ -36,7 +36,6 @@ const Box = ({ today, year, month, date, day }) => {
   return (
     <Wrapper>
       <Date isToday={today === `${year}${month}${date}` ? true : false}>
-        {console.log(today === `${year}${month}${date}`)}
         {date}일
       </Date>
       <Todos>
