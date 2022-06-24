@@ -1,56 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
-import Box from "./components/Box";
-import Scroll from "./components/Scroll";
+import BoxList from "./components/DateList/BoxList";
+import Days from "./components/DayBar.js/Days";
+import NavBar from "./components/NavBar/NavBar";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
-const MONTH = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const Wrapper = styled.div`
-  background-color: beige;
+  background-color: #211d27;
   width: 885px;
   height: 100%;
   margin: 0 auto;
 `;
-const BoxList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-`;
-
-const NavBar = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
-`;
-
-const YearAndMonth = styled.h1`
-  font-size: 30px;
-  font-weight: 800;
-`;
-const Days = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-`;
-const Day = styled.span`
-  justify-self: end;
-  padding-right: 10px;
-`;
-const ButtonsWrapper = styled.div`
-  align-self: center;
-`;
-const TodayBtn = styled.button``;
-const PrevBtn = styled.button``;
-const NextBtn = styled.button``;
 
 function App() {
   const initDate = new Date();
-
   const [bucket, setBucket] = useState([]);
   const [pageYear, setPageYear] = useState(initDate.getFullYear());
   const [pageMonth, setPageMonth] = useState(initDate.getMonth() + 1);
   const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
-
   console.log(bucket);
 
   const setToday = () => {
@@ -58,7 +26,6 @@ function App() {
     setPageYear(time.getFullYear());
     setPageMonth(time.getMonth() + 1);
   };
-  console.log("pageMonth", pageMonth);
 
   const nextPage = () => {
     let arr = [];
@@ -163,40 +130,19 @@ function App() {
   }, [isClickTodayBtn]);
   return (
     <Wrapper>
-      <NavBar>
-        <YearAndMonth>
-          {pageYear}년 {pageMonth}월
-        </YearAndMonth>
-        <ButtonsWrapper>
-          <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
-          <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
-          <NextBtn onClick={nextPage}>{">"}</NextBtn>
-        </ButtonsWrapper>
-      </NavBar>
-      <Days>
-        <Day>일</Day>
-        <Day>월</Day>
-        <Day>화</Day>
-        <Day>수</Day>
-        <Day>목</Day>
-        <Day>금</Day>
-        <Day>토</Day>
-      </Days>
-      <BoxList>
-        {bucket.map((item) => (
-          <Box
-            key={`${item.year}${item.month}${item.date}${item.day}`}
-            today={`${initDate.getFullYear()}${
-              initDate.getMonth() + 1
-            }${initDate.getDate()}`}
-            year={item.year}
-            thisMonth={pageMonth}
-            month={item.month}
-            date={item.date}
-            day={item.day}
-          ></Box>
-        ))}
-      </BoxList>
+      <NavBar
+        pageYear={pageYear}
+        pageMonth={pageMonth}
+        prevPage={prevPage}
+        onClickTodayBtn={onClickTodayBtn}
+        nextPage={nextPage}
+      ></NavBar>
+      <Days dayList={DAY}></Days>
+      <BoxList
+        bucket={bucket}
+        initDate={initDate}
+        pageMonth={pageMonth}
+      ></BoxList>
     </Wrapper>
   );
 }

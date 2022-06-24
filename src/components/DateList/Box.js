@@ -2,18 +2,21 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  border: 0.5px solid black;
+  border: 0.5px solid #716f75;
   width: 125px;
   height: 100px;
-  opacity: ${(props) => (props.isThisMonth ? "1" : "0.2")};
+  background-color: ${(props) => (props.isWeekend ? "#29262D" : "")};
 `;
 const DateView = styled.div`
   text-align: right;
   padding-top: 5px;
   padding-right: 10px;
+  color: "white";
   height: 20px;
   background-color: ${(props) => (props.isToday ? "red" : "")};
-  color: ${(props) => (props.isToday ? "white" : "")};
+  opacity: ${(props) => (props.isThisMonth ? "1" : "0.2")};
+
+  color: ${(props) => (props.isToday ? "white" : "white")};
 `;
 const Todos = styled.div`
   font-size: 12px;
@@ -28,6 +31,7 @@ const Todo = styled.div`
 `;
 const Text = styled.div`
   font-weight: 600;
+  color: "white";
 `;
 const Time = styled.div`
   font-size: 10px;
@@ -36,20 +40,14 @@ const Time = styled.div`
 
 const Box = ({ today, year, thisMonth, month, date, day }) => {
   return (
-    <Wrapper isThisMonth={thisMonth === month}>
-      <DateView isToday={today === `${year}${month}${date}` ? true : false}>
-        {month}월{date}일
+    <Wrapper isWeekend={day === 0 || day === 6 ? true : false}>
+      <DateView
+        isThisMonth={thisMonth === month}
+        isToday={today === `${year}${month}${date}` ? true : false}
+      >
+        {date === 1 ? `${month}월 ${date}일` : `${date}일`}
       </DateView>
-      <Todos>
-        <Todo>
-          <Text>할 일 1</Text>
-          <Time>오전 9시</Time>
-        </Todo>
-        <Todo>
-          <Text>할 일 2</Text>
-          <Time>오후 3시</Time>
-        </Todo>
-      </Todos>
+      <Todos></Todos>
     </Wrapper>
   );
 };
