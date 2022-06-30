@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
-import BoxList from "./components/DateList/BoxList";
+import DateList from "./components/DateList/DateList";
 import Days from "./components/DayBar.js/Days";
+import Modal from "./components/Modal/Modal";
 import NavBar from "./components/NavBar/NavBar";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -15,10 +16,23 @@ const Wrapper = styled.div`
 
 function App() {
   const initDate = new Date();
+  const [modalVisible, setModalVisible] = useState(false);
   const [bucket, setBucket] = useState([]);
   const [pageYear, setPageYear] = useState(initDate.getFullYear());
   const [pageMonth, setPageMonth] = useState(initDate.getMonth() + 1);
   const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
+  const [todos, setTodos] = useState([]);
+  const [event, setEvent] = useState("");
+  const [place, setPlace] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState();
+  const [dateId, setDateId] = useState("");
+  const openModal = () => {
+    setModalVisible(true);
+  };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   console.log(bucket);
 
   const setToday = () => {
@@ -108,6 +122,7 @@ function App() {
     for (let i = 0; i < 42; i++) {
       let date = new Date(time);
       const dateItem = {
+        id: `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`,
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         date: date.getDate(),
@@ -124,12 +139,67 @@ function App() {
     setIsClickTodayBtn((prev) => !prev);
   };
 
+  const onClickDateCell = (id) => {
+    console.log("click", id);
+    paintAddedTodo(id);
+    setDateId(id);
+    openModal(id);
+  };
+
+  const addTodo = () => {
+    console.log("addTodo");
+  };
+
+  const paintAddedTodo = () => {
+    console.log("paintAddedTodo");
+  };
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "event") {
+      setEvent(value);
+      console.log(name, value);
+    } else if (name === "place") {
+      setPlace(value);
+      console.log(name, value);
+    } else if (name === "date") {
+      console.log(name, value);
+      setDate(value);
+    } else {
+      console.log(name, value);
+      setTime(value);
+    }
+  };
+
+  const onClickModalBtn = (e) => {
+    const { name } = e.target;
+    if (name === "addEvent") {
+      console.log(event, place, date, time);
+      setModalVisible((prev) => !prev);
+    } else {
+      setModalVisible((prev) => !prev);
+    }
+  };
   useEffect(() => {
     initView();
     setToday();
   }, [isClickTodayBtn]);
   return (
     <Wrapper>
+      {modalVisible && (
+        <Modal
+          visible={modalVisible}
+          closable={true}
+          maskClosable={true}
+          onClose={closeModal}
+          dateId={dateId}
+          event={event}
+          place={place}
+          time={time}
+          onChange={onChange}
+          onClickModalBtn={onClickModalBtn}
+        ></Modal>
+      )}
       <NavBar
         pageYear={pageYear}
         pageMonth={pageMonth}
@@ -138,11 +208,12 @@ function App() {
         nextPage={nextPage}
       ></NavBar>
       <Days dayList={DAY}></Days>
-      <BoxList
+      <DateList
         bucket={bucket}
         initDate={initDate}
         pageMonth={pageMonth}
-      ></BoxList>
+        onClickDateCell={onClickDateCell}
+      ></DateList>
     </Wrapper>
   );
 }

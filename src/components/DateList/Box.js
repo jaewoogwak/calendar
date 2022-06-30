@@ -38,9 +38,16 @@ const Time = styled.div`
   align-self: center;
 `;
 
-const Box = ({ today, year, thisMonth, month, date, day }) => {
+const Box = ({ today, year, thisMonth, month, date, day, onClickDateCell }) => {
+  // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
+  const onHandleClickDateCell = () => {
+    onClickDateCell(`${year}${month}${date}`);
+  };
   return (
-    <Wrapper isWeekend={day === 0 || day === 6 ? true : false}>
+    <Wrapper
+      isWeekend={day === 0 || day === 6 ? true : false}
+      onDoubleClick={onHandleClickDateCell}
+    >
       <DateView
         isThisMonth={thisMonth === month}
         isToday={today === `${year}${month}${date}` ? true : false}
