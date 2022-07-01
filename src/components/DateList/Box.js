@@ -23,6 +23,7 @@ const Todos = styled.div`
   display: flex;
   flex-direction: column;
   height: 75px;
+  padding-top: 5px;
 `;
 const Todo = styled.div`
   display: flex;
@@ -31,14 +32,24 @@ const Todo = styled.div`
 `;
 const Text = styled.div`
   font-weight: 600;
-  color: "white";
+  color: white;
 `;
 const Time = styled.div`
   font-size: 10px;
-  align-self: center;
+  color: white;
 `;
 
-const Box = ({ today, year, thisMonth, month, date, day, onClickDateCell }) => {
+const Box = ({
+  todos,
+  id,
+  today,
+  year,
+  thisMonth,
+  month,
+  date,
+  day,
+  onClickDateCell,
+}) => {
   // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
   const onHandleClickDateCell = () => {
     onClickDateCell(`${year}${month}${date}`);
@@ -54,7 +65,16 @@ const Box = ({ today, year, thisMonth, month, date, day, onClickDateCell }) => {
       >
         {date === 1 ? `${month}월 ${date}일` : `${date}일`}
       </DateView>
-      <Todos></Todos>
+      <Todos>
+        {todos
+          .filter((todo) => todo.id === id)
+          .map((item) => (
+            <Todo>
+              <Text>{item.eventName}</Text>
+              <Time>{item.time}</Time>
+            </Todo>
+          ))}
+      </Todos>
     </Wrapper>
   );
 };

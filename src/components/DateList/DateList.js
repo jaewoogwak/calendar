@@ -5,11 +5,13 @@ const BoxListWrpper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 `;
-const DateList = ({ bucket, initDate, pageMonth, onClickDateCell }) => {
+const DateList = ({ bucket, initDate, pageMonth, onClickDateCell, todos }) => {
   return (
     <BoxListWrpper>
       {bucket.map((item) => (
         <Box
+          todos={todos}
+          id={`${item.year}${item.month}${item.date}`}
           onClickDateCell={onClickDateCell}
           key={`${item.year}${item.month}${item.date}${item.day}`}
           today={`${initDate.getFullYear()}${

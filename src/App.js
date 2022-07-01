@@ -21,7 +21,15 @@ function App() {
   const [pageYear, setPageYear] = useState(initDate.getFullYear());
   const [pageMonth, setPageMonth] = useState(initDate.getMonth() + 1);
   const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {
+      id: "20231220",
+      eventName: "뉴욕 여행",
+      place: "인천공항 제2 터미널",
+      date: "2022-12-20",
+      time: "07:00",
+    },
+  ]);
   const [event, setEvent] = useState("");
   const [place, setPlace] = useState("");
   const [date, setDate] = useState("");
@@ -33,7 +41,7 @@ function App() {
   const closeModal = () => {
     setModalVisible(false);
   };
-  console.log(bucket);
+  //console.log(bucket);
 
   const setToday = () => {
     const time = new Date();
@@ -148,6 +156,14 @@ function App() {
 
   const addTodo = () => {
     console.log("addTodo");
+    const newTodo = {
+      id: dateId,
+      eventName: event,
+      place: place,
+      date: date,
+      time: time,
+    };
+    setTodos([...todos, newTodo]);
   };
 
   const paintAddedTodo = () => {
@@ -175,11 +191,18 @@ function App() {
     const { name } = e.target;
     if (name === "addEvent") {
       console.log(event, place, date, time);
+      addTodo();
       setModalVisible((prev) => !prev);
     } else {
       setModalVisible((prev) => !prev);
     }
+    setEvent("");
+    setPlace("");
+    setDate("");
+    setTime("");
   };
+  console.log("todos", todos);
+
   useEffect(() => {
     initView();
     setToday();
@@ -213,6 +236,7 @@ function App() {
         initDate={initDate}
         pageMonth={pageMonth}
         onClickDateCell={onClickDateCell}
+        todos={todos}
       ></DateList>
     </Wrapper>
   );
