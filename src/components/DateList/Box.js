@@ -1,5 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+
+const Box = ({
+  id,
+  today,
+  year,
+  thisMonth,
+  month,
+  date,
+  day,
+  onClickDateCell,
+}) => {
+  const todos = useSelector((state) => state.todos.todos);
+  // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
+  const [isClicked, setIsClicked] = useState(false);
+
+  const onHandleClickDateCell = () => {
+    onClickDateCell(`${year}${month}${date}`);
+  };
+
+  return (
+    <Wrapper
+      isWeekend={day === 0 || day === 6 ? true : false}
+      onDoubleClick={onHandleClickDateCell}
+      onClick={() => (isClicked === true ? setIsClicked(false) : null)}
+    >
+      <DateView
+        isThisMonth={thisMonth === month}
+        isToday={today === `${year}${month}${date}` ? true : false}
+      >
+        {date === 1 ? `${month}월 ${date}일` : `${date}일`}
+      </DateView>
+      <Todos>
+        {todos
+          .filter((todo) => {
+            return todo.id?.split("-")[0] === id;
+          })
+          .map((item) => (
+            <Todo
+              key={item.id}
+              isClicked={isClicked}
+              onClick={() => setIsClicked(true)}
+            >
+              <Text>{item.eventName}</Text>
+              <Time>{item.time}</Time>
+            </Todo>
+          ))}
+      </Todos>
+    </Wrapper>
+  );
+};
+
+export default Box;
 
 const Wrapper = styled.div`
   border: 0.5px solid #716f75;
@@ -28,7 +81,10 @@ const Todos = styled.div`
 const Todo = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding-left: 7px;
+
+  background-color: ${(props) => (props.isClicked ? "skyblue" : "")};
 `;
 const Text = styled.div`
   font-weight: 600;
@@ -38,45 +94,3 @@ const Time = styled.div`
   font-size: 10px;
   color: white;
 `;
-
-const Box = ({
-  todos,
-  id,
-  today,
-  year,
-  thisMonth,
-  month,
-  date,
-  day,
-  onClickDateCell,
-}) => {
-  // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
-  const onHandleClickDateCell = () => {
-    onClickDateCell(`${year}${month}${date}`);
-  };
-  return (
-    <Wrapper
-      isWeekend={day === 0 || day === 6 ? true : false}
-      onDoubleClick={onHandleClickDateCell}
-    >
-      <DateView
-        isThisMonth={thisMonth === month}
-        isToday={today === `${year}${month}${date}` ? true : false}
-      >
-        {date === 1 ? `${month}월 ${date}일` : `${date}일`}
-      </DateView>
-      <Todos>
-        {todos
-          .filter((todo) => todo.id === id)
-          .map((item) => (
-            <Todo>
-              <Text>{item.eventName}</Text>
-              <Time>{item.time}</Time>
-            </Todo>
-          ))}
-      </Todos>
-    </Wrapper>
-  );
-};
-
-export default Box;

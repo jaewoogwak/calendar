@@ -1,18 +1,9 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import DateList from "./components/DateList/DateList";
-import Days from "./components/DayBar.js/Days";
-import Modal from "./components/Modal/Modal";
 import NavBar from "./components/NavBar/NavBar";
+import { Month } from "./pages/Month";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
-
-const Wrapper = styled.div`
-  background-color: #211d27;
-  width: 885px;
-  height: 100%;
-  margin: 0 auto;
-`;
 
 function App() {
   const initDate = new Date();
@@ -21,20 +12,14 @@ function App() {
   const [pageYear, setPageYear] = useState(initDate.getFullYear());
   const [pageMonth, setPageMonth] = useState(initDate.getMonth() + 1);
   const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
-  const [todos, setTodos] = useState([
-    {
-      id: "20231220",
-      eventName: "뉴욕 여행",
-      place: "인천공항 제2 터미널",
-      date: "2022-12-20",
-      time: "07:00",
-    },
-  ]);
-  const [event, setEvent] = useState("");
-  const [place, setPlace] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState();
-  const [dateId, setDateId] = useState("");
+
+  const count = useRef(0);
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => {
+    console.log("state", state.todos.todos);
+    return state.todos.todos;
+  });
+  console.log("state!!!", todos);
   const openModal = () => {
     setModalVisible(true);
   };
@@ -147,82 +132,12 @@ function App() {
     setIsClickTodayBtn((prev) => !prev);
   };
 
-  const onClickDateCell = (id) => {
-    console.log("click", id);
-    paintAddedTodo(id);
-    setDateId(id);
-    openModal(id);
-  };
-
-  const addTodo = () => {
-    console.log("addTodo");
-    const newTodo = {
-      id: dateId,
-      eventName: event,
-      place: place,
-      date: date,
-      time: time,
-    };
-    setTodos([...todos, newTodo]);
-  };
-
-  const paintAddedTodo = () => {
-    console.log("paintAddedTodo");
-  };
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "event") {
-      setEvent(value);
-      console.log(name, value);
-    } else if (name === "place") {
-      setPlace(value);
-      console.log(name, value);
-    } else if (name === "date") {
-      console.log(name, value);
-      setDate(value);
-    } else {
-      console.log(name, value);
-      setTime(value);
-    }
-  };
-
-  const onClickModalBtn = (e) => {
-    const { name } = e.target;
-    if (name === "addEvent") {
-      console.log(event, place, date, time);
-      addTodo();
-      setModalVisible((prev) => !prev);
-    } else {
-      setModalVisible((prev) => !prev);
-    }
-    setEvent("");
-    setPlace("");
-    setDate("");
-    setTime("");
-  };
-  console.log("todos", todos);
-
   useEffect(() => {
     initView();
     setToday();
   }, [isClickTodayBtn]);
   return (
-    <Wrapper>
-      {modalVisible && (
-        <Modal
-          visible={modalVisible}
-          closable={true}
-          maskClosable={true}
-          onClose={closeModal}
-          dateId={dateId}
-          event={event}
-          place={place}
-          time={time}
-          onChange={onChange}
-          onClickModalBtn={onClickModalBtn}
-        ></Modal>
-      )}
+    <>
       <NavBar
         pageYear={pageYear}
         pageMonth={pageMonth}
@@ -230,15 +145,23 @@ function App() {
         onClickTodayBtn={onClickTodayBtn}
         nextPage={nextPage}
       ></NavBar>
-      <Days dayList={DAY}></Days>
-      <DateList
+      <Month
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        openModal={openModal}
+        closeModal={closeModal}
+        pageYear={pageYear}
+        pageMonth={pageMonth}
+        prevPage={prevPage}
+        onClickTodayBtn={onClickTodayBtn}
+        nextPage={nextPage}
+        DAY={DAY}
         bucket={bucket}
         initDate={initDate}
-        pageMonth={pageMonth}
-        onClickDateCell={onClickDateCell}
         todos={todos}
-      ></DateList>
-    </Wrapper>
+        count={count}
+      />
+    </>
   );
 }
 

@@ -1,27 +1,43 @@
 import React from "react";
 import styled from "styled-components";
 
+const NavBar = ({
+  pageYear,
+  pageMonth,
+  prevPage,
+  onClickTodayBtn,
+  nextPage,
+}) => {
+  return (
+    <NavBarWrapper>
+      <YearAndMonth>
+        {pageYear}년 {pageMonth}월
+      </YearAndMonth>
+      <PageController>
+        <PageSelector>월</PageSelector>
+        <PageSelector>년</PageSelector>
+      </PageController>
+      <ButtonsWrapper>
+        <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
+        <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
+        <NextBtn onClick={nextPage}>{">"}</NextBtn>
+      </ButtonsWrapper>
+    </NavBarWrapper>
+  );
+};
+
 const NavBarWrapper = styled.nav`
   display: flex;
   justify-content: space-between;
   padding-left: 20px;
   padding-right: 20px;
+  background-color: #211d27;
 `;
 
 const YearAndMonth = styled.h1`
   font-size: 30px;
   font-weight: 800;
   color: white;
-`;
-const Days = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  color: white;
-  padding-bottom: 5px;
-`;
-const Day = styled.span`
-  justify-self: end;
-  padding-right: 10px;
 `;
 const ButtonsWrapper = styled.div`
   align-self: center;
@@ -48,25 +64,20 @@ const NextBtn = styled.button`
   color: white;
   border-radius: 7px;
 `;
-const NavBar = ({
-  pageYear,
-  pageMonth,
-  prevPage,
-  onClickTodayBtn,
-  nextPage,
-}) => {
-  return (
-    <NavBarWrapper>
-      <YearAndMonth>
-        {pageYear}년 {pageMonth}월
-      </YearAndMonth>
-      <ButtonsWrapper>
-        <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
-        <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
-        <NextBtn onClick={nextPage}>{">"}</NextBtn>
-      </ButtonsWrapper>
-    </NavBarWrapper>
-  );
-};
-
+const PageController = styled.div`
+  display: flex;
+  width: 100px;
+  height: 20px;
+  border-radius: 5px;
+  border: 0.5px solid #716f75;
+  background-color: #716f75;
+  color: white;
+  margin-top: 10px;
+`;
+const PageSelector = styled.span`
+  border: 1px solid grey;
+  border-radius: 5px;
+  width: 100%;
+  text-align: center;
+`;
 export default NavBar;
