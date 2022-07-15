@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setDate } from "../../features/date/dateSlice";
 
 const Box = ({
   id,
@@ -12,11 +13,13 @@ const Box = ({
   day,
   onClickDateCell,
 }) => {
-  const todos = useSelector((state) => state.todos.todos);
+  const todos = useSelector((state) => state.reducers.todos.todos);
+  const dispatch = useDispatch();
   // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
   const [isClicked, setIsClicked] = useState(false);
 
   const onHandleClickDateCell = () => {
+    dispatch(setDate({ date: `${year}${month}${date}` }));
     onClickDateCell(`${year}${month}${date}`);
   };
 

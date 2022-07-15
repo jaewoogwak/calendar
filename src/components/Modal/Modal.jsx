@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-// import CloseButton from "./CloseButton";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo } from "../../features/todo/todoSlice";
 
 const Modal = ({
   className,
@@ -9,16 +10,48 @@ const Modal = ({
   maskClosable,
   closable,
   visible,
+  setModalVisible,
   children,
-  dateId,
-  event,
-  place,
-  date,
-  time,
-  onChange,
-  onClickModalBtn,
+  count,
 }) => {
-  console.log("dateID", dateId);
+  const [event, setEvent] = useState("");
+  const [place, setPlace] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState();
+  const dispatch = useDispatch();
+  const dateId = useSelector((state) => state.reducers.date.date);
+  console.log("dateIDDDDD", dateId);
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "event") {
+      setEvent(value);
+      console.log(name, value);
+    } else if (name === "place") {
+      setPlace(value);
+      console.log(name, value);
+    } else if (name === "date") {
+      console.log(name, value);
+      setDate(value);
+    } else {
+      console.log(name, value);
+      setTime(value);
+    }
+  };
+  const onClickModalBtn = (e) => {
+    const { name } = e.target;
+    if (name === "addEvent") {
+      console.log(event, place, date, time);
+      handleAddTodo();
+      setModalVisible((prev) => !prev);
+    } else {
+      setModalVisible((prev) => !prev);
+    }
+    setEvent("");
+    setPlace("");
+    setDate("");
+    setTime("");
+  };
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose(e);
@@ -29,6 +62,21 @@ const Modal = ({
     if (onClose) {
       onClose(e);
     }
+  };
+  const handleAddTodo = () => {
+    console.log("handleAddTodo", dateId);
+    dispatch(
+      addTodo({
+        todo: {
+          id: `${dateId}-${count.current++}`,
+          eventName: event,
+          place: place,
+          date: date,
+          time: time,
+        },
+        type: "addTodo",
+      })
+    );
   };
   return (
     <>

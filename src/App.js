@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
+import Modal from "./components/Modal/Modal";
 import NavBar from "./components/NavBar/NavBar";
 import { Month } from "./pages/Month";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -15,9 +16,10 @@ function App() {
 
   const count = useRef(0);
   const dispatch = useDispatch();
+
   const todos = useSelector((state) => {
-    console.log("state", state.todos.todos);
-    return state.todos.todos;
+    console.log("state", state.reducers.todos);
+    return state.reducers.todos.todos;
   });
   console.log("state!!!", todos);
   const openModal = () => {
@@ -26,7 +28,9 @@ function App() {
   const closeModal = () => {
     setModalVisible(false);
   };
-  //console.log(bucket);
+  const handleModal = (state) => {
+    setModalVisible(state);
+  };
 
   const setToday = () => {
     const time = new Date();
@@ -138,6 +142,17 @@ function App() {
   }, [isClickTodayBtn]);
   return (
     <>
+      {modalVisible && (
+        <Modal
+          openModal={openModal}
+          visible={modalVisible}
+          closable={true}
+          maskClosable={true}
+          onClose={closeModal}
+          setModalVisible={setModalVisible}
+          count={count}
+        ></Modal>
+      )}
       <NavBar
         pageYear={pageYear}
         pageMonth={pageMonth}
@@ -146,13 +161,10 @@ function App() {
         nextPage={nextPage}
       ></NavBar>
       <Month
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        openModal={openModal}
-        closeModal={closeModal}
         pageYear={pageYear}
         pageMonth={pageMonth}
         prevPage={prevPage}
+        openModal={openModal}
         onClickTodayBtn={onClickTodayBtn}
         nextPage={nextPage}
         DAY={DAY}
