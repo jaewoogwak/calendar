@@ -1,17 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const NavBar = ({
-  pageYear,
-  pageMonth,
-  prevPage,
-  onClickTodayBtn,
-  nextPage,
-}) => {
+const NavBar = ({ prevPage, onClickTodayBtn, nextPage }) => {
+  const { year, month } = useSelector((state) => state.reducers.date.page);
   return (
     <NavBarWrapper>
       <YearAndMonth>
-        {pageYear}년 {pageMonth}월
+        {year}년 {month}월
       </YearAndMonth>
       <PageController>
         <PageSelector>월</PageSelector>
