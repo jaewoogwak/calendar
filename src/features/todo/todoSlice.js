@@ -3,15 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const todoSlice = createSlice({
   name: "todo",
   initialState: {
-    todos: [
-      {
-        id: "20231220",
-        eventName: "뉴욕 여행",
-        place: "인천공항 제2 터미널",
-        date: "2022-12-20",
-        time: "07:00",
-      },
-    ],
+    todos: [],
   },
   reducers: {
     addTodo: (state, action) => {

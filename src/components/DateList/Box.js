@@ -11,6 +11,7 @@ const Box = ({
   itemDay,
   onClickDateCell,
 }) => {
+  const [isClicked, setIsClicked] = useState(false); // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { year, month, date } = useSelector(
     (state) => state.reducers.date.page
@@ -18,7 +19,6 @@ const Box = ({
   const today = `${year}${month}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   const dispatch = useDispatch();
-  const [isClicked, setIsClicked] = useState(false); // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
 
   const onHandleClickDateCell = () => {
     dispatch(setDate({ date: clickedDate }));
