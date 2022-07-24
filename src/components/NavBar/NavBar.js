@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -6,6 +6,8 @@ import { nextMonth, prevMonth, setBucket } from "../../features/date/dateSlice";
 import { createNextPage, createPreviousPage } from "./useNavbar";
 
 const NavBar = ({ onClickTodayBtn }) => {
+  //const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
+
   const dispatch = useDispatch();
   const { year, month } = useSelector((state) => state.reducers.date.page);
 

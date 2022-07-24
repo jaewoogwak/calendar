@@ -4,6 +4,7 @@ import styled from "styled-components";
 import "./App.css";
 import { createView } from "./components/DateList/useDate";
 import Modal from "./components/Modal/Modal";
+import NavBar from "./components/NavBar/NavBar";
 import { setBucket, setNow } from "./features/date/dateSlice";
 import { Month } from "./pages/Month";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -43,9 +44,10 @@ function App() {
   };
 
   const initView = () => {
+    console.log("initView");
     const arr = createView(year, month);
     dispatch(setBucket({ bucket: arr }));
-    setIsClickTodayBtn(true);
+    //setIsClickTodayBtn(true);
   };
 
   const onClickTodayBtn = () => {
