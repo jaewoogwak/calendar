@@ -6,7 +6,9 @@ const BoxListWrpper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 `;
-const DateList = ({ bucket, onClickDateCell }) => {
+const DateList = ({ onClickDateCell }) => {
+  const bucket = useSelector((state) => state.reducers.date.bucket);
+  console.log("bucket in DateList", bucket);
   return (
     <BoxListWrpper>
       {bucket.map((item) => (

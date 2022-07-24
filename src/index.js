@@ -15,11 +15,18 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <>
+        <NavBar />
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/month" element={<Year />} />
+          <Route path="/year" element={<Year />} />
         </Routes>
       </>
     </BrowserRouter>
   </Provider>
 );
+const Wrapper = styled.div`
+  background-color: #211d27;
+  width: 885px;
+  height: 100%;
+  margin: 0 auto;
+`;

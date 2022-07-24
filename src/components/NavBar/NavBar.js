@@ -1,17 +1,45 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { nextMonth, prevMonth, setBucket } from "../../features/date/dateSlice";
+import { createNextPage, createPreviousPage } from "./useNavbar";
 
-const NavBar = ({ prevPage, onClickTodayBtn, nextPage }) => {
+const NavBar = ({ onClickTodayBtn }) => {
+  const dispatch = useDispatch();
   const { year, month } = useSelector((state) => state.reducers.date.page);
+
+  const prevPage = () => {
+    const arr = createPreviousPage(year, month);
+    console.log("arrrr", arr);
+    dispatch(setBucket({ bucket: arr }));
+    dispatch(prevMonth());
+  };
+  const nextPage = () => {
+    const arr = createNextPage(year, month);
+    console.log("arrrr", arr);
+    dispatch(setBucket({ bucket: arr }));
+    dispatch(nextMonth());
+  };
   return (
     <NavBarWrapper>
       <YearAndMonth>
         {year}년 {month}월
       </YearAndMonth>
       <PageController>
-        <PageSelector>월</PageSelector>
-        <PageSelector>년</PageSelector>
+        <PageSelector>
+          <NavLink
+            to={`/year`}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            년
+          </NavLink>
+        </PageSelector>
+        <PageSelector>
+          <NavLink to={`/`} style={{ textDecoration: "none", color: "white" }}>
+            월
+          </NavLink>
+        </PageSelector>
       </PageController>
       <ButtonsWrapper>
         <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
@@ -24,19 +52,23 @@ const NavBar = ({ prevPage, onClickTodayBtn, nextPage }) => {
 
 const NavBarWrapper = styled.nav`
   display: flex;
+  width: 885px;
   justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
+  /* padding-left: 20px;
+  padding-right: 20px; */
   background-color: #211d27;
+  margin: 0 auto;
 `;
 
 const YearAndMonth = styled.h1`
+  padding-left: 20px;
   font-size: 30px;
   font-weight: 800;
   color: white;
 `;
 const ButtonsWrapper = styled.div`
   align-self: center;
+  padding-right: 20px;
 `;
 const TodayBtn = styled.button`
   border: 0.5px solid #716f75;
@@ -75,5 +107,6 @@ const PageSelector = styled.span`
   border-radius: 5px;
   width: 100%;
   text-align: center;
+  text-decoration: none;
 `;
 export default NavBar;

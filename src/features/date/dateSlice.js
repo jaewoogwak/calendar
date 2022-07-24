@@ -9,6 +9,7 @@ const dateSlice = createSlice({
       month: new Date().getMonth() + 1,
       date: new Date().getDate(),
     },
+    bucket: [],
   },
   reducers: {
     setDate: (state, action) => {
@@ -30,10 +31,14 @@ const dateSlice = createSlice({
       state.page.year = action.payload.today.year;
       state.page.month = action.payload.today.month;
     },
+    setBucket: (state, action) => {
+      state.bucket = action.payload.bucket;
+    },
   },
 });
 
 // Action creator
-export const { setDate, nextMonth, prevMonth, setNow } = dateSlice.actions;
+export const { setDate, nextMonth, prevMonth, setNow, setBucket } =
+  dateSlice.actions;
 
 export default dateSlice.reducer;
