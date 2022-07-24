@@ -5,35 +5,37 @@ import { setDate } from "../../features/date/dateSlice";
 
 const Box = ({
   id,
-  today,
-  year,
-  thisMonth,
-  month,
-  date,
-  day,
+  itemYear,
+  itemMonth,
+  itemDate,
+  itemDay,
   onClickDateCell,
 }) => {
   const todos = useSelector((state) => state.reducers.todos.todos);
+  const { year, month, date } = useSelector(
+    (state) => state.reducers.date.page
+  );
+  const today = `${year}${month}${date}`;
+  const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   const dispatch = useDispatch();
-  // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false); // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
 
   const onHandleClickDateCell = () => {
-    dispatch(setDate({ date: `${year}${month}${date}` }));
-    onClickDateCell(`${year}${month}${date}`);
+    dispatch(setDate({ date: clickedDate }));
+    onClickDateCell(clickedDate);
   };
 
   return (
     <Wrapper
-      isWeekend={day === 0 || day === 6 ? true : false}
+      isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
       onDoubleClick={onHandleClickDateCell}
       onClick={() => (isClicked === true ? setIsClicked(false) : null)}
     >
       <DateView
-        isThisMonth={thisMonth === month}
-        isToday={today === `${year}${month}${date}` ? true : false}
+        isThisitemMonth={month === itemMonth}
+        isToday={today === clickedDate ? true : false}
       >
-        {date === 1 ? `${month}월 ${date}일` : `${date}일`}
+        {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
       </DateView>
       <Todos>
         {todos
@@ -70,7 +72,7 @@ const DateView = styled.div`
   color: "white";
   height: 20px;
   background-color: ${(props) => (props.isToday ? "red" : "")};
-  opacity: ${(props) => (props.isThisMonth ? "1" : "0.2")};
+  opacity: ${(props) => (props.isThisitemMonth ? "1" : "0.2")};
 
   color: ${(props) => (props.isToday ? "white" : "white")};
 `;

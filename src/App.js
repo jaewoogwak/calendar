@@ -17,7 +17,6 @@ function App() {
     console.log("state", state.reducers.todos);
     return state.reducers.todos.todos;
   });
-  const initDate = new Date();
   const count = useRef(0);
   const dispatch = useDispatch();
 
@@ -148,8 +147,6 @@ function App() {
         ></Modal>
       )}
       <NavBar
-        pageYear={year}
-        pageMonth={month}
         prevPage={prevPage}
         onClickTodayBtn={onClickTodayBtn}
         nextPage={nextPage}
@@ -163,7 +160,6 @@ function App() {
         nextPage={nextPage}
         DAY={DAY}
         bucket={bucket}
-        initDate={initDate}
         todos={todos}
         count={count}
       />

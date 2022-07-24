@@ -1,26 +1,13 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar.js/Days";
 import Modal from "../components/Modal/Modal";
 import { addTodo } from "../features/todo/todoSlice";
 
-export function Month({
-  modalVisible,
-  setModalVisible,
-  openModal,
-  closeModal,
-  pageMonth,
-  DAY,
-  bucket,
-  initDate,
-  todos,
-  count,
-}) {
+export function Month({ openModal, DAY, bucket, initDate }) {
   const [dateId, setDateId] = useState("");
-  const dispatch = useDispatch();
-
   const onClickDateCell = (id) => {
     console.log("click", id);
     paintAddedTodo(id);
@@ -35,13 +22,7 @@ export function Month({
   return (
     <Wrapper>
       <Days dayList={DAY}></Days>
-      <DateList
-        bucket={bucket}
-        initDate={initDate}
-        pageMonth={pageMonth}
-        onClickDateCell={onClickDateCell}
-        todos={todos}
-      ></DateList>
+      <DateList bucket={bucket} onClickDateCell={onClickDateCell}></DateList>
     </Wrapper>
   );
 }
