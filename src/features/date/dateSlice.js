@@ -6,6 +6,7 @@ const dateSlice = createSlice({
     date: "",
     page: {
       year: new Date().getFullYear(),
+      currentMonth: new Date().getMonth() + 1,
       month: new Date().getMonth() + 1,
       date: new Date().getDate(),
     },
