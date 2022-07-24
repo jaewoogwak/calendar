@@ -11,10 +11,11 @@ const Day = styled.span`
   padding-right: 10px;
 `;
 
-const Days = ({ dayList }) => {
+export const Days = () => {
+  const DAY = ["일", "월", "화", "수", "목", "금", "토"];
   return (
     <DaysWrapper>
-      {dayList.map((day) => (
+      {DAY.map((day) => (
         <Day key={day.toString()}>{day}</Day>
       ))}
     </DaysWrapper>

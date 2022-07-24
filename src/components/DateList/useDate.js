@@ -23,6 +23,6 @@ export const createView = (year, month) => {
     arr = arr.concat([dateItem]);
     time = time + 60 * 60 * 24 * 1000;
   }
-  console.log(arr);
+  console.log("createView", arr);
   return arr;
 };

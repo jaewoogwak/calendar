@@ -1,11 +1,8 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Box from "./Box";
-const BoxListWrpper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-`;
-const DateList = ({ onClickDateCell }) => {
+
+export const DateList = ({ onClickDateCell }) => {
   const bucket = useSelector((state) => state.reducers.date.bucket);
   console.log("bucket in DateList", bucket);
   return (
@@ -24,5 +21,8 @@ const DateList = ({ onClickDateCell }) => {
     </BoxListWrpper>
   );
 };
-
+const BoxListWrpper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+`;
 export default DateList;
