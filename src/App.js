@@ -4,21 +4,14 @@ import styled from "styled-components";
 import "./App.css";
 import { createView } from "./components/DateList/useDate";
 import Modal from "./components/Modal/Modal";
-import NavBar from "./components/NavBar/NavBar";
 import { setBucket, setNow } from "./features/date/dateSlice";
 import { Month } from "./pages/Month";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
 
 function App() {
   const [modalVisible, setModalVisible] = useState(false);
-  //const [bucket, setBucket] = useState([]);
   const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
   const { year, month } = useSelector((state) => state.reducers.date.page);
-  const todos = useSelector((state) => {
-    console.log("state", state.reducers.todos);
-    return state.reducers.todos.todos;
-  });
-  const { bucket } = useSelector((state) => state.reducers.date.bucket);
   const count = useRef(0);
   const dispatch = useDispatch();
 
