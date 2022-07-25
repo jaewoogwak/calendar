@@ -9,7 +9,6 @@ export const createView = (year, month) => {
     date: first.getDate(),
     day: first.getDay(),
   };
-  console.log(firstDay);
   time = time - 60 * 60 * 24 * firstDay.day * 1000;
   for (let i = 0; i < 42; i++) {
     let date = new Date(time);
@@ -23,6 +22,5 @@ export const createView = (year, month) => {
     arr = arr.concat([dateItem]);
     time = time + 60 * 60 * 24 * 1000;
   }
-  console.log("createView", arr);
   return arr;
 };

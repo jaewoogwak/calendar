@@ -7,17 +7,14 @@ import { Date } from "./Date";
 
 export const MonthCell = ({ month, list }) => {
   const dispatch = useDispatch();
-  const bucket = useSelector((state) => state.reducers.date.bucket);
   const { currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );
 
   const today = `${currentYear}${currentMonth}${date}`;
-  console.log("today in Monthcell", today);
   useEffect(() => {
     dispatch(setBucket({ bucket: list }));
   });
-  console.log("bucket!!!", bucket);
   return (
     <Wrapper>
       <MonthView>{month}월</MonthView>

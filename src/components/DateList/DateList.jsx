@@ -4,7 +4,6 @@ import Box from "./Box";
 
 export const DateList = ({ onClickDateCell }) => {
   const bucket = useSelector((state) => state.reducers.date.bucket);
-  console.log("bucket in DateList", bucket);
   return (
     <BoxListWrpper>
       {bucket.map((item) => (

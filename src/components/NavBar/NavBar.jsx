@@ -22,11 +22,9 @@ const NavBar = ({ onClickTodayBtn }) => {
     let arr = [];
     if (currentView === "month") {
       arr = createPreviousPage(year, month);
-      console.log("arrrr/Month", arr);
       dispatch(prevMonth());
     } else {
       arr = createPreviousPage(year, month);
-      console.log("arrrr/Year", arr);
       dispatch(prevYear());
     }
     dispatch(setBucket({ bucket: arr }));
@@ -35,11 +33,9 @@ const NavBar = ({ onClickTodayBtn }) => {
     let arr = [];
     if (currentView === "month") {
       arr = createNextPage(year, month);
-      console.log("arrrr/Month", arr);
       dispatch(nextMonth());
     } else {
       arr = createNextPage(year, month);
-      console.log("arrrr/Year", arr);
       dispatch(nextYear());
     }
     dispatch(setBucket({ bucket: arr }));
