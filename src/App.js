@@ -2,24 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import "./App.css";
+import { createView } from "./components/DateList/useDate";
 import Modal from "./components/Modal/Modal";
-import NavBar from "./components/NavBar/NavBar";
-import { nextMonth, prevMonth, setNow } from "./features/date/dateSlice";
+import { setBucket, setNow } from "./features/date/dateSlice";
+import { setView } from "./features/view/viewSlice";
 import { Month } from "./pages/Month";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
 
 function App() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [bucket, setBucket] = useState([]);
   const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
   const { year, month } = useSelector((state) => state.reducers.date.page);
-  const todos = useSelector((state) => {
-    console.log("state", state.reducers.todos);
-    return state.reducers.todos.todos;
-  });
   const count = useRef(0);
   const dispatch = useDispatch();
-
   const openModal = () => {
     setModalVisible(true);
   };
@@ -41,88 +36,11 @@ function App() {
     //setPageMonth(time.getMonth() + 1);
   };
 
-  const nextPage = () => {
-    let arr = [];
-    let time = new Date(year, month, 1).getTime();
-    const first = new Date(time);
-    const firstDay = {
-      year: first.getFullYear(),
-      month: first.getMonth() + 1,
-      date: first.getDate(),
-      day: first.getDay(),
-    };
-
-    time = time - 60 * 60 * 24 * firstDay.day * 1000;
-    for (let i = 0; i < 42; i++) {
-      const date = new Date(time);
-      const dateItem = {
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        date: date.getDate(),
-        day: date.getDay(),
-      };
-      arr = arr.concat([dateItem]);
-      time = time + 60 * 60 * 24 * 1000;
-    }
-    setBucket(arr);
-    dispatch(nextMonth());
-  };
-
-  const prevPage = () => {
-    let arr = [];
-    console.log(year, month - 1);
-    let time = new Date(year, month - 2, 1).getTime();
-    const first = new Date(time);
-
-    const firstDay = {
-      year: first.getFullYear(),
-      month: first.getMonth() + 1,
-      date: first.getDate(),
-      day: first.getDay(),
-    };
-    time = time - 60 * 60 * 24 * firstDay.day * 1000;
-    for (let i = 0; i < 42; i++) {
-      let date = new Date(time);
-      const dateItem = {
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        date: date.getDate(),
-        day: date.getDay(),
-      };
-      arr = arr.concat([dateItem]);
-      time = time + 60 * 60 * 24 * 1000;
-    }
-    setBucket(arr);
-    dispatch(prevMonth());
-  };
-
   const initView = () => {
-    let arr = [];
-    let time = new Date(year, month - 1, 1).getTime();
-    const first = new Date(time);
-
-    const firstDay = {
-      year: first.getFullYear(),
-      month: first.getMonth() + 1,
-      date: first.getDate(),
-      day: first.getDay(),
-    };
-    console.log(firstDay);
-    time = time - 60 * 60 * 24 * firstDay.day * 1000;
-    for (let i = 0; i < 42; i++) {
-      let date = new Date(time);
-      const dateItem = {
-        id: `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`,
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        date: date.getDate(),
-        day: date.getDay(),
-      };
-      arr = arr.concat([dateItem]);
-      time = time + 60 * 60 * 24 * 1000;
-    }
-    setBucket(arr);
-    setIsClickTodayBtn(true);
+    console.log("initView");
+    const arr = createView(year, month);
+    dispatch(setBucket({ bucket: arr }));
+    //setIsClickTodayBtn(true);
   };
 
   const onClickTodayBtn = () => {
@@ -130,6 +48,8 @@ function App() {
   };
 
   useEffect(() => {
+    dispatch(setView({ currentView: "month" }));
+
     initView();
     setToday();
   }, [isClickTodayBtn]);
@@ -146,23 +66,12 @@ function App() {
           count={count}
         ></Modal>
       )}
-      <NavBar
+      {/* <NavBar
         prevPage={prevPage}
         onClickTodayBtn={onClickTodayBtn}
         nextPage={nextPage}
-      ></NavBar>
-      <Month
-        pageYear={year}
-        pageMonth={month}
-        prevPage={prevPage}
-        openModal={openModal}
-        onClickTodayBtn={onClickTodayBtn}
-        nextPage={nextPage}
-        DAY={DAY}
-        bucket={bucket}
-        todos={todos}
-        count={count}
-      />
+      ></NavBar> */}
+      <Month openModal={openModal} DAY={DAY} />
     </Wrapper>
   );
 }

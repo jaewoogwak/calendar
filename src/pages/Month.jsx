@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar.js/Days";
-import Modal from "../components/Modal/Modal";
-import { addTodo } from "../features/todo/todoSlice";
 
-export function Month({ openModal, DAY, bucket, initDate }) {
+export function Month({ openModal, DAY }) {
   const [dateId, setDateId] = useState("");
   const onClickDateCell = (id) => {
     console.log("click", id);
@@ -22,7 +19,7 @@ export function Month({ openModal, DAY, bucket, initDate }) {
   return (
     <Wrapper>
       <Days dayList={DAY}></Days>
-      <DateList bucket={bucket} onClickDateCell={onClickDateCell}></DateList>
+      <DateList onClickDateCell={onClickDateCell}></DateList>
     </Wrapper>
   );
 }
