@@ -1,18 +1,15 @@
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 export const Date = ({
   month,
   date,
+  today,
   itemYear,
   itemMonth,
   itemDate,
   itemDay,
 }) => {
-  const { year } = useSelector((state) => state.reducers.date.page);
-  const today = `${year}${month}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
-
   return (
     <Wrapper
       isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
@@ -27,6 +24,7 @@ export const Date = ({
 const Wrapper = styled.div`
   color: ${(props) => (props.isWeekend ? "gray" : "white")};
   opacity: ${(props) => (props.isCurrentMonth ? "1" : "0.2")};
+  background-color: ${(props) => (props.isToday ? "red" : "")};
   font-size: 12px;
   text-align: center;
   margin-top: 5px;

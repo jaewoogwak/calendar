@@ -2,23 +2,21 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setBucket } from "../../features/date/dateSlice";
-import DateList from "../DateList/DateList";
-import { createView } from "../DateList/useDate";
 import Days from "../DayBar.js/Days";
 import { Date } from "./Date";
 
 export const MonthCell = ({ month, list }) => {
   const dispatch = useDispatch();
   const bucket = useSelector((state) => state.reducers.date.bucket);
-  const { year, currentMonth, date } = useSelector(
+  const { currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );
 
-  const today = `${year}${currentMonth}${date}`;
+  const today = `${currentYear}${currentMonth}${date}`;
   console.log("today in Monthcell", today);
   useEffect(() => {
     dispatch(setBucket({ bucket: list }));
-  }, []);
+  });
   console.log("bucket!!!", bucket);
   return (
     <Wrapper>
@@ -29,6 +27,7 @@ export const MonthCell = ({ month, list }) => {
           <Date
             key={`${item.year}${item.month}${item.date}${item.day}`}
             id={`${item.year}${item.month}${item.date}`}
+            today={today}
             month={month}
             itemYear={item.year}
             itemMonth={item.month}
@@ -57,6 +56,3 @@ const MonthList = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 `;
-// const Date = styled.div`
-//   color: white;
-// `;
