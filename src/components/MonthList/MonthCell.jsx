@@ -41,7 +41,6 @@ export const MonthCell = ({ month, list }) => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid gray;
   height: 200px;
 `;
 const MonthView = styled.div`
