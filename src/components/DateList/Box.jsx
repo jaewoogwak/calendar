@@ -13,10 +13,10 @@ const Box = ({
 }) => {
   const [isClicked, setIsClicked] = useState(false); // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
   const todos = useSelector((state) => state.reducers.todos.todos);
-  const { year, month, date } = useSelector(
+  const { year, month, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );
-  const today = `${year}${month}${date}`;
+  const today = `${year}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const Box = ({
       onClick={() => (isClicked === true ? setIsClicked(false) : null)}
     >
       <DateView
-        isThisitemMonth={month === itemMonth}
+        isCurrentMonth={month === itemMonth}
         isToday={today === clickedDate ? true : false}
       >
         {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
@@ -72,7 +72,7 @@ const DateView = styled.div`
   color: "white";
   height: 20px;
   background-color: ${(props) => (props.isToday ? "red" : "")};
-  opacity: ${(props) => (props.isThisitemMonth ? "1" : "0.2")};
+  opacity: ${(props) => (props.isCurrentMonth ? "1" : "0.2")};
 
   color: ${(props) => (props.isToday ? "white" : "white")};
 `;
