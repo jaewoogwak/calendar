@@ -2,32 +2,58 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { nextMonth, prevMonth, setBucket } from "../../features/date/dateSlice";
+import {
+  nextMonth,
+  nextYear,
+  prevMonth,
+  prevYear,
+  setBucket,
+} from "../../features/date/dateSlice";
 import { createNextPage, createPreviousPage } from "./useNavbar";
 
 const NavBar = ({ onClickTodayBtn }) => {
   //const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
-
+  const currentView = useSelector((state) => state.reducers.view.currentView);
+  console.log("currentView", currentView);
   const dispatch = useDispatch();
   const { year, month } = useSelector((state) => state.reducers.date.page);
 
   const prevPage = () => {
-    const arr = createPreviousPage(year, month);
-    console.log("arrrr", arr);
+    let arr = [];
+    if (currentView === "month") {
+      arr = createPreviousPage(year, month);
+      console.log("arrrr/Month", arr);
+      dispatch(prevMonth());
+    } else {
+      arr = createPreviousPage(year, month);
+      console.log("arrrr/Year", arr);
+      dispatch(prevYear());
+    }
     dispatch(setBucket({ bucket: arr }));
-    dispatch(prevMonth());
   };
   const nextPage = () => {
-    const arr = createNextPage(year, month);
-    console.log("arrrr", arr);
+    let arr = [];
+    if (currentView === "month") {
+      arr = createNextPage(year, month);
+      console.log("arrrr/Month", arr);
+      dispatch(nextMonth());
+    } else {
+      arr = createNextPage(year, month);
+      console.log("arrrr/Year", arr);
+      dispatch(nextYear());
+    }
     dispatch(setBucket({ bucket: arr }));
-    dispatch(nextMonth());
   };
+
   return (
     <NavBarWrapper>
-      <YearAndMonth>
-        {year}년 {month}월
-      </YearAndMonth>
+      {currentView === "month" ? (
+        <YearAndMonth>
+          {year}년 {month}월
+        </YearAndMonth>
+      ) : (
+        <YearAndMonth>{year}년</YearAndMonth>
+      )}
       <PageController>
         <PageSelector>
           <NavLink

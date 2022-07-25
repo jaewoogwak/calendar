@@ -5,6 +5,7 @@ import "./App.css";
 import { createView } from "./components/DateList/useDate";
 import Modal from "./components/Modal/Modal";
 import { setBucket, setNow } from "./features/date/dateSlice";
+import { setView } from "./features/view/viewSlice";
 import { Month } from "./pages/Month";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -14,7 +15,6 @@ function App() {
   const { year, month } = useSelector((state) => state.reducers.date.page);
   const count = useRef(0);
   const dispatch = useDispatch();
-
   const openModal = () => {
     setModalVisible(true);
   };
@@ -48,6 +48,8 @@ function App() {
   };
 
   useEffect(() => {
+    dispatch(setView({ currentView: "month" }));
+
     initView();
     setToday();
   }, [isClickTodayBtn]);
