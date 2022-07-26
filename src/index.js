@@ -5,10 +5,9 @@ import App from "./App";
 import { Provider } from "react-redux";
 import store from "./app/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Month } from "./pages/Month";
 import Year from "./pages/Year";
-import NavBar from "./components/NavBar/NavBar";
 import styled from "styled-components";
+import NavBar from "./components/NavBar/NavBar";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
