@@ -12,15 +12,12 @@ export const MonthCell = ({ month, list }) => {
   );
 
   const today = `${currentYear}${currentMonth}${date}`;
-  useEffect(() => {
-    dispatch(setBucket({ bucket: list }));
-  });
   return (
     <Wrapper>
       <MonthView>{month}월</MonthView>
       <Days size={"12px"} />
       <MonthList>
-        {list.map((item) => (
+        {list?.map((item) => (
           <Date
             key={`${item.year}${item.month}${item.date}${item.day}`}
             id={`${item.year}${item.month}${item.date}`}

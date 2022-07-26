@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createMonthList } from "../../components/DateList/useDate";
 
 const dateSlice = createSlice({
   name: "date",
@@ -12,6 +13,8 @@ const dateSlice = createSlice({
       date: new Date().getDate(),
     },
     bucket: [],
+    yearBucket: createMonthList(new Date().getFullYear()),
+    monthBucket: [],
   },
   reducers: {
     setDate: (state, action) => {
@@ -42,6 +45,9 @@ const dateSlice = createSlice({
     setBucket: (state, action) => {
       state.bucket = action.payload.bucket;
     },
+    setYearBucket: (state, action) => {
+      state.yearBucket = action.payload.yearBucket;
+    },
   },
 });
 
@@ -54,6 +60,7 @@ export const {
   prevYear,
   setNow,
   setBucket,
+  setYearBucket,
 } = dateSlice.actions;
 
 export default dateSlice.reducer;

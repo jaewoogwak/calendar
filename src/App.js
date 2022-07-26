@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import "./App.css";
-import { createView } from "./components/DateList/useDate";
+import { createMonthList, createView } from "./components/DateList/useDate";
 import Modal from "./components/Modal/Modal";
-import { setBucket, setNow } from "./features/date/dateSlice";
+import { setBucket, setNow, setYearBucket } from "./features/date/dateSlice";
 import { setIsClickedTodayBtn, setView } from "./features/view/viewSlice";
 import { Month } from "./pages/Month";
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -14,7 +14,9 @@ function App() {
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
-  const { year, month } = useSelector((state) => state.reducers.date.page);
+  const { year, month, currentYear, currentMonth } = useSelector(
+    (state) => state.reducers.date.page
+  );
   const count = useRef(0);
   const dispatch = useDispatch();
   const openModal = () => {
@@ -38,9 +40,11 @@ function App() {
 
   const initView = () => {
     console.log("initView");
-    const arr = createView(year, month);
+    const arr = createView(currentYear, currentMonth);
+
     dispatch(setBucket({ bucket: arr }));
-    dispatch(setIsClickedTodayBtn({ clicked: true }));
+
+    //dispatch(setIsClickedTodayBtn({ clicked: true }));
   };
 
   useEffect(() => {
