@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
-import Days from "../components/DayBar.js/Days";
+import Days from "../components/DayBar/Days";
 
 export function Month({ openModal, DAY }) {
   const [dateId, setDateId] = useState("");
