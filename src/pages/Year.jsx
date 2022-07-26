@@ -1,21 +1,34 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { createView } from "../components/DateList/useDate";
+import { createMonthList, createView } from "../components/DateList/useDate";
 import { MonthCell } from "../components/MonthList/MonthCell";
+import { setYearBucket } from "../features/date/dateSlice";
 import { setView } from "../features/view/viewSlice";
 export default function Year() {
-  const MONTH = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const { year } = useSelector((state) => state.reducers.date.page);
   const dispatch = useDispatch();
+
+  const MONTH = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const { year, currentYear, month, currentMonth } = useSelector(
+    (state) => state.reducers.date.page
+  );
+  //const { yearBucket } = useSelector((state) => state.reducers.date);
+  // const isClickedTodayBtn = useSelector(
+  //   (state) => state.reducers.view.isClickedTodayBtn
+  // );
+  // console.log("isClickedTodayBtn", isClickedTodayBtn);
+  console.log("current page year", year, month, currentYear, currentMonth);
+  const arr = createMonthList(year);
+  console.log("arr", arr);
   useEffect(() => {
     dispatch(setView({ currentView: "year" }));
   });
   return (
     <Wrapper>
-      {MONTH.map((month) => {
-        let arr = createView(year, month);
-        return <MonthCell key={month} month={month} list={arr}></MonthCell>;
+      {arr.map((month, idx) => {
+        return (
+          <MonthCell key={idx + 1} month={idx + 1} list={month}></MonthCell>
+        );
       })}
     </Wrapper>
   );

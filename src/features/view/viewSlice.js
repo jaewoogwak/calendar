@@ -11,7 +11,7 @@ const viewSlice = createSlice({
       state.currentView = action.payload.currentView;
     },
     setIsClickedTodayBtn: (state, action) => {
-      state.isClickedTodayBtn = action.payload.clicked;
+      state.isClickedTodayBtn = !state.isClickedTodayBtn;
     },
   },
 });

@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar/Days";
 
 export function Month({ openModal, DAY }) {
+  const { month } = useSelector((state) => state.reducers.date.page);
+  console.log("current page month", month);
   const [dateId, setDateId] = useState("");
   const onClickDateCell = (id) => {
     console.log("click", id);
