@@ -9,15 +9,20 @@ import {
   prevYear,
   setBucket,
 } from "../../features/date/dateSlice";
-import { createNextPage, createPreviousPage } from "./useNavbar";
+import { setIsClickedTodayBtn } from "../../features/view/viewSlice";
+import { createNextPage, createPreviousPage } from "./useNavBar";
 
-const NavBar = ({ onClickTodayBtn }) => {
-  //const [isClickTodayBtn, setIsClickTodayBtn] = useState(false);
-  const currentView = useSelector((state) => state.reducers.view.currentView);
-  console.log("currentView", currentView);
+const NavBar = () => {
   const dispatch = useDispatch();
+  const currentView = useSelector((state) => state.reducers.view.currentView);
   const { year, month } = useSelector((state) => state.reducers.date.page);
-
+  const isClickedTodayBtn = useSelector(
+    (state) => state.reducers.view.isClickedTodayBtn
+  );
+  const onClickTodayBtn = () => {
+    if (isClickedTodayBtn) dispatch(setIsClickedTodayBtn({ clicked: false }));
+    else dispatch(setIsClickedTodayBtn({ clicked: true }));
+  };
   const prevPage = () => {
     let arr = [];
     if (currentView === "month") {
