@@ -1,28 +1,28 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { createMonthList, createView } from "../components/DateList/useDate";
+import { createMonthList } from "../components/DateList/useDate";
+import { setView } from "../data/features/view/viewSlice";
 import { MonthCell } from "../components/MonthList/MonthCell";
-import { setYearBucket } from "../features/date/dateSlice";
-import { setView } from "../features/view/viewSlice";
+import { setDate2 } from "../data/features/date/dateSlice";
 export default function Year() {
   const dispatch = useDispatch();
+  const currentView = useSelector((state) => state.reducers.view.currentView);
+  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
+  const arr = createMonthList(yy, mm);
+  console.log("Year page", yy, mm, arr);
 
-  const MONTH = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const { year, currentYear, month, currentMonth } = useSelector(
-    (state) => state.reducers.date.page
-  );
-  //const { yearBucket } = useSelector((state) => state.reducers.date);
-  // const isClickedTodayBtn = useSelector(
-  //   (state) => state.reducers.view.isClickedTodayBtn
-  // );
-  // console.log("isClickedTodayBtn", isClickedTodayBtn);
-  console.log("current page year", year, month, currentYear, currentMonth);
-  const arr = createMonthList(year);
-  console.log("arr", arr);
   useEffect(() => {
     dispatch(setView({ currentView: "year" }));
-  });
+    dispatch(
+      setDate2({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+      })
+    );
+    console.log("useEffect in Year");
+  }, [currentView, dispatch]);
+
   return (
     <Wrapper>
       {arr.map((month, idx) => {

@@ -25,7 +25,7 @@ export const createView = (year, month) => {
   return arr;
 };
 
-export const createMonthList = (year) => {
+export const createMonthList = (year, mm) => {
   console.log("initView");
   let monthList = [];
   for (let month = 1; month <= 12; month++) {

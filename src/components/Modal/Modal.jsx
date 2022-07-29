@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../../features/todo/todoSlice";
+import { addTodo } from "../../data/features/todo/todoSlice";
 
 const Modal = ({
   className,

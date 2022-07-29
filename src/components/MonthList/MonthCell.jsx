@@ -1,12 +1,9 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { setBucket } from "../../features/date/dateSlice";
 import Days from "../DayBar/Days";
 import { Date } from "./Date";
 
 export const MonthCell = ({ month, list }) => {
-  const dispatch = useDispatch();
   const { currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );

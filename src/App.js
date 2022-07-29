@@ -1,20 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import "./App.css";
-import { createMonthList, createView } from "./components/DateList/useDate";
+import { createView } from "./components/DateList/useDate";
 import Modal from "./components/Modal/Modal";
-import { setBucket, setNow, setYearBucket } from "./features/date/dateSlice";
-import { setIsClickedTodayBtn, setView } from "./features/view/viewSlice";
+import NavBar from "./components/NavBar/NavBar";
+import { setBucket, setNow } from "./data/features/date/dateSlice";
 import { Month } from "./pages/Month";
-const DAY = ["일", "월", "화", "수", "목", "금", "토"];
+import Year from "./pages/Year";
 
 function App() {
   const [modalVisible, setModalVisible] = useState(false);
+  const currentView = useSelector((state) => state.reducers.view.currentView);
+  console.log("currentView", currentView);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
-  const { year, month, currentYear, currentMonth } = useSelector(
+  const { currentYear, currentMonth } = useSelector(
     (state) => state.reducers.date.page
   );
   const count = useRef(0);
@@ -29,31 +31,28 @@ function App() {
     setModalVisible(state);
   };
 
-  const setToday = () => {
+  const setToday = useCallback(() => {
     const time = new Date();
     dispatch(
       setNow({
         today: { year: time.getFullYear(), month: time.getMonth() + 1 },
       })
     );
-  };
+  }, [dispatch]);
 
-  const initView = () => {
+  const initView = useCallback(() => {
     console.log("initView");
     const arr = createView(currentYear, currentMonth);
-
     dispatch(setBucket({ bucket: arr }));
-
-    //dispatch(setIsClickedTodayBtn({ clicked: true }));
-  };
+  }, [currentYear, currentMonth, dispatch]);
 
   useEffect(() => {
-    dispatch(setView({ currentView: "month" }));
     initView();
     setToday();
-  }, [isClickedTodayBtn]);
+  }, [isClickedTodayBtn, setToday, initView, dispatch]);
   return (
-    <Wrapper>
+    <BrowserRouter>
+      <NavBar />
       {modalVisible && (
         <Modal
           openModal={openModal}
@@ -65,8 +64,11 @@ function App() {
           count={count}
         ></Modal>
       )}
-      <Month openModal={openModal} DAY={DAY} />
-    </Wrapper>
+      <Routes>
+        <Route path="/" element={<Month openModal={openModal} />} />
+        <Route path="/year" element={<Year />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 const Wrapper = styled.div`
