@@ -4,11 +4,15 @@ import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar/Days";
 import { setDate2 } from "../data/slices/dateSlice";
+import { setModalVisible } from "../data/slices/modalSlice";
 import { setView } from "../data/slices/viewSlice";
 
-export function Month({ openModal }) {
+export function Month() {
   const { mm } = useSelector((state) => state.reducers.date.newBucket);
   const currentView = useSelector((state) => state.reducers.view.currentView);
+  const openModal = () => {
+    dispatch(setModalVisible(true));
+  };
 
   const dispatch = useDispatch();
   console.log("current page month", mm);

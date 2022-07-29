@@ -3,23 +3,16 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../../data/slices/todoSlice";
+import { setModalVisible } from "../../data/slices/modalSlice";
 
-const Modal = ({
-  className,
-  onClose,
-  maskClosable,
-  closable,
-  visible,
-  setModalVisible,
-  children,
-  count,
-}) => {
+const Modal = ({ className, maskClosable, closable, children, count }) => {
   const [event, setEvent] = useState("");
   const [place, setPlace] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState();
   const dispatch = useDispatch();
   const dateId = useSelector((state) => state.reducers.date.date);
+  const visible = useSelector((state) => state.reducers.modal.modalVisible);
   console.log("dateIDDDDD", dateId);
 
   const onChange = (e) => {
@@ -43,26 +36,35 @@ const Modal = ({
     if (name === "addEvent") {
       console.log(event, place, date, time);
       handleAddTodo();
-      setModalVisible((prev) => !prev);
+      if (visible) dispatch(setModalVisible(false));
+      else dispatch(setModalVisible(true));
     } else {
-      setModalVisible((prev) => !prev);
+      if (visible) dispatch(setModalVisible(false));
+      else dispatch(setModalVisible(true));
     }
     setEvent("");
     setPlace("");
     setDate("");
     setTime("");
   };
+  const openModal = () => {
+    dispatch(setModalVisible(true));
+  };
+  const closeModal = () => {
+    dispatch(setModalVisible(false));
+  };
+
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
-      onClose(e);
+      closeModal(e);
     }
   };
 
-  const close = (e) => {
-    if (onClose) {
-      onClose(e);
-    }
-  };
+  // const close = (e) => {
+  //   if (onClose) {
+  //     onClose(e);
+  //   }
+  // };
   const handleAddTodo = () => {
     console.log("handleAddTodo", dateId);
     dispatch(
