@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import dateReducer from "./features/date/dateSlice";
-import todoReducer from "./features/todo/todoSlice";
-import viewReducer from "./features/view/viewSlice";
+import dateReducer from "./slices/dateSlice";
+import todoReducer from "./slices/todoSlice";
+import viewReducer from "./slices/viewSlice";
 
 const reducers = combineReducers({
   todos: todoReducer,

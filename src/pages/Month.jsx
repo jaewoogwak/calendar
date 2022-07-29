@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar/Days";
-import { setDate2 } from "../data/features/date/dateSlice";
-import { setView } from "../data/features/view/viewSlice";
+import { setDate2 } from "../data/slices/dateSlice";
+import { setView } from "../data/slices/viewSlice";
 
 export function Month({ openModal }) {
   const { mm } = useSelector((state) => state.reducers.date.newBucket);

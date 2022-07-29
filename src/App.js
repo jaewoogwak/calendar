@@ -2,13 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import { createView } from "./components/DateList/useDate";
+import { createView } from "./components/DateList/modules/dateArray";
 import Modal from "./components/Modal/Modal";
 import NavBar from "./components/NavBar/NavBar";
-import { setBucket, setNow } from "./data/features/date/dateSlice";
+import { setBucket, setNow } from "./data/slices/dateSlice";
 import { Month } from "./pages/Month";
 import Year from "./pages/Year";
-
+import "./assets/index.css";
 function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const currentView = useSelector((state) => state.reducers.view.currentView);

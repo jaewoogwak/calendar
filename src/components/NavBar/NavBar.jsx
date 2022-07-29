@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { setDate2, setNow } from "../../data/features/date/dateSlice";
-import { setIsClickedTodayBtn } from "../../data/features/view/viewSlice";
+import { setDate2, setNow } from "../../data/slices/dateSlice";
+import { setIsClickedTodayBtn } from "../../data/slices/viewSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
