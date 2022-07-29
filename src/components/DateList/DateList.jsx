@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Box from "./Box";
-import { createView } from "./useDate";
+import { createView } from "./modules/dateArray";
 
 export const DateList = ({ onClickDateCell }) => {
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { createMonthList } from "../components/DateList/useDate";
-import { setView } from "../data/features/view/viewSlice";
+import { setView } from "../data/slices/viewSlice";
 import { MonthCell } from "../components/MonthList/MonthCell";
-import { setDate2 } from "../data/features/date/dateSlice";
+import { createMonthList } from "../components/DateList/modules/dateArray";
+import { setDate2 } from "../data/slices/dateSlice";
 export default function Year() {
   const dispatch = useDispatch();
   const currentView = useSelector((state) => state.reducers.view.currentView);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setDate } from "../../data/features/date/dateSlice";
+import { setDate } from "../../data/slices/dateSlice";
 //ㅇㄴㅁㄹ
 const Box = ({
   id,

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createMonthList } from "../../../components/DateList/useDate";
+import { createMonthList } from "../../components/DateList/modules/dateArray";
 
 const dateSlice = createSlice({
   name: "date",
