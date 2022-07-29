@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setDate } from "../../data/slices/dateSlice";
-//ㅇㄴㅁㄹ
+import { setModalVisible } from "../../data/slices/modalSlice";
+import Modal from "../Modal/Modal";
 const Box = ({
   id,
   itemYear,
@@ -17,7 +18,9 @@ const Box = ({
     (state) => state.reducers.date.page
   );
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-
+  const modalVisible = useSelector(
+    (state) => state.reducers.modal.modalVisible
+  );
   const today = `${currentYear}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   // console.log(today === clickedDate, today, clickedDate);
@@ -29,34 +32,37 @@ const Box = ({
   };
 
   return (
-    <Wrapper
-      isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
-      onDoubleClick={onHandleClickDateCell}
-      onClick={() => (isClicked === true ? setIsClicked(false) : null)}
-    >
-      <DateView
-        isCurrentMonth={mm === itemMonth}
-        isToday={today === clickedDate ? true : false}
+    <>
+      <Wrapper
+        isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
+        onDoubleClick={onHandleClickDateCell}
+        onClick={() => (isClicked === true ? setIsClicked(false) : null)}
       >
-        {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
-      </DateView>
-      <Todos>
-        {todos
-          .filter((todo) => {
-            return todo.id?.split("-")[0] === id;
-          })
-          .map((item) => (
-            <Todo
-              key={item.id}
-              isClicked={isClicked}
-              onClick={() => setIsClicked(true)}
-            >
-              <Text>{item.eventName}</Text>
-              <Time>{item.time}</Time>
-            </Todo>
-          ))}
-      </Todos>
-    </Wrapper>
+        <DateView
+          isCurrentMonth={mm === itemMonth}
+          isToday={today === clickedDate ? true : false}
+        >
+          {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
+        </DateView>
+        <Todos>
+          {todos
+            .filter((todo) => {
+              return todo.id?.split("-")[0] === id;
+            })
+            .map((item) => (
+              <Todo
+                key={item.id}
+                isClicked={isClicked}
+                onClick={() => setIsClicked(true)}
+                onDoubleClick={onHandleClickDateCell}
+              >
+                <Text>{item.eventName}</Text>
+                <Time>{item.time}</Time>
+              </Todo>
+            ))}
+        </Todos>
+      </Wrapper>
+    </>
   );
 };
 

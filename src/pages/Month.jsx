@@ -25,12 +25,12 @@ export function Month() {
 
   useEffect(() => {
     dispatch(setView({ currentView: "month" }));
-    dispatch(
-      setDate2({
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-      })
-    );
+    // dispatch(
+    //   setDate2({
+    //     year: new Date().getFullYear(),
+    //     month: new Date().getMonth() + 1,
+    //   })
+    // );
     console.log("useEffect in Month");
   }, [currentView, dispatch]);
   return (

@@ -10,6 +10,7 @@ import { Month } from "./pages/Month";
 import Year from "./pages/Year";
 import "./assets/index.css";
 import { setModalVisible } from "./data/slices/modalSlice";
+
 function App() {
   const modalVisible = useSelector(
     (state) => state.reducers.modal.modalVisible
@@ -22,6 +23,7 @@ function App() {
   const { currentYear, currentMonth } = useSelector(
     (state) => state.reducers.date.page
   );
+  const todos = useSelector((state) => state.reducers.todos);
   const count = useRef(0);
   const dispatch = useDispatch();
 
@@ -39,7 +41,7 @@ function App() {
     const arr = createView(currentYear, currentMonth);
     dispatch(setBucket({ bucket: arr }));
   }, [currentYear, currentMonth, dispatch]);
-
+  console.log("todos", todos);
   useEffect(() => {
     initView();
     setToday();
