@@ -1,27 +1,37 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar/Days";
+import { setDate2 } from "../data/features/date/dateSlice";
+import { setView } from "../data/features/view/viewSlice";
 
-export function Month({ openModal, DAY }) {
-  const { month } = useSelector((state) => state.reducers.date.page);
-  console.log("current page month", month);
+export function Month({ openModal }) {
+  const { mm } = useSelector((state) => state.reducers.date.newBucket);
+  const currentView = useSelector((state) => state.reducers.view.currentView);
+
+  const dispatch = useDispatch();
+  console.log("current page month", mm);
   const [dateId, setDateId] = useState("");
   const onClickDateCell = (id) => {
     console.log("click", id);
-    paintAddedTodo(id);
     setDateId(id);
     openModal(id);
   };
 
-  const paintAddedTodo = () => {
-    console.log("paintAddedTodo");
-  };
-
+  useEffect(() => {
+    dispatch(setView({ currentView: "month" }));
+    dispatch(
+      setDate2({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+      })
+    );
+    console.log("useEffect in Month");
+  }, [currentView, dispatch]);
   return (
     <Wrapper>
-      <Days dayList={DAY}></Days>
+      <Days />
       <DateList onClickDateCell={onClickDateCell}></DateList>
     </Wrapper>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setDate } from "../../features/date/dateSlice";
+import { setDate } from "../../data/features/date/dateSlice";
 //ㅇㄴㅁㄹ
 const Box = ({
   id,
@@ -16,9 +16,11 @@ const Box = ({
   const { year, month, currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );
+  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
+
   const today = `${currentYear}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
-  console.log(today === clickedDate, today, clickedDate);
+  // console.log(today === clickedDate, today, clickedDate);
   const dispatch = useDispatch();
 
   const onHandleClickDateCell = () => {
@@ -33,7 +35,7 @@ const Box = ({
       onClick={() => (isClicked === true ? setIsClicked(false) : null)}
     >
       <DateView
-        isCurrentMonth={month === itemMonth}
+        isCurrentMonth={mm === itemMonth}
         isToday={today === clickedDate ? true : false}
       >
         {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}

@@ -3,68 +3,61 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import {
-  nextMonth,
-  nextYear,
-  prevMonth,
-  prevYear,
-  setBucket,
-  setNow,
-  setYearBucket,
-} from "../../features/date/dateSlice";
-import { setIsClickedTodayBtn } from "../../features/view/viewSlice";
-import { createMonthList } from "../DateList/useDate";
-import { createNextPage, createPreviousPage } from "./useNavBar";
+import { setDate2, setNow } from "../../data/features/date/dateSlice";
+import { setIsClickedTodayBtn } from "../../data/features/view/viewSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const currentView = useSelector((state) => state.reducers.view.currentView);
-  const { year, month, currentYear, currentMonth } = useSelector(
+  const { currentYear, currentMonth } = useSelector(
     (state) => state.reducers.date.page
   );
+  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
+  console.log("newBucket", yy, mm);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
   const onClickTodayBtn = () => {
     console.log("clicked today btn", currentYear, currentMonth);
     dispatch(setIsClickedTodayBtn({ clicked: !isClickedTodayBtn }));
-    dispatch(setNow({ today: { year: currentYear, month: currentMonth } }));
-  };
-  const prevPage = () => {
-    let arr = [];
-    if (currentView === "month") {
-      arr = createPreviousPage(year, month);
-      dispatch(prevMonth());
-      dispatch(setBucket({ bucket: arr }));
-    } else {
-      arr = createMonthList(year);
-      dispatch(prevYear());
-      dispatch(setYearBucket({ yearBucket: arr }));
-    }
-  };
-  const nextPage = () => {
-    let arr = [];
-    if (currentView === "month") {
-      arr = createNextPage(year, month);
-      dispatch(nextMonth());
-
-      dispatch(setBucket({ bucket: arr }));
-    } else {
-      arr = createMonthList(year);
-      dispatch(nextYear());
-      dispatch(setYearBucket({ yearBucket: arr }));
-    }
+    dispatch(setNow());
   };
 
-  // useEffect(() => {}, [month]);
+  const prevPage2 = () => {
+    if (currentView === "month") {
+      let year = yy;
+      let month = mm;
+      if (mm - 1 < 1) {
+        year = yy - 1;
+        month = 12;
+      } else month = mm - 1;
+      dispatch(setDate2({ year: year, month: month }));
+    } else {
+      dispatch(setDate2({ year: yy - 1, month: mm }));
+    }
+  };
+  const nextPage2 = () => {
+    if (currentView === "month") {
+      let year = yy;
+      let month = mm;
+      if (mm + 1 > 12) {
+        year = yy + 1;
+        month = 1;
+      } else month = mm + 1;
+      dispatch(setDate2({ year: year, month: month }));
+    } else {
+      dispatch(setDate2({ year: yy + 1, month: mm }));
+    }
+  };
+
   return (
     <NavBarWrapper>
       {currentView === "month" ? (
         <YearAndMonth>
-          {year}년 {month}월
+          {yy}년 {mm}월
         </YearAndMonth>
       ) : (
-        <YearAndMonth>{year}년</YearAndMonth>
+        <YearAndMonth>{yy}년</YearAndMonth>
       )}
       <PageController>
         <PageSelector>
@@ -82,9 +75,9 @@ const NavBar = () => {
         </PageSelector>
       </PageController>
       <ButtonsWrapper>
-        <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
+        <PrevBtn onClick={prevPage2}>{"<"}</PrevBtn>
         <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
-        <NextBtn onClick={nextPage}>{">"}</NextBtn>
+        <NextBtn onClick={nextPage2}>{">"}</NextBtn>
       </ButtonsWrapper>
     </NavBarWrapper>
   );
