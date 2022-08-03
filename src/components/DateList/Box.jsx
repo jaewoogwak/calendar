@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { setDate } from "../../data/slices/dateSlice";
 import { setModalVisible } from "../../data/slices/modalSlice";
 import Modal from "../Modal/Modal";
+import Todo from "./Todo";
 const Box = ({
   id,
   itemYear,
@@ -12,7 +13,7 @@ const Box = ({
   itemDay,
   onClickDateCell,
 }) => {
-  const [isClicked, setIsClicked] = useState(false); // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
+  const [isClicked, setIsClicked] = useState(false);
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { year, month, currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
@@ -52,13 +53,9 @@ const Box = ({
             .map((item) => (
               <Todo
                 key={item.id}
-                isClicked={isClicked}
-                onClick={() => setIsClicked(true)}
+                item={item}
                 onDoubleClick={onHandleClickDateCell}
-              >
-                <Text>{item.eventName}</Text>
-                <Time>{item.time}</Time>
-              </Todo>
+              ></Todo>
             ))}
         </Todos>
       </Wrapper>
@@ -91,20 +88,4 @@ const Todos = styled.div`
   flex-direction: column;
   height: 75px;
   padding-top: 5px;
-`;
-const Todo = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-left: 7px;
-
-  background-color: ${(props) => (props.isClicked ? "skyblue" : "")};
-`;
-const Text = styled.div`
-  font-weight: 600;
-  color: white;
-`;
-const Time = styled.div`
-  font-size: 10px;
-  color: white;
 `;

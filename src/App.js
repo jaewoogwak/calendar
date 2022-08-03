@@ -10,6 +10,7 @@ import { Month } from "./pages/Month";
 import Year from "./pages/Year";
 import "./assets/index.css";
 import { setModalVisible } from "./data/slices/modalSlice";
+import { onClickEmptySpace } from "./data/slices/todoSlice";
 
 function App() {
   const modalVisible = useSelector(
@@ -42,6 +43,7 @@ function App() {
     dispatch(setBucket({ bucket: arr }));
   }, [currentYear, currentMonth, dispatch]);
   console.log("todos", todos);
+
   useEffect(() => {
     initView();
     setToday();

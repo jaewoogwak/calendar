@@ -5,6 +5,7 @@ import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar/Days";
 import { setDate2 } from "../data/slices/dateSlice";
 import { setModalVisible } from "../data/slices/modalSlice";
+import { onClickEmptySpace } from "../data/slices/todoSlice";
 import { setView } from "../data/slices/viewSlice";
 
 export function Month() {
@@ -34,7 +35,7 @@ export function Month() {
     console.log("useEffect in Month");
   }, [currentView, dispatch]);
   return (
-    <Wrapper>
+    <Wrapper onClick={() => dispatch(onClickEmptySpace())}>
       <Days />
       <DateList onClickDateCell={onClickDateCell}></DateList>
     </Wrapper>
