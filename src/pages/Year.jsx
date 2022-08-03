@@ -14,12 +14,12 @@ export default function Year() {
 
   useEffect(() => {
     dispatch(setView({ currentView: "year" }));
-    dispatch(
-      setDate2({
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-      })
-    );
+    // dispatch(
+    //   setDate2({
+    //     year: new Date().getFullYear(),
+    //     month: new Date().getMonth() + 1,
+    //   })
+    // );
     console.log("useEffect in Year");
   }, [currentView, dispatch]);
 

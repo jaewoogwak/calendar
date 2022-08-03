@@ -9,8 +9,13 @@ import { setBucket, setNow } from "./data/slices/dateSlice";
 import { Month } from "./pages/Month";
 import Year from "./pages/Year";
 import "./assets/index.css";
+import { setModalVisible } from "./data/slices/modalSlice";
+import { onClickEmptySpace } from "./data/slices/todoSlice";
+
 function App() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const modalVisible = useSelector(
+    (state) => state.reducers.modal.modalVisible
+  );
   const currentView = useSelector((state) => state.reducers.view.currentView);
   console.log("currentView", currentView);
   const isClickedTodayBtn = useSelector(
@@ -19,17 +24,9 @@ function App() {
   const { currentYear, currentMonth } = useSelector(
     (state) => state.reducers.date.page
   );
+  const todos = useSelector((state) => state.reducers.todos);
   const count = useRef(0);
   const dispatch = useDispatch();
-  const openModal = () => {
-    setModalVisible(true);
-  };
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-  const handleModal = (state) => {
-    setModalVisible(state);
-  };
 
   const setToday = useCallback(() => {
     const time = new Date();
@@ -45,6 +42,7 @@ function App() {
     const arr = createView(currentYear, currentMonth);
     dispatch(setBucket({ bucket: arr }));
   }, [currentYear, currentMonth, dispatch]);
+  console.log("todos", todos);
 
   useEffect(() => {
     initView();
@@ -55,17 +53,14 @@ function App() {
       <NavBar />
       {modalVisible && (
         <Modal
-          openModal={openModal}
-          visible={modalVisible}
           closable={true}
           maskClosable={true}
-          onClose={closeModal}
           setModalVisible={setModalVisible}
           count={count}
         ></Modal>
       )}
       <Routes>
-        <Route path="/" element={<Month openModal={openModal} />} />
+        <Route path="/" element={<Month />} />
         <Route path="/year" element={<Year />} />
       </Routes>
     </BrowserRouter>

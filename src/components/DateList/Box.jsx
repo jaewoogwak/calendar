@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setDate } from "../../data/slices/dateSlice";
-//ㅇㄴㅁㄹ
+import { setModalVisible } from "../../data/slices/modalSlice";
+import Modal from "../Modal/Modal";
+import Todo from "./Todo";
 const Box = ({
   id,
   itemYear,
@@ -11,13 +13,15 @@ const Box = ({
   itemDay,
   onClickDateCell,
 }) => {
-  const [isClicked, setIsClicked] = useState(false); // 클릭한 셀의 아이디를 부모 컴포넌트로 전송(app.js)
+  const [isClicked, setIsClicked] = useState(false);
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { year, month, currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-
+  const modalVisible = useSelector(
+    (state) => state.reducers.modal.modalVisible
+  );
   const today = `${currentYear}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   // console.log(today === clickedDate, today, clickedDate);
@@ -29,34 +33,33 @@ const Box = ({
   };
 
   return (
-    <Wrapper
-      isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
-      onDoubleClick={onHandleClickDateCell}
-      onClick={() => (isClicked === true ? setIsClicked(false) : null)}
-    >
-      <DateView
-        isCurrentMonth={mm === itemMonth}
-        isToday={today === clickedDate ? true : false}
+    <>
+      <Wrapper
+        isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
+        onDoubleClick={onHandleClickDateCell}
+        onClick={() => (isClicked === true ? setIsClicked(false) : null)}
       >
-        {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
-      </DateView>
-      <Todos>
-        {todos
-          .filter((todo) => {
-            return todo.id?.split("-")[0] === id;
-          })
-          .map((item) => (
-            <Todo
-              key={item.id}
-              isClicked={isClicked}
-              onClick={() => setIsClicked(true)}
-            >
-              <Text>{item.eventName}</Text>
-              <Time>{item.time}</Time>
-            </Todo>
-          ))}
-      </Todos>
-    </Wrapper>
+        <DateView
+          isCurrentMonth={mm === itemMonth}
+          isToday={today === clickedDate ? true : false}
+        >
+          {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
+        </DateView>
+        <Todos>
+          {todos
+            .filter((todo) => {
+              return todo.id?.split("-")[0] === id;
+            })
+            .map((item) => (
+              <Todo
+                key={item.id}
+                item={item}
+                onDoubleClick={onHandleClickDateCell}
+              ></Todo>
+            ))}
+        </Todos>
+      </Wrapper>
+    </>
   );
 };
 
@@ -85,20 +88,4 @@ const Todos = styled.div`
   flex-direction: column;
   height: 75px;
   padding-top: 5px;
-`;
-const Todo = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-left: 7px;
-
-  background-color: ${(props) => (props.isClicked ? "skyblue" : "")};
-`;
-const Text = styled.div`
-  font-weight: 600;
-  color: white;
-`;
-const Time = styled.div`
-  font-size: 10px;
-  color: white;
 `;
