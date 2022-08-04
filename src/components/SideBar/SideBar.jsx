@@ -27,17 +27,21 @@ const SideBar = () => {
         {todos.filter((todo) => todo.id.split("-")[0] === `${yy}${mm}${dd}`)
           .length === 0 ? (
           <EmptyPage>
-            할 일이 텅! 비었어요. <br />할 일을 추가해보세요.
-            <AddTodo onClick={addTodo}>+</AddTodo>
+            <Text>
+              할 일이 텅! 비었어요. <br />할 일을 추가해보세요.
+            </Text>
+            <AddTodo onClick={addTodo}>할 일 추가하기</AddTodo>
           </EmptyPage>
         ) : (
-          <>
+          <ItemList>
             {todos
               .filter((todo) => todo.id.split("-")[0] === `${yy}${mm}${dd}`)
               .map((item) => (
-                <Todo key={item.id} item={item}></Todo>
+                <Item key={item.id}>
+                  <Todo key={item.id} item={item}></Todo>
+                </Item>
               ))}
-          </>
+          </ItemList>
         )}
       </TodoList>
     </Wrapper>
@@ -51,11 +55,24 @@ const Date = styled.h1`
   color: white;
   padding-left: 20px;
 `;
-const EmptyPage = styled.p`
-  color: white;
-  padding-left: 20px;
+const EmptyPage = styled.div`
+  text-align: center;
 `;
-const AddTodo = styled.button``;
+const Text = styled.p`
+  padding-top: 120px;
+  color: white;
+`;
+const AddTodo = styled.button`
+  width: 100px;
+`;
 const TodoList = styled.div``;
+
+const ItemList = styled.ul`
+  background-color: ${(props) => (props.isClicked ? "skyblue" : "")};
+`;
+
+const Item = styled.li`
+  color: white;
+`;
 
 export default SideBar;
