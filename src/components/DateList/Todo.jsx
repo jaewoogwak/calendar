@@ -30,7 +30,9 @@ const Wrapper = styled.div`
 
   background-color: ${(props) => (props.isClicked ? "skyblue" : "")};
 `;
-
+const Content = styled.li`
+  color: white;
+`;
 const Text = styled.div`
   font-weight: 600;
   color: white;
