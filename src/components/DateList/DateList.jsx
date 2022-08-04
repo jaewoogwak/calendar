@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Box from "./Box";
 import { createView } from "./modules/dateArray";
 
-export const DateList = ({ onClickDateCell }) => {
+export const DateList = () => {
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
   const arr = createView(yy, mm);
   console.log("DateList", yy, mm, arr);
@@ -14,7 +14,6 @@ export const DateList = ({ onClickDateCell }) => {
         <Box
           key={`${item.year}${item.month}${item.date}${item.day}`}
           id={`${item.year}${item.month}${item.date}`}
-          onClickDateCell={onClickDateCell}
           itemYear={item.year}
           itemMonth={item.month}
           itemDate={item.date}

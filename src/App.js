@@ -50,7 +50,6 @@ function App() {
   }, [isClickedTodayBtn, setToday, initView, dispatch]);
   return (
     <BrowserRouter>
-      <NavBar />
       {modalVisible && (
         <Modal
           closable={true}
@@ -66,11 +65,5 @@ function App() {
     </BrowserRouter>
   );
 }
-const Wrapper = styled.div`
-  background-color: #211d27;
-  width: 885px;
-  height: 100%;
-  margin: 0 auto;
-`;
 
 export default App;

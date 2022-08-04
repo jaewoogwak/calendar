@@ -12,10 +12,15 @@ const dateSlice = createSlice({
     },
     bucket: [],
     yearBucket: createMonthList(new Date().getFullYear()),
-    monthBucket: [],
     newBucket: {
       yy: new Date().getFullYear(),
       mm: new Date().getMonth() + 1,
+      dd: new Date().getDate(),
+    },
+    sideBar: {
+      yy: new Date().getFullYear(),
+      mm: new Date().getMonth() + 1,
+      dd: new Date().getDate(),
     },
   },
   reducers: {
@@ -36,11 +41,23 @@ const dateSlice = createSlice({
     setYearBucket: (state, action) => {
       state.yearBucket = action.payload.yearBucket;
     },
+    onSelectDateBox: (state, action) => {
+      console.log("onSelectDateBox");
+      state.sideBar.yy = action.payload.year;
+      state.sideBar.mm = action.payload.month;
+      state.sideBar.dd = action.payload.date;
+    },
   },
 });
 
 // Action creator
-export const { setDate2, setDate, setNow, setBucket, setYearBucket } =
-  dateSlice.actions;
+export const {
+  setDate2,
+  setDate,
+  setNow,
+  setBucket,
+  setYearBucket,
+  onSelectDateBox,
+} = dateSlice.actions;
 
 export default dateSlice.reducer;

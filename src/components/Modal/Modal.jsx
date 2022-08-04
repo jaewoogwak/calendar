@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,35 +6,19 @@ import { addTodo } from "../../data/slices/todoSlice";
 import { setModalVisible } from "../../data/slices/modalSlice";
 
 const Modal = ({ className, maskClosable, closable, children, count }) => {
-  const [event, setEvent] = useState("");
-  const [place, setPlace] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState();
   const dispatch = useDispatch();
   const dateId = useSelector((state) => state.reducers.date.date);
   const visible = useSelector((state) => state.reducers.modal.modalVisible);
   console.log("dateIDDDDD", dateId);
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "event") {
-      setEvent(value);
-      console.log(name, value);
-    } else if (name === "place") {
-      setPlace(value);
-      console.log(name, value);
-    } else if (name === "date") {
-      console.log(name, value);
-      setDate(value);
-    } else {
-      console.log(name, value);
-      setTime(value);
-    }
-  };
+  const eventRef = useRef();
+  const placeRef = useRef();
+  const dateRef = useRef();
+  const timeRef = useRef();
+
   const onClickModalBtn = (e) => {
     const { name } = e.target;
     if (name === "addEvent") {
-      console.log(event, place, date, time);
       handleAddTodo();
       if (visible) dispatch(setModalVisible(false));
       else dispatch(setModalVisible(true));
@@ -42,14 +26,8 @@ const Modal = ({ className, maskClosable, closable, children, count }) => {
       if (visible) dispatch(setModalVisible(false));
       else dispatch(setModalVisible(true));
     }
-    setEvent("");
-    setPlace("");
-    setDate("");
-    setTime("");
   };
-  const openModal = () => {
-    dispatch(setModalVisible(true));
-  };
+
   const closeModal = () => {
     dispatch(setModalVisible(false));
   };
@@ -71,10 +49,10 @@ const Modal = ({ className, maskClosable, closable, children, count }) => {
       addTodo({
         todo: {
           id: `${dateId}-${count.current++}`,
-          eventName: event,
-          place: place,
-          date: date,
-          time: time,
+          eventName: eventRef.current.value,
+          place: placeRef.current.value,
+          date: dateRef.current.value,
+          time: timeRef.current.value,
         },
         type: "addTodo",
       })
@@ -93,19 +71,17 @@ const Modal = ({ className, maskClosable, closable, children, count }) => {
           <EventInput
             type="text"
             name="event"
-            onChange={onChange}
             placeholder="새로운 이벤트"
-            value={event}
+            ref={eventRef}
           />
           <EventPlaceInput
             type="text"
             name="place"
-            onChange={onChange}
             placeholder="위치 추가"
-            value={place}
+            ref={placeRef}
           />
-          <DateInput type="date" name="date" onChange={onChange} value={date} />
-          <TimeInput type="time" name="time" onChange={onChange} value={time} />
+          <DateInput type="date" name="date" ref={dateRef} />
+          <TimeInput type="time" name="time" ref={timeRef} />
           <EventBtnWrapper>
             <EventBtn name="addEvent" onClick={onClickModalBtn}>
               등록

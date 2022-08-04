@@ -5,6 +5,7 @@ import { setView } from "../data/slices/viewSlice";
 import { MonthCell } from "../components/MonthList/MonthCell";
 import { createMonthList } from "../components/DateList/modules/dateArray";
 import { setDate2 } from "../data/slices/dateSlice";
+import Layout from "../components/Layout";
 export default function Year() {
   const dispatch = useDispatch();
   const currentView = useSelector((state) => state.reducers.view.currentView);
@@ -24,13 +25,15 @@ export default function Year() {
   }, [currentView, dispatch]);
 
   return (
-    <Wrapper>
-      {arr.map((month, idx) => {
-        return (
-          <MonthCell key={idx + 1} month={idx + 1} list={month}></MonthCell>
-        );
-      })}
-    </Wrapper>
+    <Layout>
+      <Wrapper>
+        {arr.map((month, idx) => {
+          return (
+            <MonthCell key={idx + 1} month={idx + 1} list={month}></MonthCell>
+          );
+        })}
+      </Wrapper>
+    </Layout>
   );
 }
 const Wrapper = styled.div`
