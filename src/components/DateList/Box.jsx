@@ -3,33 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSelectDateBox, setDate } from "../../data/slices/dateSlice";
 import { setModalVisible } from "../../data/slices/modalSlice";
-import Modal from "../Modal/Modal";
 import Todo from "./Todo";
-const Box = ({
-  id,
-  itemYear,
-  itemMonth,
-  itemDate,
-  itemDay,
-  onClickDateCell,
-}) => {
+const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
   const [isClicked, setIsClicked] = useState(false);
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { year, month, currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-  const modalVisible = useSelector(
-    (state) => state.reducers.modal.modalVisible
-  );
+
   const today = `${currentYear}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   // console.log(today === clickedDate, today, clickedDate);
   const dispatch = useDispatch();
-
+  const openModal = () => {
+    dispatch(setModalVisible(true));
+  };
   const onHandleClickDateCell = () => {
     dispatch(setDate({ date: clickedDate }));
-    onClickDateCell(clickedDate);
+    openModal();
   };
 
   return (

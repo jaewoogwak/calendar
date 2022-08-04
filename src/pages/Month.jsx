@@ -18,11 +18,10 @@ export function Month() {
 
   const dispatch = useDispatch();
   console.log("current page month", mm);
-  const [dateId, setDateId] = useState("");
   const onClickDateCell = (id) => {
     console.log("click", id);
-    setDateId(id);
-    openModal(id);
+    //setDateId(id);
+    openModal();
   };
 
   useEffect(() => {
@@ -39,7 +38,7 @@ export function Month() {
     <Layout>
       <Wrapper onClick={() => dispatch(onClickEmptySpace())}>
         <Days />
-        <DateList onClickDateCell={onClickDateCell}></DateList>
+        <DateList></DateList>
       </Wrapper>
     </Layout>
   );
