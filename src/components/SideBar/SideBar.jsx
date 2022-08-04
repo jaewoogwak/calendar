@@ -1,14 +1,23 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setDate } from "../../data/slices/dateSlice";
+import { setModalVisible } from "../../data/slices/modalSlice";
 import Todo from "../DateList/Todo";
 
 const SideBar = () => {
   // const { yy, mm, dd } = useSelector((state) => state.reducers.date.newBucket);
   const { yy, mm, dd } = useSelector((state) => state.reducers.date.sideBar);
-
+  const dispatch = useDispatch();
   const todos = useSelector((state) => state.reducers.todos.todos);
   console.log("sidebar", todos);
+  const clickedDate = `${yy}${mm}${dd}`;
+
+  const addTodo = () => {
+    dispatch(setModalVisible(true));
+    dispatch(setDate({ date: clickedDate }));
+  };
+
   return (
     <Wrapper>
       <Date>
@@ -19,7 +28,7 @@ const SideBar = () => {
           .length === 0 ? (
           <EmptyPage>
             할 일이 텅! 비었어요. <br />할 일을 추가해보세요.
-            <AddTodo>+</AddTodo>
+            <AddTodo onClick={addTodo}>+</AddTodo>
           </EmptyPage>
         ) : (
           <>
