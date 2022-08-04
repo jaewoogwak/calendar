@@ -45,6 +45,11 @@ const todoSlice = createSlice({
       };
       state.todos = state.todos.filter((todo) => todo.id !== id);
       state.todos = [...state.todos, todo];
+      // todo 생성 순 정렬 로직
+      state.todos = state.todos.sort((a, b) => {
+        console.log("sorting", a.id.split("-")[1], b.id.split("-")[1]);
+        return a.id.split("-")[1] - b.id.split("-")[1];
+      });
     },
     onClickEmptySpace: (state, action) => {
       console.log("onclickEmptySpace");
