@@ -85,7 +85,7 @@ const NavBar = () => {
 
 const NavBarWrapper = styled.nav`
   display: flex;
-  width: 885px;
+  width: 100%;
   justify-content: space-between;
   /* padding-left: 20px;
   padding-right: 20px; */

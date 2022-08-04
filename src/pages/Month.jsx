@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DateList from "../components/DateList/DateList";
 import Days from "../components/DayBar/Days";
+import Layout from "../components/Layout";
 import { setDate2 } from "../data/slices/dateSlice";
 import { setModalVisible } from "../data/slices/modalSlice";
 import { onClickEmptySpace } from "../data/slices/todoSlice";
@@ -35,16 +36,17 @@ export function Month() {
     console.log("useEffect in Month");
   }, [currentView, dispatch]);
   return (
-    <Wrapper onClick={() => dispatch(onClickEmptySpace())}>
-      <Days />
-      <DateList onClickDateCell={onClickDateCell}></DateList>
-    </Wrapper>
+    <Layout>
+      <Wrapper onClick={() => dispatch(onClickEmptySpace())}>
+        <Days />
+        <DateList onClickDateCell={onClickDateCell}></DateList>
+      </Wrapper>
+    </Layout>
   );
 }
 
 const Wrapper = styled.div`
   background-color: #211d27;
   width: 885px;
-  height: 100%;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 `;

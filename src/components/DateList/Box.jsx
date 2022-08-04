@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setDate } from "../../data/slices/dateSlice";
+import { onSelectDateBox, setDate } from "../../data/slices/dateSlice";
 import { setModalVisible } from "../../data/slices/modalSlice";
 import Modal from "../Modal/Modal";
 import Todo from "./Todo";
@@ -40,6 +40,17 @@ const Box = ({
         onClick={() => (isClicked === true ? setIsClicked(false) : null)}
       >
         <DateView
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log("DateView", `${itemMonth}월 ${itemDate}일`);
+            dispatch(
+              onSelectDateBox({
+                year: itemYear,
+                month: itemMonth,
+                date: itemDate,
+              })
+            );
+          }}
           isCurrentMonth={mm === itemMonth}
           isToday={today === clickedDate ? true : false}
         >

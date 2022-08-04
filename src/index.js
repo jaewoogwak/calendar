@@ -14,9 +14,3 @@ root.render(
     <App />
   </Provider>
 );
-const Wrapper = styled.div`
-  background-color: #211d27;
-  width: 885px;
-  height: 100%;
-  margin: 0 auto;
-`;
