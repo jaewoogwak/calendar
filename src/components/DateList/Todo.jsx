@@ -17,7 +17,11 @@ const Todo = ({ item, isClicked, setIsClicked }) => {
         dispatch(onClickTodo({ id: item.id }));
       }}
     >
-      <Text>{item.eventName}</Text>
+      <Text>
+        {item.eventName.length > 6
+          ? `${item.eventName.slice(0, 6)}...`
+          : item.eventName}
+      </Text>
       <Time>{item.time}</Time>
       {isOpened && item.isClicked && <Tooltip todo={item} />}
     </Wrapper>

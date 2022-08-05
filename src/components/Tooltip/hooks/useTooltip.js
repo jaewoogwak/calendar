@@ -29,5 +29,12 @@ export default function useTooltip() {
       event?.stopPropagation();
       setFixed(true);
     },
+    handleEscape(e) {
+      console.log("handleescape", e.keyCode);
+      if (e.keyCode === 27) {
+        console.log("escape");
+        setFixed(false);
+      }
+    },
   };
 }

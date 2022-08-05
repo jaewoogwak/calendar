@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { editTodo } from "../../data/slices/todoSlice";
 import useTooltip from "./hooks/useTooltip";
 
 const Tooltip = ({ todo }) => {
   const dispatch = useDispatch();
-  const [isEditting, setIsEditting] = useState(false);
   const { isOpened } = useTooltip();
-
   const [event, setEvent] = useState(todo.eventName);
   const [place, setPlace] = useState(todo.place);
   const [date, setDate] = useState(todo.date);
@@ -43,22 +40,21 @@ const Tooltip = ({ todo }) => {
     onHandleEditTodo();
   }, [isOpened, onHandleEditTodo]);
   return (
-    <Container onMouseEnter={() => setIsEditting(true)}>
-      {`${isEditting}`}
+    <Container>
+      <EventName
+        placeholder="일정을 추가헤보세요"
+        name="event"
+        value={event}
+        onChange={onChange}
+      ></EventName>
+      <Place
+        placeholder="장소를 추가해보세요"
+        name="place"
+        value={place}
+        onChange={onChange}
+      ></Place>
+      <Line></Line>
       <>
-        <EventName
-          placeholder="일정을 추가헤보세요"
-          name="event"
-          value={event}
-          onChange={onChange}
-        ></EventName>
-        <Place
-          placeholder="장소를 추가해보세요"
-          name="place"
-          value={place}
-          onChange={onChange}
-        ></Place>
-        <Line></Line>
         <Date
           type="date"
           placeholder="날짜를 추가해보세요"
@@ -84,8 +80,8 @@ const Container = styled.div`
   padding: 10px;
   border: 0.5px solid gray;
   top: 25px;
-  width: 180px;
-  height: 100px;
+  width: 200px;
+  height: 120px;
   background-color: #312b39;
   z-index: 4;
   color: #fff;

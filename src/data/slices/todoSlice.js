@@ -4,6 +4,7 @@ const todoSlice = createSlice({
   name: "todo",
   initialState: {
     todos: [],
+    count: 0,
   },
   reducers: {
     addTodo: (state, action) => {
@@ -26,9 +27,10 @@ const todoSlice = createSlice({
           ? a.time.split(":")[1] - b.time.split(":")[1]
           : a.time.split(":")[0] === b.time.split(":")[0];
       });
+      state.count += 1;
     },
     deleteTodo: (state, action) => {
-      console.log("deleteTodo");
+      console.log("deleteTodo", action.payload.id);
       state.todos = state.todos.filter((todo) => todo.id !== action.payload.id);
     },
     editTodo: (state, action) => {

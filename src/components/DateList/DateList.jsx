@@ -10,13 +10,13 @@ import { createView } from "./modules/dateArray";
 export const DateList = () => {
   const dispatch = useDispatch();
   const { isOpened, handleClick } = useTooltip();
-  const count = useRef(0);
+  const count = useSelector((state) => state.reducers.todos.count);
 
   const onHandleClickDateCell = (dateId) => {
     dispatch(
       addTodo({
         todo: {
-          id: `${dateId}-${count.current++}`,
+          id: `${dateId}-${count}`,
           eventName: "새로운 이벤트",
           place: "",
           date: "",
