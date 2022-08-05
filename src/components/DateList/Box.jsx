@@ -1,10 +1,18 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSelectDateBox, setDate } from "../../data/slices/dateSlice";
-import { setModalVisible } from "../../data/slices/modalSlice";
+import { addTodo } from "../../data/slices/todoSlice";
 import Todo from "./Todo";
-const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
+const Box = ({
+  id,
+  itemYear,
+  itemMonth,
+  itemDate,
+  itemDay,
+  onHandleClickDateCell,
+}) => {
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { year, month, currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
@@ -14,19 +22,12 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
   const today = `${currentYear}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   const dispatch = useDispatch();
-  const openModal = () => {
-    dispatch(setModalVisible(true));
-  };
-  const onHandleClickDateCell = () => {
-    dispatch(setDate({ date: clickedDate }));
-    openModal();
-  };
 
   return (
     <>
       <Wrapper
         isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
-        onDoubleClick={onHandleClickDateCell}
+        onDoubleClick={() => onHandleClickDateCell(clickedDate)}
       >
         <DateView
           onClick={(e) => {
@@ -53,11 +54,7 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
               return todo.id?.split("-")[0] === id;
             })
             .map((item) => (
-              <Todo
-                key={item.id}
-                item={item}
-                onDoubleClick={onHandleClickDateCell}
-              ></Todo>
+              <Todo key={item.id} item={item}></Todo>
             ))}
         </Todos>
         {}

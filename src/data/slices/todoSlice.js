@@ -31,6 +31,29 @@ const todoSlice = createSlice({
       console.log("deleteTodo");
       state.todos = state.todos.filter((todo) => todo.id !== action.payload.id);
     },
+    editTodo: (state, action) => {
+      console.log("editTodo", action.payload.id);
+      const id = action.payload.id;
+      const clickedTodo = current(state).todos.filter(
+        (todo) => todo.id === id
+      )[0];
+      const editedTodo = {
+        ...clickedTodo,
+        eventName: action.payload.eventName,
+        place: action.payload.place,
+        date: action.payload.date,
+        time: action.payload.time,
+      };
+      state.todos = state.todos.filter((todo) => todo.id !== id);
+      state.todos = [...state.todos, editedTodo];
+      // todo 시간 순 정렬 로직
+      state.todos = state.todos.sort((a, b) => {
+        console.log("sorting by time order", a.time, b.time);
+        return a.time.split(":")[0] === b.time.split(":")[0]
+          ? a.time.split(":")[1] - b.time.split(":")[1]
+          : a.time.split(":")[0] === b.time.split(":")[0];
+      });
+    },
     onClickTodo: (state, action) => {
       const id = action.payload.id;
       const clickedTodo = current(state).todos.filter(
@@ -75,6 +98,6 @@ const todoSlice = createSlice({
 });
 
 // Action creator
-export const { addTodo, deleteTodo, onClickTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, editTodo, onClickTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;

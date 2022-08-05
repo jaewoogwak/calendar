@@ -6,7 +6,6 @@ import { setModalVisible } from "../../data/slices/modalSlice";
 import Todo from "../DateList/Todo";
 
 const SideBar = () => {
-  // const { yy, mm, dd } = useSelector((state) => state.reducers.date.newBucket);
   const { yy, mm, dd } = useSelector((state) => state.reducers.date.sideBar);
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.reducers.todos.todos);

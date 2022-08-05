@@ -17,7 +17,6 @@ function App() {
     (state) => state.reducers.modal.modalVisible
   );
   const currentView = useSelector((state) => state.reducers.view.currentView);
-  console.log("currentView", currentView);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
@@ -38,11 +37,9 @@ function App() {
   }, [dispatch]);
 
   const initView = useCallback(() => {
-    console.log("initView");
     const arr = createView(currentYear, currentMonth);
     dispatch(setBucket({ bucket: arr }));
   }, [currentYear, currentMonth, dispatch]);
-  console.log("todos", todos);
 
   useEffect(() => {
     initView();

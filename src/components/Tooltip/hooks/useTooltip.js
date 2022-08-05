@@ -26,7 +26,7 @@ export default function useTooltip() {
       setOpend(false);
     },
     handleClick(event) {
-      event.stopPropagation();
+      event?.stopPropagation();
       setFixed(true);
     },
   };

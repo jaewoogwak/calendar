@@ -1,12 +1,33 @@
-import { useSelector } from "react-redux";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setDate } from "../../data/slices/dateSlice";
+import { addTodo } from "../../data/slices/todoSlice";
+import useTooltip from "../Tooltip/hooks/useTooltip";
 import Box from "./Box";
 import { createView } from "./modules/dateArray";
 
-export const DateList = ({ isOpened = true }) => {
+export const DateList = () => {
+  const dispatch = useDispatch();
+  const { isOpened, handleClick } = useTooltip();
+  const count = useRef(0);
+
+  const onHandleClickDateCell = (dateId) => {
+    dispatch(
+      addTodo({
+        todo: {
+          id: `${dateId}-${count.current++}`,
+          eventName: "새로운 이벤트",
+          place: "",
+          date: "",
+          time: "",
+        },
+        type: "addTodo",
+      })
+    );
+  };
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
   const arr = createView(yy, mm);
-  console.log("DateList", yy, mm, arr);
   return (
     <BoxListWrpper>
       {arr.map((item) => (
@@ -17,6 +38,8 @@ export const DateList = ({ isOpened = true }) => {
           itemMonth={item.month}
           itemDate={item.date}
           itemDay={item.day}
+          count={count}
+          onHandleClickDateCell={onHandleClickDateCell}
         ></Box>
       ))}
     </BoxListWrpper>

@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { onClickTodo } from "../../data/slices/todoSlice";
 import useTooltip from "../Tooltip/hooks/useTooltip";
-import TodoInfo from "../Tooltip/Tooltip";
+import Tooltip from "../Tooltip/Tooltip";
 
 const Todo = ({ item, isClicked, setIsClicked }) => {
   console.log("todo", item);
   const dispatch = useDispatch();
-  const { isOpened, handleEnter, handleLeave, handleClick } = useTooltip();
+  const { isOpened, handleClick } = useTooltip();
 
   return (
     <Wrapper
@@ -19,7 +19,7 @@ const Todo = ({ item, isClicked, setIsClicked }) => {
     >
       <Text>{item.eventName}</Text>
       <Time>{item.time}</Time>
-      {isOpened && item.isClicked && <TodoInfo />}
+      {isOpened && item.isClicked && <Tooltip todo={item} />}
     </Wrapper>
   );
 };
