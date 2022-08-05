@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { onSelectDateBox, setDate } from "../../data/slices/dateSlice";
-import { addTodo } from "../../data/slices/todoSlice";
+import { onSelectDateBox } from "../../data/slices/dateSlice";
 import Todo from "./Todo";
 const Box = ({
   id,

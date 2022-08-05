@@ -1,15 +1,11 @@
-import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setDate } from "../../data/slices/dateSlice";
 import { addTodo } from "../../data/slices/todoSlice";
-import useTooltip from "../Tooltip/hooks/useTooltip";
 import Box from "./Box";
 import { createView } from "./modules/dateArray";
 
 export const DateList = () => {
   const dispatch = useDispatch();
-  const { isOpened, handleClick } = useTooltip();
   const count = useSelector((state) => state.reducers.todos.count);
 
   const onHandleClickDateCell = (dateId) => {

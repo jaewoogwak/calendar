@@ -1,30 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import styled from "styled-components";
 import { createView } from "./components/DateList/modules/dateArray";
-import Modal from "./components/Modal/Modal";
-import NavBar from "./components/NavBar/NavBar";
 import { setBucket, setNow } from "./data/slices/dateSlice";
 import { Month } from "./pages/Month";
 import Year from "./pages/Year";
 import "./assets/index.css";
-import { setModalVisible } from "./data/slices/modalSlice";
-import { onClickEmptySpace } from "./data/slices/todoSlice";
 
 function App() {
-  const modalVisible = useSelector(
-    (state) => state.reducers.modal.modalVisible
-  );
-  const currentView = useSelector((state) => state.reducers.view.currentView);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
   const { currentYear, currentMonth } = useSelector(
     (state) => state.reducers.date.page
   );
-  const todos = useSelector((state) => state.reducers.todos);
-  const count = useRef(0);
+
   const dispatch = useDispatch();
 
   const setToday = useCallback(() => {
@@ -47,14 +37,6 @@ function App() {
   }, [isClickedTodayBtn, setToday, initView, dispatch]);
   return (
     <BrowserRouter>
-      {modalVisible && (
-        <Modal
-          closable={true}
-          maskClosable={true}
-          setModalVisible={setModalVisible}
-          count={count}
-        ></Modal>
-      )}
       <Routes>
         <Route path="/" element={<Month />} />
         <Route path="/year" element={<Year />} />
