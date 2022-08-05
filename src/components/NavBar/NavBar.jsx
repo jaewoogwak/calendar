@@ -13,12 +13,10 @@ const NavBar = () => {
     (state) => state.reducers.date.page
   );
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-  console.log("newBucket", yy, mm);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
   const onClickTodayBtn = () => {
-    console.log("clicked today btn", currentYear, currentMonth);
     dispatch(setIsClickedTodayBtn({ clicked: !isClickedTodayBtn }));
     dispatch(setNow());
   };

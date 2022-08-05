@@ -180,5 +180,3 @@ const EventBtn = styled.button`
   width: 50px;
   margin-left: 3px;
 `;
-
-export default Modal;
