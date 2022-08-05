@@ -1,10 +1,9 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Box from "./Box";
 import { createView } from "./modules/dateArray";
 
-export const DateList = () => {
+export const DateList = ({ isOpened = true }) => {
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
   const arr = createView(yy, mm);
   console.log("DateList", yy, mm, arr);

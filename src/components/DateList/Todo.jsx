@@ -2,21 +2,25 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { onClickTodo } from "../../data/slices/todoSlice";
+import useTooltip from "../Tooltip/hooks/useTooltip";
+import TodoInfo from "../Tooltip/Tooltip";
 
 const Todo = ({ item, isClicked, setIsClicked }) => {
   console.log("todo", item);
   const dispatch = useDispatch();
+  const { isOpened, handleEnter, handleLeave, handleClick } = useTooltip();
 
   return (
     <Wrapper
-      isClicked={item.isClicked}
       onClick={(e) => {
         e.stopPropagation();
+        handleClick();
         dispatch(onClickTodo({ id: item.id }));
       }}
     >
       <Text>{item.eventName}</Text>
       <Time>{item.time}</Time>
+      {isOpened && item.isClicked && <TodoInfo />}
     </Wrapper>
   );
 };

@@ -65,7 +65,9 @@ const Text = styled.p`
 const AddTodo = styled.button`
   width: 100px;
 `;
-const TodoList = styled.div``;
+const TodoList = styled.div`
+  position: relative;
+`;
 
 const ItemList = styled.ul`
   background-color: ${(props) => (props.isClicked ? "skyblue" : "")};

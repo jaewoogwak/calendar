@@ -5,7 +5,6 @@ import { onSelectDateBox, setDate } from "../../data/slices/dateSlice";
 import { setModalVisible } from "../../data/slices/modalSlice";
 import Todo from "./Todo";
 const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
-  const [isClicked, setIsClicked] = useState(false);
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { year, month, currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
@@ -14,7 +13,6 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
 
   const today = `${currentYear}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
-  // console.log(today === clickedDate, today, clickedDate);
   const dispatch = useDispatch();
   const openModal = () => {
     dispatch(setModalVisible(true));
@@ -29,7 +27,6 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
       <Wrapper
         isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
         onDoubleClick={onHandleClickDateCell}
-        onClick={() => (isClicked === true ? setIsClicked(false) : null)}
       >
         <DateView
           onClick={(e) => {
@@ -61,6 +58,7 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
               ></Todo>
             ))}
         </Todos>
+        {}
       </Wrapper>
     </>
   );
@@ -86,6 +84,7 @@ const DateView = styled.div`
   color: ${(props) => (props.isToday ? "white" : "white")};
 `;
 const Todos = styled.div`
+  position: relative;
   font-size: 12px;
   display: flex;
   flex-direction: column;
