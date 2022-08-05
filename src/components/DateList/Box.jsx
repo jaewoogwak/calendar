@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { onSelectDateBox, setDate } from "../../data/slices/dateSlice";
-import { setModalVisible } from "../../data/slices/modalSlice";
+import { onSelectDateBox } from "../../data/slices/dateSlice";
 import Todo from "./Todo";
-const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
-  const [isClicked, setIsClicked] = useState(false);
+const Box = ({
+  id,
+  itemYear,
+  itemMonth,
+  itemDate,
+  itemDay,
+  onHandleClickDateCell,
+}) => {
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { year, month, currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
@@ -14,22 +19,13 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
 
   const today = `${currentYear}${currentMonth}${date}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
-  // console.log(today === clickedDate, today, clickedDate);
   const dispatch = useDispatch();
-  const openModal = () => {
-    dispatch(setModalVisible(true));
-  };
-  const onHandleClickDateCell = () => {
-    dispatch(setDate({ date: clickedDate }));
-    openModal();
-  };
 
   return (
     <>
       <Wrapper
         isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
-        onDoubleClick={onHandleClickDateCell}
-        onClick={() => (isClicked === true ? setIsClicked(false) : null)}
+        onDoubleClick={() => onHandleClickDateCell(clickedDate)}
       >
         <DateView
           onClick={(e) => {
@@ -46,7 +42,9 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
           isCurrentMonth={mm === itemMonth}
           isToday={today === clickedDate ? true : false}
         >
-          {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
+          <Text isToday={today === clickedDate ? true : false}>
+            {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
+          </Text>
         </DateView>
         <Todos>
           {todos
@@ -54,13 +52,10 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
               return todo.id?.split("-")[0] === id;
             })
             .map((item) => (
-              <Todo
-                key={item.id}
-                item={item}
-                onDoubleClick={onHandleClickDateCell}
-              ></Todo>
+              <Todo key={item.id} item={item}></Todo>
             ))}
         </Todos>
+        {}
       </Wrapper>
     </>
   );
@@ -75,17 +70,26 @@ const Wrapper = styled.div`
   background-color: ${(props) => (props.isWeekend ? "#29262D" : "")};
 `;
 const DateView = styled.div`
-  text-align: right;
+  position: relative;
+  display: flex;
+  justify-content: end;
+  padding-right: 5px;
   padding-top: 5px;
-  padding-right: 10px;
   color: "white";
   height: 20px;
-  background-color: ${(props) => (props.isToday ? "red" : "")};
   opacity: ${(props) => (props.isCurrentMonth ? "1" : "0.2")};
-
   color: ${(props) => (props.isToday ? "white" : "white")};
 `;
+const Text = styled.strong`
+  z-index: 1;
+  border-radius: 50%;
+  padding: 1px;
+  height: 24px;
+  background-color: ${(props) => (props.isToday ? "red" : "")};
+`;
+
 const Todos = styled.div`
+  position: relative;
   font-size: 12px;
   display: flex;
   flex-direction: column;

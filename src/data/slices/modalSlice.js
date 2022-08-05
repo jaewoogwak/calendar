@@ -5,6 +5,11 @@ const modalSlice = createSlice({
   initialState: {
     modalVisible: false,
     opendModalDateInfo: "",
+    modal: {
+      event: "",
+      place: "",
+      time: "",
+    },
   },
   reducers: {
     setModalVisible: (state, action) => {
