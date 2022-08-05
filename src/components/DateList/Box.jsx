@@ -43,7 +43,9 @@ const Box = ({ id, itemYear, itemMonth, itemDate, itemDay }) => {
           isCurrentMonth={mm === itemMonth}
           isToday={today === clickedDate ? true : false}
         >
-          {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
+          <Text isToday={today === clickedDate ? true : false}>
+            {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
+          </Text>
         </DateView>
         <Todos>
           {todos
@@ -73,16 +75,24 @@ const Wrapper = styled.div`
   background-color: ${(props) => (props.isWeekend ? "#29262D" : "")};
 `;
 const DateView = styled.div`
-  text-align: right;
+  position: relative;
+  display: flex;
+  justify-content: end;
+  padding-right: 5px;
   padding-top: 5px;
-  padding-right: 10px;
   color: "white";
   height: 20px;
-  background-color: ${(props) => (props.isToday ? "red" : "")};
   opacity: ${(props) => (props.isCurrentMonth ? "1" : "0.2")};
-
   color: ${(props) => (props.isToday ? "white" : "white")};
 `;
+const Text = styled.strong`
+  z-index: 1;
+  border-radius: 50%;
+  padding: 1px;
+  height: 24px;
+  background-color: ${(props) => (props.isToday ? "red" : "")};
+`;
+
 const Todos = styled.div`
   position: relative;
   font-size: 12px;

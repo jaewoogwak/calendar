@@ -36,7 +36,7 @@ export function Month() {
   }, [currentView, dispatch]);
   return (
     <Layout>
-      <Wrapper onClick={() => dispatch(onClickEmptySpace())}>
+      <Wrapper>
         <Days />
         <DateList></DateList>
       </Wrapper>

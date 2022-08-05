@@ -11,7 +11,7 @@ const Container = styled.div`
   width: 220px;
   height: 170px;
   background-color: #000;
-  z-index: 1;
+  z-index: 4;
   color: #fff;
 `;
 

@@ -13,8 +13,7 @@ const Todo = ({ item, isClicked, setIsClicked }) => {
   return (
     <Wrapper
       onClick={(e) => {
-        e.stopPropagation();
-        handleClick();
+        handleClick(e);
         dispatch(onClickTodo({ id: item.id }));
       }}
     >

@@ -75,7 +75,6 @@ const todoSlice = createSlice({
 });
 
 // Action creator
-export const { addTodo, deleteTodo, onClickTodo, onClickEmptySpace } =
-  todoSlice.actions;
+export const { addTodo, deleteTodo, onClickTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;
