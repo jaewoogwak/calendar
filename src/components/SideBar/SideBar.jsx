@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setDate } from "../../data/slices/dateSlice";
-import { setModalVisible } from "../../data/slices/modalSlice";
 import { addTodo, deleteTodo } from "../../data/slices/todoSlice";
 import Todo from "../DateList/Todo";
 
