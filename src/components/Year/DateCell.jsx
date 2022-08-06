@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export default function Date({
-  month,
-  date,
-  today,
   itemYear,
   itemMonth,
   itemDate,
   itemDay,
+  month,
+  date,
+  today,
 }) {
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   return (

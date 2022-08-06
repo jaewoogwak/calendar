@@ -14,7 +14,7 @@ export default function Box({
 }) {
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.reducers.todos.todos);
-  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
+  const { month } = useSelector((state) => state.reducers.date.bucket);
   const today = `${new Date().getFullYear()}${
     new Date().getMonth() + 1
   }${new Date().getDate()}`;
@@ -37,7 +37,7 @@ export default function Box({
               })
             );
           }}
-          isCurrentMonth={mm === itemMonth}
+          isCurrentMonth={month === itemMonth}
           isToday={today === clickedDate ? true : false}
         >
           <Text isToday={today === clickedDate ? true : false}>

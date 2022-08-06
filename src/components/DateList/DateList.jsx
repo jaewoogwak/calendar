@@ -7,8 +7,8 @@ import { createView } from "./modules/dateArray";
 export default function DateList() {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.reducers.todos.count);
-  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-  const arr = createView(yy, mm);
+  const { year, month } = useSelector((state) => state.reducers.date.bucket);
+  const arr = createView(year, month);
 
   const onHandleClickDateCell = (dateId) => {
     dispatch(

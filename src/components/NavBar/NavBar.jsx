@@ -8,7 +8,7 @@ import { setIsClickedTodayBtn } from "../../data/slices/viewSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
-  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
+  const { year, month } = useSelector((state) => state.reducers.date.bucket);
   const currentView = useSelector((state) => state.reducers.view.currentView);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
@@ -20,28 +20,28 @@ const NavBar = () => {
 
   const prevPage2 = () => {
     if (currentView === "month") {
-      let year = yy;
-      let month = mm;
-      if (mm - 1 < 1) {
-        year = yy - 1;
-        month = 12;
-      } else month = mm - 1;
-      dispatch(setDate2({ year: year, month: month }));
+      let years = year;
+      let months = month;
+      if (month - 1 < 1) {
+        years = year - 1;
+        months = 12;
+      } else months = month - 1;
+      dispatch(setDate2({ year: years, month: months }));
     } else {
-      dispatch(setDate2({ year: yy - 1, month: mm }));
+      dispatch(setDate2({ year: year - 1, month: month }));
     }
   };
   const nextPage2 = () => {
     if (currentView === "month") {
-      let year = yy;
-      let month = mm;
-      if (mm + 1 > 12) {
-        year = yy + 1;
-        month = 1;
-      } else month = mm + 1;
-      dispatch(setDate2({ year: year, month: month }));
+      let years = year;
+      let months = month;
+      if (month + 1 > 12) {
+        years = year + 1;
+        months = 1;
+      } else months = month + 1;
+      dispatch(setDate2({ year: years, month: months }));
     } else {
-      dispatch(setDate2({ year: yy + 1, month: mm }));
+      dispatch(setDate2({ year: year + 1, month: month }));
     }
   };
 
@@ -49,10 +49,10 @@ const NavBar = () => {
     <NavBarWrapper>
       {currentView === "month" ? (
         <YearAndMonth>
-          {yy}년 {mm}월
+          {year}년 {month}월
         </YearAndMonth>
       ) : (
-        <YearAndMonth>{yy}년</YearAndMonth>
+        <YearAndMonth>{year}년</YearAndMonth>
       )}
       <PageController>
         <PageSelector>

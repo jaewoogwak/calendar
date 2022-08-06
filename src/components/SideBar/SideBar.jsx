@@ -9,9 +9,11 @@ const SideBar = () => {
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.reducers.todos.todos);
   const count = useSelector((state) => state.reducers.todos.count);
-  const { yy, mm, dd } = useSelector((state) => state.reducers.date.sideBar);
+  const { year, month, date } = useSelector(
+    (state) => state.reducers.date.sideBar
+  );
 
-  const clickedDate = `${yy}${mm}${dd}`;
+  const clickedDate = `${year}${month}${date}`;
   const onHandleaddTodo = () => {
     dispatch(setDate({ date: clickedDate }));
     dispatch(
@@ -34,11 +36,12 @@ const SideBar = () => {
   return (
     <Wrapper>
       <Date>
-        {yy}년 {mm}월 {dd}일
+        {year}년 {month}월 {date}일
       </Date>
       <TodoList>
-        {todos.filter((todo) => todo.id.split("-")[0] === `${yy}${mm}${dd}`)
-          .length === 0 ? (
+        {todos.filter(
+          (todo) => todo.id.split("-")[0] === `${year}${month}${date}`
+        ).length === 0 ? (
           <EmptyPage>
             <Text>
               할 일이 텅! 비었어요. <br />할 일을 추가해보세요.
@@ -48,7 +51,9 @@ const SideBar = () => {
         ) : (
           <ItemList>
             {todos
-              .filter((todo) => todo.id.split("-")[0] === `${yy}${mm}${dd}`)
+              .filter(
+                (todo) => todo.id.split("-")[0] === `${year}${month}${date}`
+              )
               .map((item) => (
                 <Item key={item.id}>
                   <ItemWrapper>
