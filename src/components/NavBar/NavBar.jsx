@@ -8,11 +8,8 @@ import { setIsClickedTodayBtn } from "../../data/slices/viewSlice";
 
 const NavBar = () => {
   const dispatch = useDispatch();
-  const currentView = useSelector((state) => state.reducers.view.currentView);
-  const { currentYear, currentMonth } = useSelector(
-    (state) => state.reducers.date.page
-  );
   const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
+  const currentView = useSelector((state) => state.reducers.view.currentView);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );

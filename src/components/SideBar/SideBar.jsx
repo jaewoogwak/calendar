@@ -6,12 +6,12 @@ import { addTodo, deleteTodo } from "../../data/slices/todoSlice";
 import Todo from "../DateList/Todo";
 
 const SideBar = () => {
-  const { yy, mm, dd } = useSelector((state) => state.reducers.date.sideBar);
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.reducers.todos.todos);
-  console.log("sidebar", todos);
-  const clickedDate = `${yy}${mm}${dd}`;
   const count = useSelector((state) => state.reducers.todos.count);
+  const { yy, mm, dd } = useSelector((state) => state.reducers.date.sideBar);
+
+  const clickedDate = `${yy}${mm}${dd}`;
   const onHandleaddTodo = () => {
     dispatch(setDate({ date: clickedDate }));
     dispatch(

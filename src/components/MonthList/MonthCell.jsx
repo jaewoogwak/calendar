@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { setDate2 } from "../../data/slices/dateSlice";
 import { setView } from "../../data/slices/viewSlice";
 import Days from "../DayBar/Days";
-import { Date } from "./Date";
+import Date from "./Date";
 
-export const MonthCell = ({ month, list }) => {
+export default function MonthCell({ month, list }) {
   const { currentYear, currentMonth, date } = useSelector(
     (state) => state.reducers.date.page
   );
@@ -42,7 +42,7 @@ export const MonthCell = ({ month, list }) => {
       </MonthList>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   display: flex;
