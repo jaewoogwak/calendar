@@ -4,9 +4,11 @@ import { addTodo } from "../../data/slices/todoSlice";
 import Box from "./Box";
 import { createView } from "./modules/dateArray";
 
-export const DateList = () => {
+export default function DateList() {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.reducers.todos.count);
+  const { year, month } = useSelector((state) => state.reducers.date.bucket);
+  const arr = createView(year, month);
 
   const onHandleClickDateCell = (dateId) => {
     dispatch(
@@ -22,8 +24,6 @@ export const DateList = () => {
       })
     );
   };
-  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-  const arr = createView(yy, mm);
   return (
     <BoxListWrpper>
       {arr.map((item) => (
@@ -34,15 +34,13 @@ export const DateList = () => {
           itemMonth={item.month}
           itemDate={item.date}
           itemDay={item.day}
-          count={count}
           onHandleClickDateCell={onHandleClickDateCell}
         ></Box>
       ))}
     </BoxListWrpper>
   );
-};
+}
 const BoxListWrpper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 `;
-export default DateList;

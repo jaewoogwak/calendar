@@ -1,22 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { createView } from "./components/DateList/modules/dateArray";
-import { setBucket, setNow } from "./data/slices/dateSlice";
+import { setNow } from "./data/slices/dateSlice";
 import { Month } from "./pages/Month";
 import Year from "./pages/Year";
 import "./assets/index.css";
 
 function App() {
+  const dispatch = useDispatch();
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
-  const { currentYear, currentMonth } = useSelector(
-    (state) => state.reducers.date.page
-  );
-
-  const dispatch = useDispatch();
-
   const setToday = useCallback(() => {
     const time = new Date();
     dispatch(
@@ -26,15 +20,9 @@ function App() {
     );
   }, [dispatch]);
 
-  const initView = useCallback(() => {
-    const arr = createView(currentYear, currentMonth);
-    dispatch(setBucket({ bucket: arr }));
-  }, [currentYear, currentMonth, dispatch]);
-
   useEffect(() => {
-    initView();
     setToday();
-  }, [isClickedTodayBtn, setToday, initView, dispatch]);
+  }, [isClickedTodayBtn, setToday, dispatch]);
   return (
     <BrowserRouter>
       <Routes>

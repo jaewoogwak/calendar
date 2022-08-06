@@ -1,63 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createMonthList } from "../../components/DateList/modules/dateArray";
 
 const dateSlice = createSlice({
   name: "date",
   initialState: {
     date: "",
-    page: {
-      currentYear: new Date().getFullYear(),
-      currentMonth: new Date().getMonth() + 1,
+    bucket: {
+      // 캘린더의 연,월,일 상태 값
+      // 달력 페이지 이동함에 따라 변경
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
       date: new Date().getDate(),
     },
-    bucket: [],
-    yearBucket: createMonthList(new Date().getFullYear()),
-    newBucket: {
-      yy: new Date().getFullYear(),
-      mm: new Date().getMonth() + 1,
-      dd: new Date().getDate(),
-    },
     sideBar: {
-      yy: new Date().getFullYear(),
-      mm: new Date().getMonth() + 1,
-      dd: new Date().getDate(),
+      // 사이드바의 연,월,일 상태 값
+      // 셀의 날짜를 클릭함에 따라 변경
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      date: new Date().getDate(),
     },
   },
   reducers: {
     setDate2: (state, action) => {
-      state.newBucket.yy = action.payload.year;
-      state.newBucket.mm = action.payload.month;
+      state.bucket.year = action.payload.year;
+      state.bucket.month = action.payload.month;
     },
     setDate: (state, action) => {
       state.date = action.payload.date;
     },
     setNow: (state, action) => {
-      state.newBucket.yy = new Date().getFullYear();
-      state.newBucket.mm = new Date().getMonth() + 1;
-    },
-    setBucket: (state, action) => {
-      state.bucket = action.payload.bucket;
-    },
-    setYearBucket: (state, action) => {
-      state.yearBucket = action.payload.yearBucket;
+      state.bucket.year = new Date().getFullYear();
+      state.bucket.month = new Date().getMonth() + 1;
     },
     onSelectDateBox: (state, action) => {
-      console.log("onSelectDateBox");
-      state.sideBar.yy = action.payload.year;
-      state.sideBar.mm = action.payload.month;
-      state.sideBar.dd = action.payload.date;
+      state.sideBar.year = action.payload.year;
+      state.sideBar.month = action.payload.month;
+      state.sideBar.date = action.payload.date;
     },
   },
 });
 
 // Action creator
-export const {
-  setDate2,
-  setDate,
-  setNow,
-  setBucket,
-  setYearBucket,
-  onSelectDateBox,
-} = dateSlice.actions;
+export const { setDate2, setDate, setNow, onSelectDateBox } = dateSlice.actions;
 
 export default dateSlice.reducer;

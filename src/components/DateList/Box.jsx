@@ -3,23 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSelectDateBox } from "../../data/slices/dateSlice";
 import Todo from "./Todo";
-const Box = ({
+
+export default function Box({
   id,
   itemYear,
   itemMonth,
   itemDate,
   itemDay,
   onHandleClickDateCell,
-}) => {
-  const todos = useSelector((state) => state.reducers.todos.todos);
-  const { year, month, currentYear, currentMonth, date } = useSelector(
-    (state) => state.reducers.date.page
-  );
-  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-
-  const today = `${currentYear}${currentMonth}${date}`;
-  const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
+}) {
   const dispatch = useDispatch();
+  const todos = useSelector((state) => state.reducers.todos.todos);
+  const { month } = useSelector((state) => state.reducers.date.bucket);
+  const today = `${new Date().getFullYear()}${
+    new Date().getMonth() + 1
+  }${new Date().getDate()}`;
+  const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
 
   return (
     <>
@@ -30,7 +29,6 @@ const Box = ({
         <DateView
           onClick={(e) => {
             e.stopPropagation();
-            console.log("DateView", `${itemMonth}월 ${itemDate}일`);
             dispatch(
               onSelectDateBox({
                 year: itemYear,
@@ -39,7 +37,7 @@ const Box = ({
               })
             );
           }}
-          isCurrentMonth={mm === itemMonth}
+          isCurrentMonth={month === itemMonth}
           isToday={today === clickedDate ? true : false}
         >
           <Text isToday={today === clickedDate ? true : false}>
@@ -59,9 +57,7 @@ const Box = ({
       </Wrapper>
     </>
   );
-};
-
-export default Box;
+}
 
 const Wrapper = styled.div`
   border: 0.5px solid #716f75;

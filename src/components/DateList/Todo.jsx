@@ -5,8 +5,7 @@ import { onClickTodo } from "../../data/slices/todoSlice";
 import useTooltip from "../Tooltip/hooks/useTooltip";
 import Tooltip from "../Tooltip/Tooltip";
 
-const Todo = ({ item, isClicked, setIsClicked }) => {
-  console.log("todo", item);
+export default function Todo({ item, isClicked, setIsClicked }) {
   const dispatch = useDispatch();
   const { isOpened, handleClick } = useTooltip();
 
@@ -26,7 +25,7 @@ const Todo = ({ item, isClicked, setIsClicked }) => {
       {isOpened && item.isClicked && <Tooltip todo={item} />}
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,9 +36,6 @@ const Wrapper = styled.div`
 
   background-color: ${(props) => (props.isClicked ? "skyblue" : "")};
 `;
-const Content = styled.li`
-  color: white;
-`;
 const Text = styled.div`
   font-weight: 600;
   color: white;
@@ -49,4 +45,3 @@ const Time = styled.div`
   color: white;
   padding-right: 5px;
 `;
-export default Todo;

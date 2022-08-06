@@ -4,30 +4,30 @@ import styled from "styled-components";
 import { setDate2 } from "../../data/slices/dateSlice";
 import { setView } from "../../data/slices/viewSlice";
 import Days from "../DayBar/Days";
-import { Date } from "./Date";
+import DateCell from "./DateCell";
 
-export const MonthCell = ({ month, list }) => {
-  const { currentYear, currentMonth, date } = useSelector(
-    (state) => state.reducers.date.page
-  );
-  const { yy, mm } = useSelector((state) => state.reducers.date.newBucket);
-  const navigate = useNavigate();
-
+export default function MonthCell({ month, list }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const today = `${new Date()?.getFullYear()}${
+    new Date().getMonth() + 1
+  }${new Date().getDate()}`;
+  const { year } = useSelector((state) => state.reducers.date.bucket);
+
   const handleSetMonth = () => {
     console.log("handleSetMonth");
-    dispatch(setDate2({ year: yy, month: month }));
+    dispatch(setDate2({ year: year, month: month }));
     dispatch(setView({ currentView: "month" }));
     navigate("/");
   };
-  const today = `${currentYear}${currentMonth}${date}`;
+
   return (
     <Wrapper>
       <MonthView onDoubleClick={handleSetMonth}>{month}월</MonthView>
       <Days size={"12px"} />
       <MonthList>
         {list?.map((item) => (
-          <Date
+          <DateCell
             key={`${item.year}${item.month}${item.date}${item.day}`}
             id={`${item.year}${item.month}${item.date}`}
             today={today}
@@ -37,12 +37,12 @@ export const MonthCell = ({ month, list }) => {
             itemDate={item.date}
             itemDay={item.day}
             date={item.date}
-          ></Date>
+          ></DateCell>
         ))}
       </MonthList>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
-export const Date = ({
-  month,
-  date,
-  today,
+export default function Date({
   itemYear,
   itemMonth,
   itemDate,
   itemDay,
-}) => {
+  month,
+  date,
+  today,
+}) {
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
   return (
     <Wrapper
@@ -19,7 +19,7 @@ export const Date = ({
       {date}
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   color: ${(props) => (props.isWeekend ? "gray" : "white")};
