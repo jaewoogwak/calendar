@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { setDate2, setNow } from "../../data/slices/dateSlice";
+import { onSelectDateBox, setDate2, setNow } from "../../data/slices/dateSlice";
 import { setIsClickedTodayBtn } from "../../data/slices/viewSlice";
 
 const NavBar = () => {
@@ -16,6 +16,13 @@ const NavBar = () => {
   const onClickTodayBtn = () => {
     dispatch(setIsClickedTodayBtn({ clicked: !isClickedTodayBtn }));
     dispatch(setNow());
+    dispatch(
+      onSelectDateBox({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+        date: new Date().getDate(),
+      })
+    );
   };
 
   const prevPage2 = () => {
@@ -82,8 +89,6 @@ const NavBarWrapper = styled.nav`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  /* padding-left: 20px;
-  padding-right: 20px; */
   background-color: #211d27;
   margin: 0 auto;
 `;
@@ -99,6 +104,7 @@ const ButtonsWrapper = styled.div`
   padding-right: 20px;
 `;
 const TodayBtn = styled.button`
+  cursor: pointer;
   border: 0.5px solid #716f75;
   background-color: #716f75;
   color: white;
@@ -107,6 +113,7 @@ const TodayBtn = styled.button`
   margin-right: 2px;
 `;
 const PrevBtn = styled.button`
+  cursor: pointer;
   border: 0.5px solid #716f75;
   font-size: 14px;
   background-color: #716f75;
@@ -114,6 +121,7 @@ const PrevBtn = styled.button`
   border-radius: 7px;
 `;
 const NextBtn = styled.button`
+  cursor: pointer;
   border: 0.5px solid #716f75;
   font-size: 14px;
   background-color: #716f75;

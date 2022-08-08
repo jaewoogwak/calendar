@@ -66,6 +66,7 @@ const Wrapper = styled.div`
   background-color: ${(props) => (props.isWeekend ? "#29262D" : "")};
 `;
 const DateView = styled.div`
+  cursor: pointer;
   position: relative;
   display: flex;
   justify-content: end;

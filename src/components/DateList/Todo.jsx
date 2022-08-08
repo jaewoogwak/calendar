@@ -33,7 +33,6 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-left: 7px;
-
   background-color: ${(props) => (props.isClicked ? "skyblue" : "")};
 `;
 const Text = styled.div`

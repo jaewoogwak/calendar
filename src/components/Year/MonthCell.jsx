@@ -23,7 +23,7 @@ export default function MonthCell({ month, list }) {
 
   return (
     <Wrapper>
-      <MonthView onDoubleClick={handleSetMonth}>{month}월</MonthView>
+      <Month onClick={handleSetMonth}>{month}월</Month>
       <Days size={"12px"} />
       <MonthList>
         {list?.map((item) => (
@@ -49,11 +49,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 200px;
 `;
-const MonthView = styled.div`
+const Month = styled.div`
   color: red;
   font-size: 18px;
   padding: 10px;
   width: 35px;
+  cursor: pointer;
 `;
 const MonthList = styled.div`
   display: grid;
