@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
@@ -6,41 +7,68 @@ import styled from "styled-components";
 import { editTodo } from "../../data/slices/todoSlice";
 import useTooltip from "./hooks/useTooltip";
 
-const Tooltip = ({ todo }) => {
+const Tooltip = ({ todo, getBoxPos, isInSidebar }) => {
+  console.log("todo in Tooltip", getBoxPos);
+
+  const { offsetLeft, offsetTop } = getBoxPos();
+  console.log("left", offsetLeft, "right", offsetTop);
+  const setTooltipPos = () => {
+    let isReflect = false;
+    if (offsetLeft >= 687) {
+      return (isReflect = true);
+    } else return isReflect;
+  };
+
   const dispatch = useDispatch();
   const { isOpened } = useTooltip();
   const [event, setEvent] = useState(todo.eventName);
   const [place, setPlace] = useState(todo.place);
-  const [date, setDate] = useState(todo.date);
-  const [time, setTime] = useState(todo.time);
+  const [startDate, setStartDate] = useState(todo.startDate);
+  console.log("todo.startDate in Tooltip!", todo.startDate);
+  const [endDate, setEndDate] = useState(todo.endDate);
+  const [startTime, setStartTime] = useState(todo.startTime);
+  const [endTime, setEndTime] = useState(todo.endTime);
 
   const onChange = (e) => {
     const { name, value } = e.target;
     if (name === "event") setEvent(value);
     else if (name === "place") setPlace(value);
-    else if (name === "date") setDate(value);
-    else setTime(value);
+    else if (name === "startDate") setStartDate(value);
+    else if (name === "startTime") setStartTime(value);
+    else if (name === "endDate") setEndDate(value);
+    else setEndTime(value);
   };
 
   const onHandleEditTodo = useCallback(() => {
-    console.log("onHandleEditTodo", todo.id, event, place, date, time);
+    console.log(
+      "onHandleEditTodo",
+      todo.id,
+      event,
+      place,
+      startDate,
+      startTime,
+      endDate,
+      endTime
+    );
     dispatch(
       editTodo({
         id: todo.id,
         eventName: event,
         place: place,
-        date: date,
-        time: time,
+        startDate: startDate,
+        startTime: startTime,
+        endDate: endDate,
+        endTime: endTime,
       })
     );
-  }, [dispatch, todo.id, event, place, date, time]);
+  }, [dispatch, todo.id, event, place, startDate, startTime, endDate, endTime]);
 
   useEffect(() => {
     console.log("onHandleEditTodo");
     onHandleEditTodo();
   }, [isOpened, onHandleEditTodo]);
   return (
-    <Container>
+    <Container isReflect={setTooltipPos()} isInSidebar={isInSidebar}>
       <EventName
         placeholder="일정을 추가헤보세요"
         name="event"
@@ -54,22 +82,40 @@ const Tooltip = ({ todo }) => {
         onChange={onChange}
       ></Place>
       <Line></Line>
-      <>
+      <Start>
+        시작:
         <Date
           type="date"
           placeholder="날짜를 추가해보세요"
-          name="date"
-          value={date}
+          name="startDate"
+          value={startDate}
           onChange={onChange}
         ></Date>
         <Time
           type="time"
           placeholder="시간을 추가해보세요"
-          name="time"
-          value={time}
+          name="startTime"
+          value={startTime}
           onChange={onChange}
         ></Time>
-      </>
+      </Start>
+      <End>
+        종료:
+        <Date
+          type="date"
+          placeholder="날짜를 추가해보세요"
+          name="endDate"
+          value={endDate}
+          onChange={onChange}
+        ></Date>
+        <Time
+          type="time"
+          placeholder="시간을 추가해보세요"
+          name="endTime"
+          value={endTime}
+          onChange={onChange}
+        ></Time>
+      </End>
     </Container>
   );
 };
@@ -79,8 +125,10 @@ const Container = styled.div`
   border-radius: 10px;
   padding: 10px;
   border: 0.5px solid gray;
-  top: 25px;
-  width: 200px;
+  left: ${(props) => (props.isReflect ? null : "130px")};
+  right: ${(props) => (props.isReflect ? "130px" : null)};
+  right: ${(props) => (props.isInSidebar ? "290px" : null)};
+  width: 255px;
   height: 120px;
   background-color: #312b39;
   z-index: 4;
@@ -109,8 +157,13 @@ const Place = styled.input`
 const Line = styled.hr`
   height: 0.1px;
 `;
+const Start = styled.div`
+  padding-bottom: 3px;
+`;
+const End = styled.div``;
 const Date = styled.input`
   background-color: #312b39;
+  padding-left: 5px;
   color: white;
   font-size: 12px;
   font-weight: 400;

@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSelectDateBox } from "../../data/slices/dateSlice";
@@ -19,12 +20,16 @@ export default function Box({
     new Date().getMonth() + 1
   }${new Date().getDate()}`;
   const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
-
+  const myRef = useRef();
+  const boxTodos = todos.filter((todo) => {
+    return todo.id?.split("-")[0] === id;
+  });
   return (
     <>
       <Wrapper
         isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
         onDoubleClick={() => onHandleClickDateCell(clickedDate)}
+        ref={myRef}
       >
         <DateView
           onClick={(e) => {
@@ -45,15 +50,17 @@ export default function Box({
           </Text>
         </DateView>
         <Todos>
-          {todos
-            .filter((todo) => {
-              return todo.id?.split("-")[0] === id;
-            })
-            .map((item) => (
-              <Todo key={item.id} item={item}></Todo>
-            ))}
+          {boxTodos.length >= 5 ? (
+            <>
+              {boxTodos.slice(0, 3).map((item) => (
+                <Todo key={item.id} item={item}></Todo>
+              ))}
+              <Remains>그 외 {boxTodos.slice(3).length}개</Remains>
+            </>
+          ) : (
+            boxTodos.map((item) => <Todo key={item.id} item={item}></Todo>)
+          )}
         </Todos>
-        {}
       </Wrapper>
     </>
   );
@@ -66,6 +73,7 @@ const Wrapper = styled.div`
   background-color: ${(props) => (props.isWeekend ? "#29262D" : "")};
 `;
 const DateView = styled.div`
+  cursor: pointer;
   position: relative;
   display: flex;
   justify-content: end;
@@ -91,4 +99,10 @@ const Todos = styled.div`
   flex-direction: column;
   height: 75px;
   padding-top: 5px;
+`;
+const Remains = styled.div`
+  font-size: 12px;
+  padding-top: 2px;
+  padding-left: 7px;
+  color: white;
 `;

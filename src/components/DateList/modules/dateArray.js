@@ -57,3 +57,34 @@ export const createMonthList = (year, mm) => {
 
   return monthList;
 };
+
+export function utilityFunction(dateId) {
+  const year = dateId.slice(0, 4);
+  // 2022 10~12 10~31
+  if (dateId.length === 8) {
+    const month = dateId.slice(4, 6);
+    const date = dateId.slice(6, 8);
+    return `${year}-${month}-${date}`;
+  } else if (dateId.length === 7) {
+    // 2022 10~12 1~9
+    if (
+      dateId.slice(4, 6) === "10" ||
+      dateId.slice(4, 6) === "11" ||
+      dateId.slice(4, 6) === "12"
+    ) {
+      const month = dateId.slice(4, 6);
+      const date = dateId.slice(6);
+      return `${year}-${month}-${date}`;
+    } else {
+      // 2022 1~9 10~31
+      const month = dateId.slice(4, 5);
+      const date = dateId.slice(5);
+      return `${year}-${month}-${date}`;
+    }
+  } else {
+    // 2022 1~9 1~9
+    const month = dateId.slice(4, 5);
+    const date = dateId.slice(5);
+    return `${year}-${month}-${date}`;
+  }
+}

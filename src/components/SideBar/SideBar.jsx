@@ -57,7 +57,7 @@ const SideBar = () => {
               .map((item) => (
                 <Item key={item.id}>
                   <ItemWrapper>
-                    <Todo key={item.id} item={item}></Todo>
+                    <Todo key={item.id} item={item} isInSidebar={true}></Todo>
                     <DeleteBtn onClick={() => onHandleDeleteTodo(item.id)}>
                       X
                     </DeleteBtn>
@@ -87,6 +87,7 @@ const Text = styled.p`
 `;
 const AddTodo = styled.button`
   width: 100px;
+  cursor: pointer;
 `;
 const TodoList = styled.div`
   position: relative;
@@ -102,6 +103,8 @@ const ItemWrapper = styled.div`
 const Item = styled.li`
   color: white;
 `;
-const DeleteBtn = styled.button``;
+const DeleteBtn = styled.button`
+  cursor: pointer;
+`;
 
 export default SideBar;

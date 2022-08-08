@@ -17,7 +17,6 @@ const Layout = ({ children }) => {
 
 const Wrapper = styled.div`
   width: 1185px;
-  height: 500px;
   margin: 0 auto;
 `;
 const MainView = styled.div`

@@ -9,23 +9,35 @@ const todoSlice = createSlice({
   reducers: {
     addTodo: (state, action) => {
       console.log("action.payload", action.payload);
-      const { id, eventName, place, date, time } = action.payload.todo;
+      const {
+        date,
+        id,
+        eventName,
+        place,
+        startDate,
+        startTime,
+        endDate,
+        endTime,
+      } = action.payload.todo;
+      console.log("datedateeee", date);
       const newTodo = {
+        date: date,
         id: id,
         eventName: eventName,
         place: place,
-        date: date,
-        time: time,
         isClicked: false,
-        test: "",
+        startDate: startDate || date,
+        startTime: startTime || "09:00",
+        endDate: endDate || date,
+        endTime: endTime || "10:00",
       };
       console.log("addTodo", newTodo, state.todos);
       state.todos = [...state.todos, newTodo];
       state.todos = state.todos.sort((a, b) => {
-        console.log("sorting by time order", a.time, b.time);
-        return a.time.split(":")[0] === b.time.split(":")[0]
-          ? a.time.split(":")[1] - b.time.split(":")[1]
-          : a.time.split(":")[0] === b.time.split(":")[0];
+        console.log("sorting by time order", a.startTime, b.startTime);
+        return a.startTime.split(":")[0] === b.startTime.split(":")[0]
+          ? a.startTime.split(":")[1] - b.startTime.split(":")[1]
+          : a.startTime.split(":")[0] === b.startTime.split(":")[0];
       });
       state.count += 1;
     },
@@ -43,17 +55,19 @@ const todoSlice = createSlice({
         ...clickedTodo,
         eventName: action.payload.eventName,
         place: action.payload.place,
-        date: action.payload.date,
-        time: action.payload.time,
+        startDate: action.payload.startDate,
+        startTime: action.payload.startTime,
+        endDate: action.payload.endDate,
+        endTime: action.payload.endTime,
       };
       state.todos = state.todos.filter((todo) => todo.id !== id);
       state.todos = [...state.todos, editedTodo];
       // todo 시간 순 정렬 로직
       state.todos = state.todos.sort((a, b) => {
-        console.log("sorting by time order", a.time, b.time);
-        return a.time.split(":")[0] === b.time.split(":")[0]
-          ? a.time.split(":")[1] - b.time.split(":")[1]
-          : a.time.split(":")[0] === b.time.split(":")[0];
+        console.log("sorting by time order", a.startTime, b.startTime);
+        return a.startTime.split(":")[0] === b.startTime.split(":")[0]
+          ? a.startTime.split(":")[1] - b.startTime.split(":")[1]
+          : a.startTime.split(":")[0] === b.startTime.split(":")[0];
       });
     },
     onClickTodo: (state, action) => {
@@ -79,10 +93,10 @@ const todoSlice = createSlice({
 
       // todo 시간 순 정렬 로직
       state.todos = state.todos.sort((a, b) => {
-        console.log("sorting by time order", a.time, b.time);
-        return a.time.split(":")[0] === b.time.split(":")[0]
-          ? a.time.split(":")[1] - b.time.split(":")[1]
-          : a.time.split(":")[0] === b.time.split(":")[0];
+        console.log("sorting by time order", a.startTime, b.startTime);
+        return a.startTime.split(":")[0] === b.startTime.split(":")[0]
+          ? a.startTime.split(":")[1] - b.startTime.split(":")[1]
+          : a.startTime.split(":")[0] === b.startTime.split(":")[0];
       });
     },
     onClickEmptySpace: (state, action) => {
