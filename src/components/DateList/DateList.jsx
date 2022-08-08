@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { addTodo } from "../../data/slices/todoSlice";
 import Box from "./Box";
-import { createView } from "./modules/dateArray";
+import { createView, utilityFunction } from "./modules/dateArray";
 
 export default function DateList() {
   const dispatch = useDispatch();
@@ -14,11 +14,14 @@ export default function DateList() {
     dispatch(
       addTodo({
         todo: {
+          date: utilityFunction(dateId),
           id: `${dateId}-${count}`,
           eventName: "새로운 이벤트",
           place: "",
-          date: "",
-          time: "",
+          startDate: "",
+          startTime: "",
+          endDate: "",
+          endTime: "",
         },
         type: "addTodo",
       })
