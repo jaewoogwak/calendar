@@ -21,7 +21,7 @@ export default function Todo({ item, isClicked, setIsClicked }) {
           ? `${item.eventName.slice(0, 6)}...`
           : item.eventName}
       </Text>
-      <Time>{item.time}</Time>
+      <Time>{item.startTime}</Time>
       {isOpened && item.isClicked && <Tooltip todo={item} />}
     </Wrapper>
   );
