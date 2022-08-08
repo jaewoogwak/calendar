@@ -57,7 +57,7 @@ const SideBar = () => {
               .map((item) => (
                 <Item key={item.id}>
                   <ItemWrapper>
-                    <Todo key={item.id} item={item}></Todo>
+                    <Todo key={item.id} item={item} isInSidebar={true}></Todo>
                     <DeleteBtn onClick={() => onHandleDeleteTodo(item.id)}>
                       X
                     </DeleteBtn>

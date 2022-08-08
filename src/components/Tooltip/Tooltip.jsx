@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
@@ -6,8 +7,18 @@ import styled from "styled-components";
 import { editTodo } from "../../data/slices/todoSlice";
 import useTooltip from "./hooks/useTooltip";
 
-const Tooltip = ({ todo }) => {
-  console.log("todo in Tooltip", todo);
+const Tooltip = ({ todo, getBoxPos, isInSidebar }) => {
+  console.log("todo in Tooltip", getBoxPos);
+
+  const { offsetLeft, offsetTop } = getBoxPos();
+  console.log("left", offsetLeft, "right", offsetTop);
+  const setTooltipPos = () => {
+    let isReflect = false;
+    if (offsetLeft >= 687) {
+      return (isReflect = true);
+    } else return isReflect;
+  };
+
   const dispatch = useDispatch();
   const { isOpened } = useTooltip();
   const [event, setEvent] = useState(todo.eventName);
@@ -57,7 +68,7 @@ const Tooltip = ({ todo }) => {
     onHandleEditTodo();
   }, [isOpened, onHandleEditTodo]);
   return (
-    <Container>
+    <Container isReflect={setTooltipPos()} isInSidebar={isInSidebar}>
       <EventName
         placeholder="일정을 추가헤보세요"
         name="event"
@@ -114,8 +125,9 @@ const Container = styled.div`
   border-radius: 10px;
   padding: 10px;
   border: 0.5px solid gray;
-  top: 25px;
-  right: 20px;
+  left: ${(props) => (props.isReflect ? null : "130px")};
+  right: ${(props) => (props.isReflect ? "130px" : null)};
+  right: ${(props) => (props.isInSidebar ? "290px" : null)};
   width: 255px;
   height: 120px;
   background-color: #312b39;
