@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useCallback } from "react";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { onClickTodo } from "../../data/slices/todoSlice";
