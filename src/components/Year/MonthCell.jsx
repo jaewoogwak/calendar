@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { setDate, setDate2 } from "../../data/slices/dateSlice";
+import { setDate } from "../../data/slices/dateSlice";
 import { setView } from "../../data/slices/viewSlice";
 import Days from "../DayBar/Days";
 import DateCell from "./DateCell";
