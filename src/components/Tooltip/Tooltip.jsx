@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { editTodo } from "../../data/slices/todoSlice";
 import Form from "./Form";
-import useTooltip from "./hooks/useTooltip";
 
 const Tooltip = ({ todo, getBoxPos, isInSidebar }) => {
-  const { isOpened } = useTooltip();
   const { offsetLeft } = getBoxPos();
-
-  useEffect(() => {}, [isOpened]);
   return (
     <Container
       isReflect={offsetLeft >= 687 ? true : false}
