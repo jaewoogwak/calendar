@@ -1,18 +1,14 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-export default function Date({
-  itemYear,
-  itemMonth,
-  itemDate,
-  itemDay,
-  month,
-  date,
-  today,
-}) {
-  const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
+export default function Date({ item, month }) {
+  const { today } = useSelector((state) => state.reducers.date);
+  const { year, month: itemMonth, date, day } = item;
+  const clickedDate = `${year}${itemMonth}${date}`;
+
   return (
     <Wrapper
-      isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
+      isWeekend={day === 0 || day === 6 ? true : false}
       isCurrentMonth={month === itemMonth}
       isToday={today === clickedDate ? true : false}
     >

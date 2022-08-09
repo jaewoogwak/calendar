@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const dateSlice = createSlice({
   name: "date",
   initialState: {
-    date: "",
     bucket: {
       // 캘린더의 연,월,일 상태 값
       // 달력 페이지 이동함에 따라 변경
@@ -18,15 +17,16 @@ const dateSlice = createSlice({
       month: new Date().getMonth() + 1,
       date: new Date().getDate(),
     },
+    today: `${new Date().getFullYear()}${
+      new Date().getMonth() + 1
+    }${new Date().getDate()}`,
   },
   reducers: {
-    setDate2: (state, action) => {
+    setDate: (state, action) => {
       state.bucket.year = action.payload.year;
       state.bucket.month = action.payload.month;
     },
-    setDate: (state, action) => {
-      state.date = action.payload.date;
-    },
+
     setNow: (state, action) => {
       state.bucket.year = new Date().getFullYear();
       state.bucket.month = new Date().getMonth() + 1;
@@ -40,6 +40,6 @@ const dateSlice = createSlice({
 });
 
 // Action creator
-export const { setDate2, setDate, setNow, onSelectDateBox } = dateSlice.actions;
+export const { setDate, setNow, onSelectDateBox } = dateSlice.actions;
 
 export default dateSlice.reducer;

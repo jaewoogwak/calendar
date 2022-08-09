@@ -1,5 +1,4 @@
 export const createView = (year, month) => {
-  console.log("call createView");
   let arr = [];
   let time = new Date(year, month - 1, 1).getTime();
   const first = new Date(time);
@@ -26,7 +25,6 @@ export const createView = (year, month) => {
 };
 
 export const createMonthList = (year, mm) => {
-  console.log("initView");
   let monthList = [];
   for (let month = 1; month <= 12; month++) {
     let time = new Date(year, month - 1, 1).getTime();
@@ -37,7 +35,6 @@ export const createMonthList = (year, mm) => {
       date: first.getDate(),
       day: first.getDay(),
     };
-    // console.log("firstDay", firstDay);
     time = time - 60 * 60 * 24 * firstDay.day * 1000;
     let tmp = [];
     for (let i = 0; i < 42; i++) {
@@ -58,7 +55,7 @@ export const createMonthList = (year, mm) => {
   return monthList;
 };
 
-export function utilityFunction(dateId) {
+export function getDateFormat(dateId) {
   const year = dateId.slice(0, 4);
   // 2022 10~12 10~31
   if (dateId.length === 8) {
