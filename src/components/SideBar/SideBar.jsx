@@ -1,36 +1,37 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setDate } from "../../data/slices/dateSlice";
 import { addTodo, deleteTodo } from "../../data/slices/todoSlice";
 import Todo from "../DateList/Todo";
+import { getDateFormat } from "../DateList/utils/dateArray";
 
 const SideBar = () => {
-  const dispatch = useDispatch();
   const todos = useSelector((state) => state.reducers.todos.todos);
   const count = useSelector((state) => state.reducers.todos.count);
   const { year, month, date } = useSelector(
     (state) => state.reducers.date.sideBar
   );
-
+  const dispatch = useDispatch();
   const clickedDate = `${year}${month}${date}`;
-  const onHandleaddTodo = () => {
-    dispatch(setDate({ date: clickedDate }));
+
+  const onHandleAddTodo = () => {
     dispatch(
       addTodo({
         todo: {
+          date: getDateFormat(clickedDate),
           id: `${clickedDate}-${count}`,
           eventName: "새로운 이벤트",
           place: "",
-          date: "",
-          time: "",
+          startDate: "",
+          startTime: "",
+          endDate: "",
+          endTime: "",
         },
         type: "addTodo",
       })
     );
   };
   const onHandleDeleteTodo = (id) => {
-    console.log("onHandleDeleteTodo", id);
     dispatch(deleteTodo({ id: id }));
   };
   return (
@@ -46,7 +47,7 @@ const SideBar = () => {
             <Text>
               할 일이 텅! 비었어요. <br />할 일을 추가해보세요.
             </Text>
-            <AddTodo onClick={onHandleaddTodo}>할 일 추가하기</AddTodo>
+            <AddTodo onClick={onHandleAddTodo}>할 일 추가하기</AddTodo>
           </EmptyPage>
         ) : (
           <ItemList>

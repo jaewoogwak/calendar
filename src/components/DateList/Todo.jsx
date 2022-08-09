@@ -1,4 +1,6 @@
 import React, { useRef } from "react";
+import { useCallback } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { onClickTodo } from "../../data/slices/todoSlice";
@@ -6,13 +8,15 @@ import useTooltip from "../Tooltip/hooks/useTooltip";
 import Tooltip from "../Tooltip/Tooltip";
 
 export default function Todo({ item, event, isInSidebar }) {
-  const dispatch = useDispatch();
   const { isOpened, handleClick } = useTooltip();
   const myRef = useRef();
-  const getBoxPos = () => {
+  const dispatch = useDispatch();
+
+  const getBoxPos = useCallback(() => {
     const { offsetLeft, offsetTop } = myRef.current.offsetParent;
     return { offsetLeft, offsetTop, isInSidebar };
-  };
+  }, [myRef, isInSidebar]);
+
   return (
     <Wrapper
       onClick={(e) => {

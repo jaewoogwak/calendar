@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setView } from "../data/slices/viewSlice";
-import { createMonthList } from "../components/DateList/modules/dateArray";
+import { createMonthList } from "../components/DateList/utils/dateArray";
 import Layout from "../components/Layout";
 import MonthCell from "../components/Year/MonthCell";
 

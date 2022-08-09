@@ -1,52 +1,42 @@
 import React from "react";
-import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSelectDateBox } from "../../data/slices/dateSlice";
 import Todo from "./Todo";
 
-export default function Box({
-  id,
-  itemYear,
-  itemMonth,
-  itemDate,
-  itemDay,
-  onHandleClickDateCell,
-}) {
-  const dispatch = useDispatch();
+export default function Box({ id, item, onHandleClickDateCell }) {
   const todos = useSelector((state) => state.reducers.todos.todos);
   const { month } = useSelector((state) => state.reducers.date.bucket);
-  const today = `${new Date().getFullYear()}${
-    new Date().getMonth() + 1
-  }${new Date().getDate()}`;
-  const clickedDate = `${itemYear}${itemMonth}${itemDate}`;
-  const myRef = useRef();
+  const { today } = useSelector((state) => state.reducers.date);
+  const { year, month: boxMonth, date, day } = item;
+  const clickedDate = `${year}${boxMonth}${date}`;
   const boxTodos = todos.filter((todo) => {
     return todo.id?.split("-")[0] === id;
   });
+  const dispatch = useDispatch();
+
   return (
     <>
       <Wrapper
-        isWeekend={itemDay === 0 || itemDay === 6 ? true : false}
+        isWeekend={day === 0 || day === 6 ? true : false}
         onDoubleClick={() => onHandleClickDateCell(clickedDate)}
-        ref={myRef}
       >
         <DateView
           onClick={(e) => {
             e.stopPropagation();
             dispatch(
               onSelectDateBox({
-                year: itemYear,
-                month: itemMonth,
-                date: itemDate,
+                year: year,
+                month: boxMonth,
+                date: date,
               })
             );
           }}
-          isCurrentMonth={month === itemMonth}
+          isCurrentMonth={month === boxMonth}
           isToday={today === clickedDate ? true : false}
         >
           <Text isToday={today === clickedDate ? true : false}>
-            {itemDate === 1 ? `${itemMonth}월 ${itemDate}일` : `${itemDate}일`}
+            {date === 1 ? `${boxMonth}월 ${date}일` : `${date}일`}
           </Text>
         </DateView>
         <Todos>

@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { onSelectDateBox, setDate2, setNow } from "../../data/slices/dateSlice";
+import { onSelectDateBox, setDate, setNow } from "../../data/slices/dateSlice";
 import { setIsClickedTodayBtn } from "../../data/slices/viewSlice";
 
 const NavBar = () => {
-  const dispatch = useDispatch();
   const { year, month } = useSelector((state) => state.reducers.date.bucket);
   const currentView = useSelector((state) => state.reducers.view.currentView);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
-  const onClickTodayBtn = () => {
+  const dispatch = useDispatch();
+
+  const onClickTodayBtn = useCallback(() => {
     dispatch(setIsClickedTodayBtn({ clicked: !isClickedTodayBtn }));
     dispatch(setNow());
     dispatch(
@@ -23,9 +24,9 @@ const NavBar = () => {
         date: new Date().getDate(),
       })
     );
-  };
+  }, [dispatch, isClickedTodayBtn]);
 
-  const prevPage2 = () => {
+  const prevPage = () => {
     if (currentView === "month") {
       let years = year;
       let months = month;
@@ -33,12 +34,12 @@ const NavBar = () => {
         years = year - 1;
         months = 12;
       } else months = month - 1;
-      dispatch(setDate2({ year: years, month: months }));
+      dispatch(setDate({ year: years, month: months }));
     } else {
-      dispatch(setDate2({ year: year - 1, month: month }));
+      dispatch(setDate({ year: year - 1, month: month }));
     }
   };
-  const nextPage2 = () => {
+  const nextPage = () => {
     if (currentView === "month") {
       let years = year;
       let months = month;
@@ -46,9 +47,9 @@ const NavBar = () => {
         years = year + 1;
         months = 1;
       } else months = month + 1;
-      dispatch(setDate2({ year: years, month: months }));
+      dispatch(setDate({ year: years, month: months }));
     } else {
-      dispatch(setDate2({ year: year + 1, month: month }));
+      dispatch(setDate({ year: year + 1, month: month }));
     }
   };
 
@@ -83,9 +84,9 @@ const NavBar = () => {
           )}
 
           <ButtonsWrapper>
-            <PrevBtn onClick={prevPage2}>{"<"}</PrevBtn>
+            <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
             <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
-            <NextBtn onClick={nextPage2}>{">"}</NextBtn>
+            <NextBtn onClick={nextPage}>{">"}</NextBtn>
           </ButtonsWrapper>
         </Test>
       </PageControllerWrapper>

@@ -1,42 +1,43 @@
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { addTodo } from "../../data/slices/todoSlice";
 import Box from "./Box";
-import { createView, utilityFunction } from "./modules/dateArray";
+import { createView, getDateFormat } from "./utils/dateArray";
 
 export default function DateList() {
-  const dispatch = useDispatch();
   const count = useSelector((state) => state.reducers.todos.count);
   const { year, month } = useSelector((state) => state.reducers.date.bucket);
   const arr = createView(year, month);
+  const dispatch = useDispatch();
 
-  const onHandleClickDateCell = (dateId) => {
-    dispatch(
-      addTodo({
-        todo: {
-          date: utilityFunction(dateId),
-          id: `${dateId}-${count}`,
-          eventName: "새로운 이벤트",
-          place: "",
-          startDate: "",
-          startTime: "",
-          endDate: "",
-          endTime: "",
-        },
-        type: "addTodo",
-      })
-    );
-  };
+  const onHandleClickDateCell = useCallback(
+    (dateId) => {
+      dispatch(
+        addTodo({
+          todo: {
+            date: getDateFormat(dateId),
+            id: `${dateId}-${count}`,
+            eventName: "새로운 이벤트",
+            place: "",
+            startDate: "",
+            startTime: "",
+            endDate: "",
+            endTime: "",
+          },
+          type: "addTodo",
+        })
+      );
+    },
+    [dispatch, count]
+  );
   return (
     <BoxListWrpper>
       {arr.map((item) => (
         <Box
           key={`${item.year}${item.month}${item.date}${item.day}`}
           id={`${item.year}${item.month}${item.date}`}
-          itemYear={item.year}
-          itemMonth={item.month}
-          itemDate={item.date}
-          itemDay={item.day}
+          item={item}
           onHandleClickDateCell={onHandleClickDateCell}
         ></Box>
       ))}
