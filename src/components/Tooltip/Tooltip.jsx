@@ -4,6 +4,7 @@ import Form from "./Form";
 
 const Tooltip = ({ todo, getBoxPos, isInSidebar }) => {
   const { offsetLeft } = getBoxPos();
+
   return (
     <Container
       isReflect={offsetLeft >= 687 ? true : false}

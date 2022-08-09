@@ -21,6 +21,7 @@ export default function Form({ todo }) {
     else if (name === "endDate") setEndDate(value);
     else setEndTime(value);
   };
+
   const onHandleEditTodo = useCallback(() => {
     dispatch(
       editTodo({
@@ -37,16 +38,7 @@ export default function Form({ todo }) {
 
   useEffect(() => {
     onHandleEditTodo();
-  }, [
-    event,
-    place,
-    startDate,
-    endDate,
-    startTime,
-    endTime,
-    dispatch,
-    onHandleEditTodo,
-  ]);
+  }, [onHandleEditTodo]);
   return (
     <>
       <EventName
