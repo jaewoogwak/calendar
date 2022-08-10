@@ -37,6 +37,7 @@ export default function Form({ todo }) {
   }, [dispatch, todo.id, event, place, startDate, startTime, endDate, endTime]);
 
   useEffect(() => {
+    console.log("onhandleEddittodo 변경");
     onHandleEditTodo();
   }, [onHandleEditTodo]);
   return (

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onClickTodo } from "../../data/slices/todoSlice";
 import useTooltip from "../Tooltip/hooks/useTooltip";
@@ -8,6 +8,8 @@ import Tooltip from "../Tooltip/Tooltip";
 
 export default function Todo({ item, event, isInSidebar }) {
   const { isOpened, handleClick } = useTooltip();
+  const { opend } = useSelector((state) => state.reducers.todos);
+  console.log("openddd", opend);
   const myRef = useRef();
   const dispatch = useDispatch();
 
@@ -22,6 +24,7 @@ export default function Todo({ item, event, isInSidebar }) {
         handleClick(e);
         dispatch(onClickTodo({ id: item.id }));
       }}
+      isClicked={opend === item.id}
       ref={myRef}
     >
       <Text>

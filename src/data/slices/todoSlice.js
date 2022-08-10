@@ -5,6 +5,7 @@ const todoSlice = createSlice({
   initialState: {
     todos: [],
     count: 0,
+    opend: "",
   },
   reducers: {
     addTodo: (state, action) => {
@@ -64,7 +65,6 @@ const todoSlice = createSlice({
       state.todos = [...state.todos, editedTodo];
       // todo 시간 순 정렬 로직
       state.todos = state.todos.sort((a, b) => {
-        console.log("sorting by time order", a.startTime, b.startTime);
         return a.startTime.split(":")[0] === b.startTime.split(":")[0]
           ? a.startTime.split(":")[1] === b.startTime.split(":")[1]
             ? parseInt(a.id.split("-")[1]) - parseInt(b.id.split("-")[1])
@@ -93,6 +93,7 @@ const todoSlice = createSlice({
       state.todos = state.todos.filter((todo) => todo.id !== id);
       state.todos = [...state.todos, todo];
 
+      state.opend = id;
       // 아이디 순 정렬 로직
       state.todos = state.todos.sort((a, b) => {
         console.log(
@@ -107,7 +108,6 @@ const todoSlice = createSlice({
         아이디 순으로 정렬 후 시간 비교
         */
         return (state.todos = state.todos.sort((a, b) => {
-          console.log("sorting by time order", a.startTime, b.startTime);
           return a.startTime.split(":")[0] === b.startTime.split(":")[0]
             ? a.startTime.split(":")[1] === b.startTime.split(":")[1]
               ? parseInt(a.id.split("-")[1]) - parseInt(b.id.split("-")[1])
@@ -127,10 +127,14 @@ const todoSlice = createSlice({
         state.todos = [...state.todos, tmp];
       });
     },
+    setIsOpend: (state) => {
+      state.opend = "";
+    },
   },
 });
 
 // Action creator
-export const { addTodo, deleteTodo, editTodo, onClickTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, editTodo, onClickTodo, setIsOpend } =
+  todoSlice.actions;
 
 export default todoSlice.reducer;
