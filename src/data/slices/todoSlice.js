@@ -66,8 +66,10 @@ const todoSlice = createSlice({
       state.todos = state.todos.sort((a, b) => {
         console.log("sorting by time order", a.startTime, b.startTime);
         return a.startTime.split(":")[0] === b.startTime.split(":")[0]
-          ? a.startTime.split(":")[1] - b.startTime.split(":")[1]
-          : a.startTime.split(":")[0] === b.startTime.split(":")[0];
+          ? a.startTime.split(":")[1] === b.startTime.split(":")[1]
+            ? parseInt(a.id.split("-")[1]) - parseInt(b.id.split("-")[1])
+            : a.startTime.split(":")[1] === b.startTime.split(":")[1]
+          : a.startTime.split(":")[0] - b.startTime.split(":")[0];
       });
     },
     onClickTodo: (state, action) => {
@@ -91,12 +93,27 @@ const todoSlice = createSlice({
       state.todos = state.todos.filter((todo) => todo.id !== id);
       state.todos = [...state.todos, todo];
 
-      // todo 시간 순 정렬 로직
+      // 아이디 순 정렬 로직
       state.todos = state.todos.sort((a, b) => {
-        console.log("sorting by time order", a.startTime, b.startTime);
-        return a.startTime.split(":")[0] === b.startTime.split(":")[0]
-          ? a.startTime.split(":")[1] - b.startTime.split(":")[1]
-          : a.startTime.split(":")[0] === b.startTime.split(":")[0];
+        console.log(
+          "sorting by id order and time",
+          a.startTime,
+          b.startTime,
+          a.id.split("-")[1],
+          b.id.split("-")[1]
+        );
+        /*
+        우선순위 : 시간 그다음 아이디
+        아이디 순으로 정렬 후 시간 비교
+        */
+        return (state.todos = state.todos.sort((a, b) => {
+          console.log("sorting by time order", a.startTime, b.startTime);
+          return a.startTime.split(":")[0] === b.startTime.split(":")[0]
+            ? a.startTime.split(":")[1] === b.startTime.split(":")[1]
+              ? parseInt(a.id.split("-")[1]) - parseInt(b.id.split("-")[1])
+              : a.startTime.split(":")[1] === b.startTime.split(":")[1]
+            : a.startTime.split(":")[0] - b.startTime.split(":")[0];
+        }));
       });
     },
     onClickEmptySpace: (state, action) => {
