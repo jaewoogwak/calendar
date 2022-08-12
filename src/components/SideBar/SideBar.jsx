@@ -103,8 +103,13 @@ const ItemWrapper = styled.div`
 `;
 const Item = styled.li`
   color: white;
+  padding-bottom: 10px;
 `;
 const DeleteBtn = styled.button`
+  background-color: red;
+  color: #511818;
+  border-radius: 50%;
+  border: 0;
   cursor: pointer;
 `;
 
