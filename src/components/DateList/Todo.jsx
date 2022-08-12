@@ -1,18 +1,20 @@
 import React, { useRef } from "react";
+import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { onClickTodo } from "../../data/slices/todoSlice";
+import { setIsOpend, setOpend } from "../../data/slices/todoSlice";
 import useTooltip from "../Tooltip/hooks/useTooltip";
 import Tooltip from "../Tooltip/Tooltip";
+import useClick from "./utils/useClick";
 
 export default function Todo({ item, event, isInSidebar }) {
   const { isOpened, handleClick } = useTooltip();
+  const { isClicked, clickedId, todoClick } = useClick();
   const { opend } = useSelector((state) => state.reducers.todos);
-  console.log("openddd", opend);
   const myRef = useRef();
   const dispatch = useDispatch();
-
+  console.log("클릭아이디비교", "opend:", opend, "clickedId", clickedId);
   const getBoxPos = useCallback(() => {
     const { offsetLeft, offsetTop } = myRef.current.offsetParent;
     return { offsetLeft, offsetTop, isInSidebar };
@@ -21,10 +23,12 @@ export default function Todo({ item, event, isInSidebar }) {
   return (
     <Wrapper
       onClick={(e) => {
+        // dispatch(onClickTodo({ id: item.id }));
         handleClick(e);
-        dispatch(onClickTodo({ id: item.id }));
+        todoClick(item.id);
+        dispatch(setOpend({ id: item.id }));
       }}
-      isClicked={opend === item.id}
+      isClicked={!isInSidebar && isOpened && opend === item.id}
       ref={myRef}
     >
       <Text>
@@ -33,7 +37,7 @@ export default function Todo({ item, event, isInSidebar }) {
           : item.eventName}
       </Text>
       <Time>{item.startTime}</Time>
-      {isOpened && item.isClicked && (
+      {!isInSidebar && isOpened && opend === item.id && (
         <Tooltip
           key={item.id}
           todo={item}

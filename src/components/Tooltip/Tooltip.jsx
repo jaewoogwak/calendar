@@ -8,9 +8,7 @@ import Form from "./Form";
 const Tooltip = ({ todo, getBoxPos, isInSidebar }) => {
   const { offsetLeft } = getBoxPos();
   const dispatch = useDispatch();
-  useEffect(() => {
-    return () => dispatch(setIsOpend());
-  }, [dispatch]);
+
   return (
     <Container
       isReflect={offsetLeft >= 687 ? true : false}

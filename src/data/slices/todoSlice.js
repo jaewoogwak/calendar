@@ -127,6 +127,10 @@ const todoSlice = createSlice({
         state.todos = [...state.todos, tmp];
       });
     },
+    setOpend: (state, action) => {
+      console.log("setdopend", action.payload);
+      state.opend = action.payload.id;
+    },
     setIsOpend: (state) => {
       state.opend = "";
     },
@@ -134,7 +138,13 @@ const todoSlice = createSlice({
 });
 
 // Action creator
-export const { addTodo, deleteTodo, editTodo, onClickTodo, setIsOpend } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  deleteTodo,
+  editTodo,
+  onClickTodo,
+  setIsOpend,
+  setOpend,
+} = todoSlice.actions;
 
 export default todoSlice.reducer;

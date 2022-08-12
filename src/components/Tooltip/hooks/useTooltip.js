@@ -4,7 +4,6 @@ import { setIsOpend } from "../../../data/slices/todoSlice";
 
 export default function useTooltip() {
   const [fixed, setFixed] = useState(false);
-  const dispatch = useDispatch();
   useEffect(() => {
     function handleClick() {
       setFixed(false);
