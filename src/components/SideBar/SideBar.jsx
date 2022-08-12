@@ -77,7 +77,7 @@ const Wrapper = styled.div`
 `;
 const Date = styled.h1`
   color: white;
-  padding-left: 20px;
+  padding-left: 55px;
 `;
 const EmptyPage = styled.div`
   text-align: center;
