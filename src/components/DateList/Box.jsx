@@ -35,9 +35,15 @@ export default function Box({ id, item, onHandleClickDateCell }) {
           isCurrentMonth={month === boxMonth}
           isToday={today === clickedDate ? true : false}
         >
-          <Text isToday={today === clickedDate ? true : false}>
-            {date === 1 ? `${boxMonth}월 ${date}일` : `${date}일`}
-          </Text>
+          {today === clickedDate ? (
+            <Ball isToday={today === clickedDate ? true : false}>
+              {date === 1 ? `${boxMonth}월 ${date}일` : `${date}일`}
+            </Ball>
+          ) : (
+            <Text isToday={today === clickedDate ? true : false}>
+              {date === 1 ? `${boxMonth}월 ${date}일` : `${date}일`}
+            </Text>
+          )}
         </DateView>
         <Todos>
           {boxTodos.length >= 5 ? (
@@ -75,11 +81,18 @@ const DateView = styled.div`
   color: ${(props) => (props.isToday ? "white" : "white")};
 `;
 const Text = styled.strong`
-  z-index: 1;
+  z-index: 2;
+  position: relative;
   border-radius: 50%;
+  height: 30px;
+`;
+const Ball = styled.div`
+  z-index: 1;
+  position: absolute;
   padding: 1px;
-  height: 24px;
-  background-color: ${(props) => (props.isToday ? "red" : "")};
+  border-radius: 30%;
+  font-weight: 800;
+  background-color: red;
 `;
 
 const Todos = styled.div`
