@@ -26,7 +26,7 @@ export default function Todo({ item, event, isInSidebar }) {
       isClicked={!isInSidebar && isOpened && opend === item.id}
       ref={myRef}
     >
-      <Text>
+      <Text isInSidebar={isInSidebar}>
         {item.eventName.length > 6
           ? `${item.eventName.slice(0, 6)}...`
           : item.eventName}
@@ -56,6 +56,7 @@ const Wrapper = styled.div`
 const Text = styled.div`
   font-weight: 600;
   color: white;
+  padding-right: ${(props) => (props.isInSidebar ? "50px" : "")};
 `;
 const Time = styled.div`
   font-size: 11px;
