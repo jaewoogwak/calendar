@@ -1,16 +1,16 @@
 import React, { useRef } from "react";
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { onClickTodo } from "../../data/slices/todoSlice";
+import { setOpend } from "../../data/slices/todoSlice";
 import useTooltip from "../Tooltip/hooks/useTooltip";
 import Tooltip from "../Tooltip/Tooltip";
 
 export default function Todo({ item, event, isInSidebar }) {
   const { isOpened, handleClick } = useTooltip();
+  const { opend } = useSelector((state) => state.reducers.todos);
   const myRef = useRef();
   const dispatch = useDispatch();
-
   const getBoxPos = useCallback(() => {
     const { offsetLeft, offsetTop } = myRef.current.offsetParent;
     return { offsetLeft, offsetTop, isInSidebar };
@@ -19,18 +19,20 @@ export default function Todo({ item, event, isInSidebar }) {
   return (
     <Wrapper
       onClick={(e) => {
+        // dispatch(onClickTodo({ id: item.id }));
         handleClick(e);
-        dispatch(onClickTodo({ id: item.id }));
+        dispatch(setOpend({ id: item.id }));
       }}
+      isClicked={!isInSidebar && isOpened && opend === item.id}
       ref={myRef}
     >
-      <Text>
+      <Text isInSidebar={isInSidebar}>
         {item.eventName.length > 6
           ? `${item.eventName.slice(0, 6)}...`
           : item.eventName}
       </Text>
       <Time>{item.startTime}</Time>
-      {isOpened && item.isClicked && (
+      {!isInSidebar && isOpened && opend === item.id && (
         <Tooltip
           key={item.id}
           todo={item}
@@ -54,6 +56,7 @@ const Wrapper = styled.div`
 const Text = styled.div`
   font-weight: 600;
   color: white;
+  padding-right: ${(props) => (props.isInSidebar ? "50px" : "")};
 `;
 const Time = styled.div`
   font-size: 11px;

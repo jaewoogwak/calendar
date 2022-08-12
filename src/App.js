@@ -5,6 +5,7 @@ import { setNow } from "./data/slices/dateSlice";
 import { Month } from "./pages/Month";
 import Year from "./pages/Year";
 import "./assets/index.css";
+import "./assets/App.css";
 
 function App() {
   const dispatch = useDispatch();

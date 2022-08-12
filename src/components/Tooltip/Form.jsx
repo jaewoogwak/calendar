@@ -37,6 +37,7 @@ export default function Form({ todo }) {
   }, [dispatch, todo.id, event, place, startDate, startTime, endDate, endTime]);
 
   useEffect(() => {
+    console.log("onhandleEddittodo 변경");
     onHandleEditTodo();
   }, [onHandleEditTodo]);
   return (
@@ -115,9 +116,12 @@ const Line = styled.hr`
   height: 0.1px;
 `;
 const Start = styled.div`
+  font-size: 12px;
   padding-bottom: 3px;
 `;
-const End = styled.div``;
+const End = styled.div`
+  font-size: 12px;
+`;
 const Date = styled.input`
   background-color: #312b39;
   padding-left: 5px;

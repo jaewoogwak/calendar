@@ -55,60 +55,47 @@ const NavBar = () => {
 
   return (
     <NavBarWrapper>
-      <PageControllerWrapper>
-        <PageToggler>
-          <PageSelector>
-            <NavLink
-              to={`/year`}
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              년
-            </NavLink>
-          </PageSelector>
-          <PageSelector>
-            <NavLink
-              to={`/`}
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              월
-            </NavLink>
-          </PageSelector>
-        </PageToggler>
-        <Test>
-          {currentView === "month" ? (
-            <YearAndMonth>
-              {year}년 {month}월
-            </YearAndMonth>
-          ) : (
-            <YearAndMonth>{year}년</YearAndMonth>
-          )}
-
-          <ButtonsWrapper>
-            <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
-            <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
-            <NextBtn onClick={nextPage}>{">"}</NextBtn>
-          </ButtonsWrapper>
-        </Test>
-      </PageControllerWrapper>
+      {currentView === "month" ? (
+        <YearAndMonth>
+          {year}년 {month}월
+        </YearAndMonth>
+      ) : (
+        <YearAndMonth>
+          {year}년 <Disabled>{month}월</Disabled>
+        </YearAndMonth>
+      )}
+      <PageController>
+        <PageSelector>
+          <NavLink
+            to={`/year`}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            년
+          </NavLink>
+        </PageSelector>
+        <PageSelector>
+          <NavLink to={`/`} style={{ textDecoration: "none", color: "white" }}>
+            월
+          </NavLink>
+        </PageSelector>
+      </PageController>
+      <ButtonsWrapper>
+        <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
+        <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
+        <NextBtn onClick={nextPage}>{">"}</NextBtn>
+      </ButtonsWrapper>
     </NavBarWrapper>
   );
 };
 
 const NavBarWrapper = styled.nav`
+  display: flex;
   width: 100%;
+  justify-content: space-between;
   background-color: #211d27;
   margin: 0 auto;
 `;
-const Test = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-const PageControllerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #211d27;
-`;
+
 const YearAndMonth = styled.h1`
   padding-left: 20px;
   font-size: 30px;
@@ -144,7 +131,7 @@ const NextBtn = styled.button`
   color: white;
   border-radius: 7px;
 `;
-const PageToggler = styled.div`
+const PageController = styled.div`
   display: flex;
   width: 100px;
   height: 20px;
@@ -152,7 +139,7 @@ const PageToggler = styled.div`
   border: 0.5px solid #716f75;
   background-color: #716f75;
   color: white;
-  margin: 0 auto;
+  margin-top: 10px;
 `;
 const PageSelector = styled.span`
   border: 1px solid grey;
@@ -160,5 +147,8 @@ const PageSelector = styled.span`
   width: 100%;
   text-align: center;
   text-decoration: none;
+`;
+const Disabled = styled.span`
+  opacity: 0;
 `;
 export default NavBar;
