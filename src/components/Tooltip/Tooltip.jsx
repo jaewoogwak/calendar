@@ -1,13 +1,9 @@
 import React from "react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { setIsOpend } from "../../data/slices/todoSlice";
 import Form from "./Form";
 
 const Tooltip = ({ todo, getBoxPos, isInSidebar }) => {
   const { offsetLeft } = getBoxPos();
-  const dispatch = useDispatch();
 
   return (
     <Container

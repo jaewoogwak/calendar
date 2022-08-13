@@ -9,7 +9,6 @@ const todoSlice = createSlice({
   },
   reducers: {
     addTodo: (state, action) => {
-      console.log("action.payload", action.payload);
       const {
         date,
         id,
@@ -20,7 +19,6 @@ const todoSlice = createSlice({
         endDate,
         endTime,
       } = action.payload.todo;
-      console.log("datedateeee", date);
       const newTodo = {
         date: date,
         id: id,
@@ -32,10 +30,8 @@ const todoSlice = createSlice({
         endDate: endDate || date,
         endTime: endTime || "10:00",
       };
-      console.log("addTodo", newTodo, state.todos);
       state.todos = [...state.todos, newTodo];
       state.todos = state.todos.sort((a, b) => {
-        console.log("sorting by time order", a.startTime, b.startTime);
         return a.startTime.split(":")[0] === b.startTime.split(":")[0]
           ? a.startTime.split(":")[1] - b.startTime.split(":")[1]
           : a.startTime.split(":")[0] === b.startTime.split(":")[0];
@@ -43,11 +39,9 @@ const todoSlice = createSlice({
       state.count += 1;
     },
     deleteTodo: (state, action) => {
-      console.log("deleteTodo", action.payload.id);
       state.todos = state.todos.filter((todo) => todo.id !== action.payload.id);
     },
     editTodo: (state, action) => {
-      console.log("editTodo", action.payload.id);
       const id = action.payload.id;
       const clickedTodo = current(state).todos.filter(
         (todo) => todo.id === id
@@ -77,7 +71,6 @@ const todoSlice = createSlice({
       const clickedTodo = current(state).todos.filter(
         (todo) => todo.id === id
       )[0];
-      console.log("onClickTodo", id, clickedTodo);
       current(state).todos.forEach((item) => {
         const tmp = {
           ...item,
@@ -96,13 +89,6 @@ const todoSlice = createSlice({
       state.opend = id;
       // 아이디 순 정렬 로직
       state.todos = state.todos.sort((a, b) => {
-        console.log(
-          "sorting by id order and time",
-          a.startTime,
-          b.startTime,
-          a.id.split("-")[1],
-          b.id.split("-")[1]
-        );
         /*
         우선순위 : 시간 그다음 아이디
         아이디 순으로 정렬 후 시간 비교
@@ -117,7 +103,6 @@ const todoSlice = createSlice({
       });
     },
     onClickEmptySpace: (state, action) => {
-      console.log("onclickEmptySpace");
       current(state).todos.forEach((item) => {
         const tmp = {
           ...item,
@@ -128,7 +113,6 @@ const todoSlice = createSlice({
       });
     },
     setOpend: (state, action) => {
-      console.log("setdopend", action.payload);
       state.opend = action.payload.id;
     },
     setIsOpend: (state) => {
