@@ -3,7 +3,7 @@
 🛠 Feature
 - 할 일 추가
 
-![캘린더시연_MOV_AdobeExpress](https://user-images.githubusercontent.com/62415600/184493240-d092f507-2c8a-439c-a15b-dfead99d2531.gif)
+<img src = "https://user-images.githubusercontent.com/62415600/184493240-d092f507-2c8a-439c-a15b-dfead99d2531.gif" width = "480px"/>
 
 - 연도별 달력 출력, '오늘' 버튼 클릭 시 달력 이동
 
