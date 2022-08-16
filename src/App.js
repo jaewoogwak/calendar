@@ -6,12 +6,15 @@ import { Month } from "./pages/Month";
 import Year from "./pages/Year";
 import "./assets/index.css";
 import "./assets/App.css";
+import GlobalStyle from "./components/GlobalStyle";
 
 function App() {
   const dispatch = useDispatch();
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
+  const { style } = useSelector((state) => state.reducers.view);
+
   const setToday = useCallback(() => {
     const time = new Date();
     dispatch(
@@ -26,6 +29,7 @@ function App() {
   }, [isClickedTodayBtn, setToday, dispatch]);
   return (
     <BrowserRouter>
+      <GlobalStyle style={style} />
       <Routes>
         <Route path="/" element={<Month />} />
         <Route path="/year" element={<Year />} />

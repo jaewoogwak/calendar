@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { editTodo } from "../../data/slices/todoSlice";
 
@@ -10,6 +10,7 @@ export default function Form({ todo }) {
   const [endDate, setEndDate] = useState(todo.endDate);
   const [startTime, setStartTime] = useState(todo.startTime);
   const [endTime, setEndTime] = useState(todo.endTime);
+  const { style } = useSelector((state) => state.reducers.view);
   const dispatch = useDispatch();
 
   const onChange = (e) => {
@@ -40,14 +41,16 @@ export default function Form({ todo }) {
     onHandleEditTodo();
   }, [onHandleEditTodo]);
   return (
-    <>
+    <Wrapper style={style}>
       <EventName
+        style={style}
         placeholder="일정을 추가헤보세요"
         name="event"
         value={event}
         onChange={onChange}
       ></EventName>
       <Place
+        style={style}
         placeholder="장소를 추가해보세요"
         name="place"
         value={place}
@@ -57,6 +60,7 @@ export default function Form({ todo }) {
       <Start>
         시작:
         <Date
+          style={style}
           type="date"
           placeholder="날짜를 추가해보세요"
           name="startDate"
@@ -64,6 +68,7 @@ export default function Form({ todo }) {
           onChange={onChange}
         ></Date>
         <Time
+          style={style}
           type="time"
           placeholder="시간을 추가해보세요"
           name="startTime"
@@ -74,6 +79,7 @@ export default function Form({ todo }) {
       <End>
         종료:
         <Date
+          style={style}
           type="date"
           placeholder="날짜를 추가해보세요"
           name="endDate"
@@ -81,6 +87,7 @@ export default function Form({ todo }) {
           onChange={onChange}
         ></Date>
         <Time
+          style={style}
           type="time"
           placeholder="시간을 추가해보세요"
           name="endTime"
@@ -88,13 +95,16 @@ export default function Form({ todo }) {
           onChange={onChange}
         ></Time>
       </End>
-    </>
+    </Wrapper>
   );
 }
-
+const Wrapper = styled.div`
+  background-color: ${(props) => props.style.background};
+  color: ${(props) => props.style.text};
+`;
 const EventName = styled.input`
-  background-color: #312b39;
-  color: white;
+  background-color: ${(props) => props.style.background};
+  color: ${(props) => props.style.text};
   width: 160px;
   height: 18px;
   font-size: 16px;
@@ -103,8 +113,8 @@ const EventName = styled.input`
   border: none;
 `;
 const Place = styled.input`
-  background-color: #312b39;
-  color: white;
+  color: ${(props) => props.style.text};
+
   font-size: 12px;
   font-weight: 400;
   border-bottom: 0.5px solid gray;
@@ -122,17 +132,17 @@ const End = styled.div`
   font-size: 12px;
 `;
 const Date = styled.input`
-  background-color: #312b39;
+  color: ${(props) => props.style.text};
+
   padding-left: 5px;
-  color: white;
   font-size: 12px;
   font-weight: 400;
   border-bottom: 0.5px solid gray;
   border: none;
 `;
 const Time = styled.input`
-  background-color: #312b39;
-  color: white;
+  color: ${(props) => props.style.text};
+
   font-size: 12px;
   font-weight: 400;
   border-bottom: 0.5px solid gray;

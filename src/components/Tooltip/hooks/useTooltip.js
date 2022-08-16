@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setIsOpend } from "../../../data/slices/todoSlice";
 
 export default function useTooltip() {
   const [fixed, setFixed] = useState(false);

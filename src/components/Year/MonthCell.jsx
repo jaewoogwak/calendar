@@ -8,6 +8,8 @@ import DateCell from "./DateCell";
 
 export default function MonthCell({ month, list }) {
   const { year } = useSelector((state) => state.reducers.date.bucket);
+  const { style } = useSelector((state) => state.reducers.view);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,10 +20,10 @@ export default function MonthCell({ month, list }) {
   };
 
   return (
-    <Wrapper>
+    <Wrapper st={style}>
       <Month onClick={handleSetMonth}>{month}월</Month>
       <Days size={"12px"} />
-      <MonthList>
+      <MonthList st={style}>
         {list?.map((item) => (
           <DateCell
             key={`${item.year}${item.month}${item.date}${item.day}`}
@@ -39,6 +41,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 200px;
+  background-color: ${(props) => props.st.background};
 `;
 const Month = styled.div`
   color: red;
@@ -50,4 +53,5 @@ const Month = styled.div`
 const MonthList = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  background-color: ${(props) => props.st.background};
 `;
