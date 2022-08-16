@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { onSelectDateBox, setDate, setNow } from "../../data/slices/dateSlice";
-import { setIsClickedTodayBtn } from "../../data/slices/viewSlice";
+import { onToggle, setIsClickedTodayBtn } from "../../data/slices/viewSlice";
 
 const NavBar = () => {
   const { year, month } = useSelector((state) => state.reducers.date.bucket);
@@ -12,6 +12,8 @@ const NavBar = () => {
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
+  const { mode, style } = useSelector((state) => state.reducers.view);
+  console.log("mode in navbar", mode, style);
   const dispatch = useDispatch();
 
   const onClickTodayBtn = useCallback(() => {
@@ -52,38 +54,58 @@ const NavBar = () => {
       dispatch(setDate({ year: year + 1, month: month }));
     }
   };
-
+  const onClickToggle = (mode) => {
+    dispatch(onToggle());
+  };
   return (
-    <NavBarWrapper>
+    <NavBarWrapper st={style}>
       {currentView === "month" ? (
-        <YearAndMonth>
+        <YearAndMonth st={style}>
           {year}년 {month}월
         </YearAndMonth>
       ) : (
-        <YearAndMonth>
+        <YearAndMonth st={style}>
           {year}년 <Disabled>{month}월</Disabled>
         </YearAndMonth>
       )}
-      <PageController>
+      <PageController st={style}>
         <PageSelector>
           <NavLink
             to={`/year`}
-            style={{ textDecoration: "none", color: "white" }}
+            style={{
+              textDecoration: "none",
+              color: style.text,
+            }}
           >
             년
           </NavLink>
         </PageSelector>
         <PageSelector>
-          <NavLink to={`/`} style={{ textDecoration: "none", color: "white" }}>
+          <NavLink
+            to={`/`}
+            style={{ textDecoration: "none", color: style.text }}
+          >
             월
           </NavLink>
         </PageSelector>
       </PageController>
-      <ButtonsWrapper>
-        <PrevBtn onClick={prevPage}>{"<"}</PrevBtn>
-        <TodayBtn onClick={onClickTodayBtn}>오늘</TodayBtn>
-        <NextBtn onClick={nextPage}>{">"}</NextBtn>
-      </ButtonsWrapper>
+      <>
+        <ButtonsWrapper>
+          <Toggle st={style} onClick={onClickToggle}>
+            {mode === "dark" ? "Light" : "Dark"}
+          </Toggle>
+
+          <PrevBtn st={style} onClick={prevPage}>
+            {"<"}
+          </PrevBtn>
+          <TodayBtn st={style} onClick={onClickTodayBtn}>
+            오늘
+          </TodayBtn>
+          <NextBtn st={style} onClick={nextPage}>
+            {">"}
+          </NextBtn>
+        </ButtonsWrapper>
+      </>
     </NavBarWrapper>
   );
 };
@@ -92,7 +114,7 @@ const NavBarWrapper = styled.nav`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  background-color: #211d27;
+  background-color: ${(props) => props.st.background};
   margin: 0 auto;
 `;
 
@@ -100,7 +122,7 @@ const YearAndMonth = styled.h1`
   padding-left: 20px;
   font-size: 30px;
   font-weight: 800;
-  color: white;
+  color: ${(props) => props.st.text};
 `;
 const ButtonsWrapper = styled.div`
   align-self: center;
@@ -108,27 +130,27 @@ const ButtonsWrapper = styled.div`
 `;
 const TodayBtn = styled.button`
   cursor: pointer;
-  border: 0.5px solid #716f75;
-  background-color: #716f75;
-  color: white;
+  border: 0.5px solid ${(props) => props.st.boxBorder};
+  background-color: ${(props) => props.st.pageControllerBg};
+  color: ${(props) => props.st.text};
   border-radius: 7px;
   margin-left: 2px;
   margin-right: 2px;
 `;
 const PrevBtn = styled.button`
   cursor: pointer;
-  border: 0.5px solid #716f75;
+  border: 0.5px solid ${(props) => props.st.boxBorder};
   font-size: 14px;
-  background-color: #716f75;
-  color: white;
+  background-color: ${(props) => props.st.pageControllerBg};
+  color: ${(props) => props.st.text};
   border-radius: 7px;
 `;
 const NextBtn = styled.button`
   cursor: pointer;
-  border: 0.5px solid #716f75;
+  border: 0.5px solid ${(props) => props.st.boxBorder};
   font-size: 14px;
-  background-color: #716f75;
-  color: white;
+  background-color: ${(props) => props.st.pageControllerBg};
+  color: ${(props) => props.st.text};
   border-radius: 7px;
 `;
 const PageController = styled.div`
@@ -136,13 +158,25 @@ const PageController = styled.div`
   width: 100px;
   height: 20px;
   border-radius: 5px;
-  border: 0.5px solid #716f75;
-  background-color: #716f75;
-  color: white;
+  background-color: ${(props) => props.st.pageControllerBg};
+  color: ${(props) => props.st.text};
   margin-top: 10px;
 `;
+const Toggle = styled.div`
+  border: 0.5px solid gray;
+  color: ${(props) => props.st.text};
+  width: 50px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+`;
 const PageSelector = styled.span`
-  border: 1px solid grey;
+  border: 0.5px solid grey;
   border-radius: 5px;
   width: 100%;
   text-align: center;

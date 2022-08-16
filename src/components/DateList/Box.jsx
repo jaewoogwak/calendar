@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSelectDateBox } from "../../data/slices/dateSlice";
+import useMode from "../Mode/useMode";
 import Todo from "./Todo";
 
 export default function Box({ id, item, onHandleClickDateCell }) {
@@ -10,6 +11,8 @@ export default function Box({ id, item, onHandleClickDateCell }) {
   const { today } = useSelector((state) => state.reducers.date);
   const { year, month: boxMonth, date, day } = item;
   const clickedDate = `${year}${boxMonth}${date}`;
+  const { mode, style } = useSelector((state) => state.reducers.view);
+  console.log("ssfdsa", mode);
   const boxTodos = todos.filter((todo) => {
     return todo.id?.split("-")[0] === id;
   });
@@ -20,8 +23,10 @@ export default function Box({ id, item, onHandleClickDateCell }) {
       <Wrapper
         isWeekend={day === 0 || day === 6 ? true : false}
         onDoubleClick={() => onHandleClickDateCell(clickedDate)}
+        st={style}
       >
         <DateView
+          st={style}
           onClick={(e) => {
             e.stopPropagation();
             dispatch(
@@ -36,7 +41,7 @@ export default function Box({ id, item, onHandleClickDateCell }) {
           isToday={today === clickedDate ? true : false}
         >
           {today === clickedDate ? (
-            <Ball isToday={today === clickedDate ? true : false}>
+            <Ball st={style} isToday={today === clickedDate ? true : false}>
               {date === 1 ? `${boxMonth}월 ${date}일` : `${date}일`}
             </Ball>
           ) : (
@@ -63,10 +68,10 @@ export default function Box({ id, item, onHandleClickDateCell }) {
 }
 
 const Wrapper = styled.div`
-  border: 0.5px solid #716f75;
+  border: 0.1px solid ${(props) => props.st.boxBorder};
   width: 125px;
   height: 100px;
-  background-color: ${(props) => (props.isWeekend ? "#29262D" : "")};
+  background-color: ${(props) => props.st.background};
 `;
 const DateView = styled.div`
   cursor: pointer;
@@ -75,10 +80,9 @@ const DateView = styled.div`
   justify-content: end;
   padding-right: 5px;
   padding-top: 5px;
-  color: "white";
   height: 20px;
   opacity: ${(props) => (props.isCurrentMonth ? "1" : "0.2")};
-  color: ${(props) => (props.isToday ? "white" : "white")};
+  color: ${(props) => props.st.text};
 `;
 const Text = styled.strong`
   z-index: 2;
@@ -90,9 +94,10 @@ const Ball = styled.div`
   z-index: 1;
   position: absolute;
   padding: 1px;
-  border-radius: 30%;
+  border-radius: 30px;
   font-weight: 800;
   background-color: red;
+  color: ${(props) => props.st.background};
 `;
 
 const Todos = styled.div`
