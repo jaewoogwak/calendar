@@ -162,6 +162,7 @@ const PageController = styled.div`
 `;
 const Toggle = styled.div`
   border: 0.5px solid gray;
+  background-color: ${(props) => props.st.pageControllerBg};
   color: ${(props) => props.st.text};
   width: 50px;
   height: 24px;
