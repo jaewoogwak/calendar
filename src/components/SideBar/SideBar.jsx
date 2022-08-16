@@ -11,6 +11,8 @@ const SideBar = () => {
   const { year, month, date } = useSelector(
     (state) => state.reducers.date.sideBar
   );
+  const { style } = useSelector((state) => state.reducers.view);
+  console.log("sidebar", style);
   const dispatch = useDispatch();
   const clickedDate = `${year}${month}${date}`;
 
@@ -35,8 +37,8 @@ const SideBar = () => {
     dispatch(deleteTodo({ id: id }));
   };
   return (
-    <Wrapper>
-      <Date>
+    <Wrapper st={style}>
+      <Date st={style}>
         {year}년 {month}월 {date}일
       </Date>
       <TodoList>
@@ -44,22 +46,25 @@ const SideBar = () => {
           (todo) => todo.id.split("-")[0] === `${year}${month}${date}`
         ).length === 0 ? (
           <EmptyPage>
-            <Text>
-              할 일이 텅! 비었어요. <br />할 일을 추가해보세요.
-            </Text>
-            <AddTodo onClick={onHandleAddTodo}>할 일 추가하기</AddTodo>
+            <Text st={style}>텅!</Text>
+            <AddTodo st={style} onClick={onHandleAddTodo}>
+              할 일 추가하기
+            </AddTodo>
           </EmptyPage>
         ) : (
-          <ItemList>
+          <ItemList st={style}>
             {todos
               .filter(
                 (todo) => todo.id.split("-")[0] === `${year}${month}${date}`
               )
               .map((item) => (
-                <Item key={item.id}>
-                  <ItemWrapper>
+                <Item st={style} key={item.id}>
+                  <ItemWrapper st={style}>
                     <Todo key={item.id} item={item} isInSidebar={true}></Todo>
-                    <DeleteBtn onClick={() => onHandleDeleteTodo(item.id)}>
+                    <DeleteBtn
+                      st={style}
+                      onClick={() => onHandleDeleteTodo(item.id)}
+                    >
                       X
                     </DeleteBtn>
                   </ItemWrapper>
@@ -72,23 +77,38 @@ const SideBar = () => {
   );
 };
 const Wrapper = styled.div`
-  background-color: #211d27;
+  background-color: ${(props) => props.st.background};
   width: 300px;
 `;
 const Date = styled.h1`
-  color: white;
+  color: ${(props) => props.st.text};
   padding-left: 35px;
 `;
 const EmptyPage = styled.div`
   text-align: center;
 `;
-const Text = styled.p`
-  padding-top: 120px;
-  color: white;
+const Text = styled.h1`
+  padding-top: 60px;
+  font-size: 80px;
+  color: ${(props) => props.st.text};
 `;
-const AddTodo = styled.button`
-  width: 100px;
+const AddTodo = styled.div`
+  font-size: 20px;
+  align-self: center;
+  width: 200px;
+  height: 35px;
+  background-color: ${(props) => props.st.background};
+  border: ${(props) => props.st.boxBorder};
+  border-radius: 30px;
+  color: ${(props) => props.st.text};
   cursor: pointer;
+  align-items: center;
+  margin: 0 auto;
+  line-height: 35px;
+  font-weight: 800;
+  :hover {
+    background-color: #7a67a2;
+  }
 `;
 const TodoList = styled.div`
   position: relative;
@@ -102,14 +122,17 @@ const ItemWrapper = styled.div`
   justify-content: space-around;
 `;
 const Item = styled.li`
-  color: white;
+  color: ${(props) => props.st.text};
   padding-bottom: 10px;
 `;
 const DeleteBtn = styled.button`
+  color: ${(props) => props.st.sideBarDelBtn};
+  width: 20px;
+  height: 20px;
   background-color: red;
-  color: #511818;
+  color: ${(props) => props.st.background};
   border-radius: 50%;
-  border: 0;
+  border: solid 0.5px red;
   cursor: pointer;
 `;
 

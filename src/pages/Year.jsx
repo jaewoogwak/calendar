@@ -10,6 +10,7 @@ export default function Year() {
   const dispatch = useDispatch();
   const currentView = useSelector((state) => state.reducers.view.currentView);
   const { year, month } = useSelector((state) => state.reducers.date.bucket);
+  const { style } = useSelector((state) => state.reducers.view);
   const arr = createMonthList(year, month);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ export default function Year() {
 
   return (
     <Layout>
-      <Wrapper>
+      <Wrapper st={style}>
         {arr.map((list, idx) => {
           return (
             <MonthCell key={idx + 1} month={idx + 1} list={list}></MonthCell>
@@ -32,7 +33,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  background-color: #211d27;
+  background-color: ${(props) => props.st.background};
   width: 865px;
   height: 100%;
   margin: 0 auto;

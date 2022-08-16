@@ -9,6 +9,7 @@ import { setView } from "../data/slices/viewSlice";
 
 export function Month() {
   const currentView = useSelector((state) => state.reducers.view.currentView);
+  const { style } = useSelector((state) => state.reducers.view);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export function Month() {
   }, [currentView, dispatch]);
   return (
     <Layout>
-      <Wrapper>
+      <Wrapper st={style}>
         <Days />
         <DateList></DateList>
       </Wrapper>
@@ -25,7 +26,7 @@ export function Month() {
 }
 
 const Wrapper = styled.div`
-  background-color: #211d27;
+  background-color: ${(props) => props.st.background};
   width: 885px;
   /* margin: 0 auto; */
 `;

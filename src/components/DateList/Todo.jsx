@@ -15,23 +15,23 @@ export default function Todo({ item, event, isInSidebar }) {
     const { offsetLeft, offsetTop } = myRef.current.offsetParent;
     return { offsetLeft, offsetTop, isInSidebar };
   }, [myRef, isInSidebar]);
-
+  const { style } = useSelector((state) => state.reducers.view);
   return (
     <Wrapper
+      style={style}
       onClick={(e) => {
-        // dispatch(onClickTodo({ id: item.id }));
         handleClick(e);
         dispatch(setOpend({ id: item.id }));
       }}
       isClicked={!isInSidebar && isOpened && opend === item.id}
       ref={myRef}
     >
-      <Text isInSidebar={isInSidebar}>
+      <Text style={style} isInSidebar={isInSidebar}>
         {item.eventName.length > 6
           ? `${item.eventName.slice(0, 6)}...`
           : item.eventName}
       </Text>
-      <Time>{item.startTime}</Time>
+      <Time style={style}>{item.startTime}</Time>
       {!isInSidebar && isOpened && opend === item.id && (
         <Tooltip
           key={item.id}
@@ -55,11 +55,11 @@ const Wrapper = styled.div`
 `;
 const Text = styled.div`
   font-weight: 600;
-  color: white;
+  color: ${(props) => props.style.text};
   padding-right: ${(props) => (props.isInSidebar ? "50px" : "")};
 `;
 const Time = styled.div`
   font-size: 11px;
-  color: white;
+  color: ${(props) => props.style.text};
   padding-right: 5px;
 `;
