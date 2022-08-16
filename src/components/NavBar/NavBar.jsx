@@ -8,14 +8,12 @@ import { onToggle, setIsClickedTodayBtn } from "../../data/slices/viewSlice";
 
 const NavBar = () => {
   const { year, month } = useSelector((state) => state.reducers.date.bucket);
+  const { mode, style } = useSelector((state) => state.reducers.view);
   const currentView = useSelector((state) => state.reducers.view.currentView);
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
-  const { mode, style } = useSelector((state) => state.reducers.view);
-  console.log("mode in navbar", mode, style);
   const dispatch = useDispatch();
-
   const onClickTodayBtn = useCallback(() => {
     dispatch(setIsClickedTodayBtn({ clicked: !isClickedTodayBtn }));
     dispatch(setNow());

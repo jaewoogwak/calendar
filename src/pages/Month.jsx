@@ -28,5 +28,4 @@ export function Month() {
 const Wrapper = styled.div`
   background-color: ${(props) => props.st.background};
   width: 885px;
-  /* margin: 0 auto; */
 `;

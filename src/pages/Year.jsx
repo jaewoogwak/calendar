@@ -7,11 +7,11 @@ import Layout from "../components/Layout";
 import MonthCell from "../components/Year/MonthCell";
 
 export default function Year() {
-  const dispatch = useDispatch();
   const currentView = useSelector((state) => state.reducers.view.currentView);
   const { year, month } = useSelector((state) => state.reducers.date.bucket);
   const { style } = useSelector((state) => state.reducers.view);
   const arr = createMonthList(year, month);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setView({ currentView: "year" }));

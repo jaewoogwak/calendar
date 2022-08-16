@@ -10,8 +10,8 @@ export default function Form({ todo }) {
   const [endDate, setEndDate] = useState(todo.endDate);
   const [startTime, setStartTime] = useState(todo.startTime);
   const [endTime, setEndTime] = useState(todo.endTime);
-  const dispatch = useDispatch();
   const { style } = useSelector((state) => state.reducers.view);
+  const dispatch = useDispatch();
 
   const onChange = (e) => {
     const { name, value } = e.target;

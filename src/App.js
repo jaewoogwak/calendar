@@ -13,8 +13,8 @@ function App() {
   const isClickedTodayBtn = useSelector(
     (state) => state.reducers.view.isClickedTodayBtn
   );
-  const { mode, style } = useSelector((state) => state.reducers.view);
-  console.log("app mode", mode);
+  const { style } = useSelector((state) => state.reducers.view);
+
   const setToday = useCallback(() => {
     const time = new Date();
     dispatch(

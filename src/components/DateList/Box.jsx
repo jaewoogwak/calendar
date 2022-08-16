@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { onSelectDateBox } from "../../data/slices/dateSlice";
-import useMode from "../Mode/useMode";
 import Todo from "./Todo";
 
 export default function Box({ id, item, onHandleClickDateCell }) {
@@ -10,9 +9,9 @@ export default function Box({ id, item, onHandleClickDateCell }) {
   const { month } = useSelector((state) => state.reducers.date.bucket);
   const { today } = useSelector((state) => state.reducers.date);
   const { year, month: boxMonth, date, day } = item;
+  const { style } = useSelector((state) => state.reducers.view);
   const clickedDate = `${year}${boxMonth}${date}`;
-  const { mode, style } = useSelector((state) => state.reducers.view);
-  console.log("ssfdsa", mode);
+
   const boxTodos = todos.filter((todo) => {
     return todo.id?.split("-")[0] === id;
   });

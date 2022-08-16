@@ -4,17 +4,18 @@ import styled from "styled-components";
 import { addTodo, deleteTodo } from "../../data/slices/todoSlice";
 import Todo from "../DateList/Todo";
 import { getDateFormat } from "../DateList/utils/dateArray";
+import useTooltip from "../Tooltip/hooks/useTooltip";
 
 const SideBar = () => {
   const todos = useSelector((state) => state.reducers.todos.todos);
   const count = useSelector((state) => state.reducers.todos.count);
+  const { style } = useSelector((state) => state.reducers.view);
   const { year, month, date } = useSelector(
     (state) => state.reducers.date.sideBar
   );
-  const { style } = useSelector((state) => state.reducers.view);
-  console.log("sidebar", style);
-  const dispatch = useDispatch();
   const clickedDate = `${year}${month}${date}`;
+  const { handleEnter } = useTooltip();
+  const dispatch = useDispatch();
 
   const onHandleAddTodo = () => {
     dispatch(
@@ -32,6 +33,7 @@ const SideBar = () => {
         type: "addTodo",
       })
     );
+    handleEnter();
   };
   const onHandleDeleteTodo = (id) => {
     dispatch(deleteTodo({ id: id }));
