@@ -7,6 +7,7 @@ import Year from "./pages/Year";
 import "./assets/index.css";
 import "./assets/App.css";
 import GlobalStyle from "./components/GlobalStyle";
+import { setTheme } from "./data/slices/viewSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,9 +25,15 @@ function App() {
     );
   }, [dispatch]);
 
+  const theme = localStorage.getItem("theme");
+  const getTheme = useCallback(() => {
+    console.log("theme", theme);
+    dispatch(setTheme({ theme: theme }));
+  }, [dispatch, theme]);
   useEffect(() => {
     setToday();
-  }, [isClickedTodayBtn, setToday, dispatch]);
+    getTheme();
+  }, [isClickedTodayBtn, setToday, getTheme, dispatch]);
   return (
     <BrowserRouter>
       <GlobalStyle style={style} />

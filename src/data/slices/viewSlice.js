@@ -6,18 +6,8 @@ const viewSlice = createSlice({
   initialState: {
     currentView: "month",
     isClickedTodayBtn: false,
-    mode: "dark",
-    style: {
-      text: "white",
-      button: "#716f75",
-      background: "#211d27",
-      boxBorder: "#716f75",
-      pageControllerBg: "#716f75",
-      isWeekend: "#29262D",
-      isWeekendInYear: "gray",
-      selectedTodo: "skyblue",
-      sideBarDelBtn: "#511818",
-    },
+    mode: localStorage.getItem("theme"),
+    style: localStorage.getItem("theme") === "dark" ? dark : light,
   },
   reducers: {
     setView: (state, action) => {
@@ -36,10 +26,14 @@ const viewSlice = createSlice({
         state.style = dark;
       }
     },
+    setTheme: (state, action) => {
+      state.mode = action.payload.theme;
+    },
   },
 });
 
 // Action creator
-export const { setView, setIsClickedTodayBtn, onToggle } = viewSlice.actions;
+export const { setView, setIsClickedTodayBtn, onToggle, setTheme } =
+  viewSlice.actions;
 
 export default viewSlice.reducer;
