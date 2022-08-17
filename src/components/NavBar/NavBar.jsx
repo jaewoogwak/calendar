@@ -54,6 +54,10 @@ const NavBar = () => {
   };
   const onClickToggle = (mode) => {
     dispatch(onToggle());
+    setThemeInLocalStorage();
+  };
+  const setThemeInLocalStorage = () => {
+    localStorage.setItem("theme", mode === "dark" ? "light" : "dark");
   };
   return (
     <NavBarWrapper st={style}>
@@ -89,7 +93,7 @@ const NavBar = () => {
       </PageController>
       <>
         <ButtonsWrapper>
-          <Toggle st={style} onClick={onClickToggle}>
+          <Toggle st={style} onClick={() => onClickToggle(mode)}>
             {mode === "dark" ? "Light" : "Dark"}
           </Toggle>
 
