@@ -23,6 +23,7 @@ export default function Todo({ item, event, isInSidebar }) {
         handleClick(e);
         dispatch(setOpend({ id: item.id }));
       }}
+      onDoubleClick={(e) => e.stopPropagation()}
       isClicked={!isInSidebar && isOpened && opend === item.id}
       ref={myRef}
     >

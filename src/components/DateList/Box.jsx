@@ -21,7 +21,9 @@ export default function Box({ id, item, onHandleClickDateCell }) {
     <>
       <Wrapper
         isWeekend={day === 0 || day === 6 ? true : false}
-        onDoubleClick={() => onHandleClickDateCell(clickedDate)}
+        onDoubleClick={(e) => {
+          onHandleClickDateCell(clickedDate);
+        }}
         st={style}
       >
         <DateView
