@@ -84,7 +84,7 @@ const NavBar = () => {
         </PageSelector>
         <PageSelector>
           <NavLink
-            to={`/`}
+            to={`/calendar`}
             style={{ textDecoration: "none", color: style.text }}
           >
             월

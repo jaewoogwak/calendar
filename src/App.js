@@ -37,7 +37,7 @@ function App() {
     <BrowserRouter>
       <GlobalStyle style={style} />
       <Routes>
-        <Route path="/" element={<Month />} />
+        <Route path="/calendar" element={<Month />} />
         <Route path="/year" element={<Year />} />
       </Routes>
     </BrowserRouter>
