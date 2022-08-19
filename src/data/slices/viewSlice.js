@@ -17,7 +17,6 @@ const viewSlice = createSlice({
       state.isClickedTodayBtn = !state.isClickedTodayBtn;
     },
     onToggle: (state, action) => {
-      console.log("onTooglee");
       if (state.mode === "dark") {
         state.mode = "light";
         state.style = light;

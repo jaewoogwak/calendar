@@ -27,7 +27,6 @@ function App() {
 
   const theme = localStorage.getItem("theme");
   const getTheme = useCallback(() => {
-    console.log("theme", theme);
     dispatch(setTheme({ theme: theme }));
   }, [dispatch, theme]);
   useEffect(() => {
