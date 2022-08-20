@@ -16,7 +16,7 @@ export default function MonthCell({ month, list }) {
   const handleSetMonth = () => {
     dispatch(setDate({ year: year, month: month }));
     dispatch(setView({ currentView: "month" }));
-    navigate("/");
+    navigate("/calendar");
   };
 
   return (
